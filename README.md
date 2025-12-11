@@ -26,7 +26,7 @@ Metacello new
   load.
 
 "Start the server (default port: 8086)"
-PharoSmalltalkInteropServer start.
+SisServer current start.
 ```
 
 ### 2. Claude Code
@@ -241,8 +241,8 @@ Claude (smalltalk-debugger skill):
 Make sure PharoSmalltalkInteropServer is running:
 
 ```smalltalk
-PharoSmalltalkInteropServer start.
-PharoSmalltalkInteropServer isRunning.  "Should return true"
+SisServer current start.
+SisServer current.  "Should show running server"
 ```
 
 ### "Package not found" after import
@@ -262,7 +262,7 @@ PharoSmalltalkInteropServer isRunning.  "Should return true"
 ### Import seems to do nothing
 
 - Check Pharo Transcript for error messages
-- Verify PharoSmalltalkInteropServer port matches configuration
+- Verify server port matches configuration: `SisServer teapotConfig`
 - Try `eval: 'Smalltalk version'` to test connection
 
 ## Project Structure
