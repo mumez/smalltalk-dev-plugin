@@ -1,0 +1,32 @@
+{
+  "name": "smalltalk-dev",
+  "version": "1.0.0",
+  "description": "Minimal Smalltalk development toolkit for AI-driven Pharo development",
+  "author": "Masashi Umezawa",
+  "repository": "https://github.com/mumez/smalltalk-dev-plugin",
+  "commands": ["import", "test", "validate"],
+  "skills": ["smalltalk-developer", "smalltalk-debugger"],
+  "mcpServers": ["pharo-interop", "smalltalk-validator"],
+  "settings": {
+    "defaultDialect": "Pharo",
+    "pharoImagePort": 8086,
+    "autoSuggestImport": true,
+    "autoSuggestTest": true,
+    "paths": {
+      "defaultSrcPath": "./src",
+      "useAbsolutePaths": true
+    },
+    "testing": {
+      "autoRunAfterImport": false,
+      "verboseOutput": true
+    },
+    "validation": {
+      "autoValidate": false,
+      "strictMode": false
+    }
+  },
+  "dependencies": {
+    "pharo-smalltalk-interop-mcp-server": "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git",
+    "smalltalk-validator-mcp-server": "git+https://github.com/mumez/smalltalk-validator-mcp-server.git@main"
+  }
+}
