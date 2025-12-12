@@ -107,6 +107,50 @@ Return to step 1 to fix, then re-import and re-test.
 - Avoid relative paths
 - Import multiple packages individually
 
+**Standard Smalltalk Project Structure:**
+
+Most Smalltalk projects follow these conventions:
+
+1. **Source directories**: Packages are typically located in:
+   - `src/` (most common)
+   - `repositories/` (older projects)
+
+2. **Project metadata**: Check `.project` file in project root:
+   ```json
+   {
+     "srcDirectory": "src"
+   }
+   ```
+
+3. **Typical project layout**:
+   ```
+   MyProject/
+   ├── .project           # Contains srcDirectory configuration
+   ├── src/              # Source directory (or 'repositories')
+   │   ├── MyPackage/
+   │   │   ├── MyClass.st
+   │   │   └── package.st
+   │   └── MyPackage-Tests/
+   │       └── ...
+   └── README.md
+   ```
+
+**Path Discovery Strategy:**
+
+1. Check for `.project` file and read `srcDirectory` field
+2. If no `.project`, look for `src/` directory
+3. Fall back to `repositories/` for older projects
+4. Construct absolute path: `<project_root>/<srcDirectory>`
+
+**Example:**
+```bash
+# If .project says "srcDirectory": "src"
+import_package: 'MyPackage' path: '/home/user/MyProject/src'
+
+# If .project says "srcDirectory": "repositories"  
+import_package: 'MyPackage' path: '/home/user/MyProject/repositories'
+```
+
 ### File Editing
 
 - Tonel files in the AI editor are the single source of truth
@@ -118,6 +162,51 @@ Return to step 1 to fix, then re-import and re-test.
 - Re-import after every change
 - Don't forget to import test packages
 - Import order: Main package → Test package
+
+**Package Dependencies and Import Order:**
+
+When importing multiple packages, the correct order is critical. Dependency information is defined in the Baseline:
+
+1. **Baseline location**: `BaselineOf<ProjectName>` package in source directory
+   ```
+   src/
+   ├── BaselineOfMyProject/
+   │   ├── BaselineOfMyProject.st
+   │   └── package.st
+   ├── MyPackage-Core/
+   ├── MyPackage-Json/
+   └── MyPackage-Tests/
+   ```
+
+2. **Dependency definition**: Check `baseline:` method in `BaselineOfMyProject`
+   ```smalltalk
+   baseline: spec
+       <baseline>
+       spec for: #common do: [
+           spec
+               package: 'MyPackage-Core';
+               package: 'MyPackage-Json' with: [ spec requires: #('MyPackage-Core') ];
+               package: 'MyPackage-Tests' with: [ spec requires: #('MyPackage-Core' 'MyPackage-Json') ]
+       ]
+   ```
+
+3. **Import order strategy**:
+   - Read `BaselineOf<ProjectName>` class's `baseline:` method
+   - Parse `requires:` declarations to build dependency graph
+   - Import packages in dependency order (dependencies first)
+   - Example order: `MyPackage-Core` → `MyPackage-Json` → `MyPackage-Tests`
+
+4. **Automatic dependency resolution**:
+   ```bash
+   # Instead of manually ordering:
+   /st:import MyPackage-Core /path/to/src
+   /st:import MyPackage-Json /path/to/src
+   /st:import MyPackage-Tests /path/to/src
+   
+   # AI reads BaselineOfMyProject>>baseline: and imports in correct order automatically
+   ```
+
+**Note**: Even without explicit user instruction, AI should check the Baseline to determine the correct import sequence.
 
 ### Test Execution
 
