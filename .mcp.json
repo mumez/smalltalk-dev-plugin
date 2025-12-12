@@ -1,23 +1,23 @@
 {
-  "mcpServers": {
-    "pharo-interop": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git",
-        "pharo-smalltalk-interop-mcp-server"
-      ],
-      "env": {
-        "PHARO_SIS_PORT": "8086"
-      }
-    },
-    "smalltalk-validator": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/mumez/smalltalk-validator-mcp-server.git@main",
-        "smalltalk-validator-mcp-server"
-      ]
+    "mcpServers": {
+        "smalltalk-interop": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git",
+                "pharo-smalltalk-interop-mcp-server"
+            ],
+            "env": {
+                "PHARO_SIS_PORT": "8086"
+            }
+        },
+        "smalltalk-validator": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/mumez/smalltalk-validator-mcp-server.git@main",
+                "smalltalk-validator-mcp-server"
+            ]
+        }
     }
-  }
 }
