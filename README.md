@@ -45,7 +45,7 @@ git clone https://github.com/mumez/smalltalk-dev-plugin.git
 cd smalltalk-dev-plugin
 
 # Add local directory as marketplace
-claude plugin marketplace add .
+claude plugin marketplace add ./
 
 # Install the plugin
 claude plugin install smalltalk-dev
@@ -53,16 +53,7 @@ claude plugin install smalltalk-dev
 
 ### Verify Installation
 
-After installation, check available commands:
-
-```bash
-/help
-```
-
-You should see the following commands:
-- `/st:import` - Import Tonel package to Pharo
-- `/st:test` - Run SUnit tests
-- `/st:validate` - Validate Tonel syntax
+After installation, you should see the custom commands starting with `/st:`.
 
 ## Configuration
 
