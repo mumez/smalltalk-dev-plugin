@@ -113,13 +113,59 @@ export PHARO_SIS_PORT=8086  # default
 
 ### Development Workflow
 
-1. **Edit Tonel files** in your AI editor
-2. **Import to Pharo**: `/st:import PackageName /absolute/path/to/src`
-3. **Run tests**: `/st:test TestClassName`
-4. **Debug if needed** using `eval` tool
-5. **Repeat**
+This plugin enables a natural conversation-based workflow with AI:
+
+1. **Describe what you want**: "Create a Person class with name and age in Pharo Smalltalk"
+2. **AI implements**: Claude edits Tonel files and suggests import
+3. **Import to Pharo**: Confirm or run `/st:import PackageName /path`
+4. **Request testing**: "Test the Person class" or `/st:test PersonTest`
+5. **Debug if needed**: "The test failed, debug it" - AI uses `/st:eval` to investigate
+6. **Iterate**: Continue conversation to refine implementation
+
+**Example conversation:**
+```
+You: "I need a JSON parser for Redis responses in Pharo"
+AI:  Creates Tonel files, suggests /st:import RediStick-Json /home/user/project/src
+
+You: "Import and test it"
+AI:  Runs import, then /st:test RsJsonTest
+
+You: "Test failed with 'key not found' error"
+AI:  Uses /st:eval to debug, identifies issue, fixes Tonel, suggests re-import
+
+You: "Re-import and test again"
+AI:  Success! All tests pass.
+```
 
 ### Commands
+
+#### `/st:eval [code]`
+
+Execute arbitrary Smalltalk code snippets.
+
+```bash
+# Connection check
+/st:eval Smalltalk version
+/st:eval 1 + 1
+
+# Quick testing
+/st:eval MyClass new doSomething
+
+# With error handling
+/st:eval | result |
+result := Array new: 2.
+[ | obj |
+  obj := MyClass new name: 'Test'.
+  result at: 1 put: obj getName.
+] on: Error do: [:ex | result at: 2 put: ex description].
+^ result
+```
+
+**Use cases:**
+- Test smalltalk-interop connection
+- Execute partial test code for debugging
+- Verify intermediate values
+- Quick object testing
 
 #### `/st:import [PackageName] [path]`
 
