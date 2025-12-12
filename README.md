@@ -85,61 +85,14 @@ After installation, you should see the custom commands starting with `/st:`.
 
 ### Commands
 
-#### `/st:eval [code]`
+Four essential commands for Smalltalk development:
 
-Execute arbitrary Smalltalk code snippets.
+- **`/st:eval`** - Execute Smalltalk code snippets for testing and debugging
+- **`/st:import`** - Import Tonel packages into Pharo image
+- **`/st:test`** - Run SUnit tests
+- **`/st:validate`** - Validate Tonel syntax (rarely needed)
 
-```bash
-# Connection check
-/st:eval Smalltalk version
-/st:eval 1 + 1
-
-# Quick testing
-/st:eval MyClass new doSomething
-
-# With error handling
-/st:eval | result |
-result := Array new: 2.
-[ | obj |
-  obj := MyClass new name: 'Test'.
-  result at: 1 put: obj getName.
-] on: Error do: [:ex | result at: 2 put: ex description].
-^ result
-```
-
-**Use cases:**
-- Test smalltalk-interop connection
-- Execute partial test code for debugging
-- Verify intermediate values
-- Quick object testing
-
-#### `/st:import [PackageName] [path]`
-
-Import Tonel package into running Pharo image.
-
-```bash
-/st:import MyPackage /home/user/project/src
-/st:import MyPackage-Tests /home/user/project/src
-```
-
-#### `/st:test [TestClass|PackageName]`
-
-Run SUnit tests.
-
-```bash
-/st:test MyTestClass
-/st:test MyPackage-Tests
-```
-
-#### `/st:validate [file_path]` (Optional)
-
-Validate Tonel syntax before import.
-
-```bash
-/st:validate /path/to/file.st
-```
-
-Note: Modern AI usually generates correct Tonel, so this is rarely needed.
+For detailed usage and examples, see [Commands.md](Commands.md).
 
 ### Skills
 
