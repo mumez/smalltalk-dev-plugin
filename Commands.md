@@ -31,6 +31,20 @@ Import Tonel packages into running Pharo image.
 - Loading changes after editing Tonel files
 - Re-importing after fixes
 
+### `/st:export [PackageName] [path]`
+
+Export package from Pharo image back to Tonel files.
+
+```bash
+/st:export MyPackage /home/user/project/src
+/st:export MyPackage-Tests /home/user/project/src
+```
+
+**Use for:**
+- Saving debugger fixes back to Tonel files
+- Exporting code generated in Pharo
+- Syncing after interactive development in Pharo
+
 ### `/st:test [TestClass|PackageName]`
 
 Run SUnit tests.
