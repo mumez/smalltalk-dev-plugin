@@ -55,6 +55,47 @@ claude plugin install smalltalk-dev
 
 After installation, you should see the custom commands starting with `/st:`.
 
+## Uninstallation
+
+### Uninstall Plugin
+
+```bash
+# Remove the plugin
+claude plugin uninstall smalltalk-dev
+```
+
+### Remove Marketplace (Optional)
+
+If you also want to remove the marketplace entry:
+
+```bash
+# For GitHub marketplace
+claude plugin marketplace remove smalltalk-dev-marketplace
+
+# For local development marketplace
+claude plugin marketplace remove smalltalk-dev-plugin
+```
+
+**Note**: The marketplace name depends on how you added it. Use `claude plugin marketplace list` to see the exact name.
+
+### Clean Reinstall (Local Development)
+
+When developing locally and need to test changes:
+
+```bash
+# Uninstall current version
+claude plugin uninstall smalltalk-dev
+
+# Remove marketplace
+claude plugin marketplace remove smalltalk-dev-plugin
+
+# Re-add marketplace
+claude plugin marketplace add ./
+
+# Reinstall plugin
+claude plugin install smalltalk-dev
+```
+
 ## Configuration
 
 The plugin uses two MCP servers:
