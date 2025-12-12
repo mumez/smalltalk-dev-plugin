@@ -8,20 +8,48 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 ## Features
 
-- **Commands**: Essential slash commands for import, test, and validation
+- **Commands**: Essential slash commands for import, test, eval, and validation
 - **Skills**: AI-powered development workflow and debugging expertise
 - **MCP Integration**: Seamless connection to Pharo and validation servers
 - **Hooks**: Automatic suggestions after file changes
+
+## Usage
+
+### Development Workflow
+
+This plugin enables a natural conversation-based workflow with AI:
+
+1. **Describe what you want**: "Create a Person class with name and age in Pharo Smalltalk"
+2. **AI implements**: Claude edits Tonel files and suggests import
+3. **Import to Pharo**: Confirm or run `/st:import PackageName /path`
+4. **Request testing**: "Test the Person class" or `/st:test PersonTest`
+5. **Debug if needed**: "The test failed, debug it" - AI uses `/st:eval` to investigate
+6. **Iterate**: Continue conversation to refine implementation
+
+**Example conversation:**
+```
+You: "I need a JSON parser for Redis responses in Pharo"
+AI:  Creates Tonel files, suggests /st:import RediStick-Json /home/user/project/src
+
+You: "Import and test it"
+AI:  Runs import, then /st:test RsJsonTest
+
+You: "Test failed with 'key not found' error"
+AI:  Uses /st:eval to debug, identifies issue, fixes Tonel, suggests re-import
+
+You: "Re-import and test again"
+AI:  Success! All tests pass.
+```
 
 ## Prerequisites
 
 ### 1. Pharo with PharoSmalltalkInteropServer
 
-Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) in your Pharo image:
+Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) in your Pharo image.
 
 ### 2. Claude Code
 
-Install [Claude Code](https://github.com/anthropics/claude-code):
+Install [Claude Code](https://github.com/anthropics/claude-code).
 
 ## Installation
 
@@ -54,88 +82,6 @@ claude plugin install smalltalk-dev
 ### Verify Installation
 
 After installation, you should see the custom commands starting with `/st:`.
-
-## Uninstallation
-
-### Uninstall Plugin
-
-```bash
-# Remove the plugin
-claude plugin uninstall smalltalk-dev
-```
-
-### Remove Marketplace (Optional)
-
-If you also want to remove the marketplace entry:
-
-```bash
-# For GitHub marketplace
-claude plugin marketplace remove smalltalk-dev-marketplace
-
-# For local development marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
-```
-
-**Note**: The marketplace name depends on how you added it. Use `claude plugin marketplace list` to see the exact name.
-
-### Clean Reinstall (Local Development)
-
-When developing locally and need to test changes:
-
-```bash
-# Uninstall current version
-claude plugin uninstall smalltalk-dev
-
-# Remove marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
-
-# Re-add marketplace
-claude plugin marketplace add ./
-
-# Reinstall plugin
-claude plugin install smalltalk-dev
-```
-
-## Configuration
-
-The plugin uses two MCP servers:
-
-1. **pharo-interop**: Communication with Pharo image
-2. **smalltalk-validator**: Tonel syntax validation
-
-These are configured automatically via `.mcp.json`. You can customize the Pharo port:
-
-```bash
-export PHARO_SIS_PORT=8086  # default
-```
-
-## Usage
-
-### Development Workflow
-
-This plugin enables a natural conversation-based workflow with AI:
-
-1. **Describe what you want**: "Create a Person class with name and age in Pharo Smalltalk"
-2. **AI implements**: Claude edits Tonel files and suggests import
-3. **Import to Pharo**: Confirm or run `/st:import PackageName /path`
-4. **Request testing**: "Test the Person class" or `/st:test PersonTest`
-5. **Debug if needed**: "The test failed, debug it" - AI uses `/st:eval` to investigate
-6. **Iterate**: Continue conversation to refine implementation
-
-**Example conversation:**
-```
-You: "I need a JSON parser for Redis responses in Pharo"
-AI:  Creates Tonel files, suggests /st:import RediStick-Json /home/user/project/src
-
-You: "Import and test it"
-AI:  Runs import, then /st:test RsJsonTest
-
-You: "Test failed with 'key not found' error"
-AI:  Uses /st:eval to debug, identifies issue, fixes Tonel, suggests re-import
-
-You: "Re-import and test again"
-AI:  Success! All tests pass.
-```
 
 ### Commands
 
@@ -236,64 +182,64 @@ The plugin exposes all tools from both MCP servers:
 - `validate_tonel_smalltalk`: Content validation
 - `validate_smalltalk_method_body`: Method validation
 
-## Example Session
+## Configuration
 
+The plugin uses two MCP servers:
+
+1. **pharo-interop**: Communication with Pharo image
+2. **smalltalk-validator**: Tonel syntax validation
+
+These are configured automatically via `.mcp.json`. You can customize the Pharo port:
+
+```bash
+export PHARO_SIS_PORT=8086  # default
 ```
-User: "Create a Person class with name and age accessors"
 
-Claude (smalltalk-developer skill):
-1. Creates src/MyPackage/Person.st:
-   Class {
-       #name : #Person,
-       #superclass : #Object,
-       #instVars : ['name', 'age'],
-       #category : #'MyPackage'
-   }
-   
-   { #category : #accessing }
-   Person >> name [ ^ name ]
-   
-   { #category : #accessing }
-   Person >> name: aString [ name := aString ]
-   
-   { #category : #accessing }
-   Person >> age [ ^ age ]
-   
-   { #category : #accessing }
-   Person >> age: anInteger [ age := anInteger ]
+## Uninstallation
 
-2. Suggests: /st:import MyPackage /home/user/project/src
-3. Suggests: /st:test PersonTest
+### Uninstall Plugin
 
-User: "Run the import and test"
+```bash
+# Remove the plugin
+claude plugin uninstall smalltalk-dev
+```
 
-Claude:
-1. Executes: mcp__smalltalk-interop__import_package: 'MyPackage' path: '/home/user/project/src'
-2. Executes: mcp__smalltalk-interop__run_class_test: 'PersonTest'
-3. Reports test results
+### Remove Marketplace (Optional)
 
-User: "The test failed with MessageNotUnderstood"
+If you also want to remove the marketplace entry:
 
-Claude (smalltalk-debugger skill):
-1. Analyzes error message
-2. Uses eval to debug:
-   | result |
-   result := Array new: 2.
-   [ | person |
-     person := Person new.
-     person name: 'John'.
-     result at: 1 put: person name.
-   ] on: Error do: [:ex | result at: 2 put: ex description].
-   ^ result
-3. Identifies issue
-4. Suggests fix in Person.st
-5. Suggests re-import and re-test
+```bash
+# For GitHub marketplace
+claude plugin marketplace remove smalltalk-dev-marketplace
+
+# For local development marketplace
+claude plugin marketplace remove smalltalk-dev-plugin
+```
+
+**Note**: The marketplace name depends on how you added it. Use `claude plugin marketplace list` to see the exact name.
+
+### Clean Reinstall (Local Development)
+
+When developing locally and need to test changes:
+
+```bash
+# Uninstall current version
+claude plugin uninstall smalltalk-dev
+
+# Remove marketplace
+claude plugin marketplace remove smalltalk-dev-plugin
+
+# Re-add marketplace
+claude plugin marketplace add ./
+
+# Reinstall plugin
+claude plugin install smalltalk-dev
 ```
 
 ## Best Practices
 
 ### Path Management
-- Avoid relative paths
+- Always use absolute paths for imports
 - Import multiple packages individually
 
 ### File Editing
@@ -312,7 +258,7 @@ Claude (smalltalk-debugger skill):
 - Use `run_package_test` for full packages
 
 ### Debugging
-- Use `eval` for partial execution
+- Use `/st:eval` for quick partial execution
 - Capture both results and errors in Array
 - Use `printString` for object serialization
 - Debug step-by-step
@@ -338,7 +284,7 @@ SisServer current.  "Should show running server"
 
 1. Check test error message
 2. Use `/st:validate` to check syntax
-3. Use `eval` to debug specific code
+3. Use `/st:eval` to debug specific code
 4. Fix in Tonel file
 5. Re-import and re-test
 
@@ -346,7 +292,7 @@ SisServer current.  "Should show running server"
 
 - Check Pharo Transcript for error messages
 - Verify server port matches configuration: `SisServer teapotConfig`
-- Try `eval: 'Smalltalk version'` to test connection
+- Try `/st:eval Smalltalk version` to test connection
 
 ## Project Structure
 
@@ -356,6 +302,7 @@ smalltalk-dev-plugin/
 │   └── plugin.json          # Plugin metadata
 ├── .mcp.json                # MCP server configuration
 ├── commands/
+│   ├── eval.md              # /st:eval command
 │   ├── import.md            # /st:import command
 │   ├── test.md              # /st:test command
 │   └── validate.md          # /st:validate command
