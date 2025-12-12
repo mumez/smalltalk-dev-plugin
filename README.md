@@ -28,8 +28,7 @@ Install [Claude Code](https://github.com/anthropics/claude-code):
 ### Option 1: Install from GitHub (Recommended)
 
 ```bash
-claude plugin marketplace add mumez/smalltalk-dev-plugin
-claude plugin install smalltalk-dev
+claude plugin install mumez/smalltalk-dev-plugin
 ```
 
 ### Option 2: Local Development
@@ -37,12 +36,10 @@ claude plugin install smalltalk-dev
 ```bash
 # Clone the repository
 git clone https://github.com/mumez/smalltalk-dev-plugin.git
+cd smalltalk-dev-plugin
 
-# Add as local marketplace
-claude plugin marketplace add ./smalltalk-dev-plugin
-
-# Install the plugin
-claude plugin install smalltalk-dev
+# Install the plugin from local directory
+claude plugin install .
 ```
 
 ## Configuration
