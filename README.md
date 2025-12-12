@@ -19,23 +19,9 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) in your Pharo image:
 
-```smalltalk
-Metacello new
-  baseline: 'PharoSmalltalkInteropServer';
-  repository: 'github://mumez/PharoSmalltalkInteropServer/src';
-  load.
-
-"Start the server (default port: 8086)"
-SisServer current start.
-```
-
 ### 2. Claude Code
 
 Install [Claude Code](https://github.com/anthropics/claude-code):
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
 
 ## Installation
 
@@ -57,28 +43,6 @@ claude plugin marketplace add ./smalltalk-dev-plugin
 
 # Install the plugin
 claude plugin install smalltalk-dev
-```
-
-### Verify Installation
-
-To verify the plugin is installed, check the installed plugins file:
-
-```bash
-# On Linux/macOS
-cat ~/.claude/plugins/installed_plugins_v2.json
-
-# On Windows
-type %USERPROFILE%\.claude\plugins\installed_plugins_v2.json
-```
-
-Or check the known marketplaces:
-
-```bash
-# On Linux/macOS
-cat ~/.claude/plugins/known_marketplaces.json
-
-# On Windows
-type %USERPROFILE%\.claude\plugins\known_marketplaces.json
 ```
 
 ## Configuration
