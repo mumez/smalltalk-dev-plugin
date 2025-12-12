@@ -59,6 +59,28 @@ claude plugin marketplace add ./smalltalk-dev-plugin
 claude plugin install smalltalk-dev
 ```
 
+### Verify Installation
+
+To verify the plugin is installed, check the installed plugins file:
+
+```bash
+# On Linux/macOS
+cat ~/.claude/plugins/installed_plugins_v2.json
+
+# On Windows
+type %USERPROFILE%\.claude\plugins\installed_plugins_v2.json
+```
+
+Or check the known marketplaces:
+
+```bash
+# On Linux/macOS
+cat ~/.claude/plugins/known_marketplaces.json
+
+# On Windows
+type %USERPROFILE%\.claude\plugins\known_marketplaces.json
+```
+
 ## Configuration
 
 The plugin uses two MCP servers:
