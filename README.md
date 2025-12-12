@@ -28,19 +28,41 @@ Install [Claude Code](https://github.com/anthropics/claude-code):
 ### Option 1: Install from GitHub (Recommended)
 
 ```bash
-claude plugin install mumez/smalltalk-dev-plugin
+# Add marketplace from GitHub
+claude plugin marketplace add mumez/smalltalk-dev-plugin
+
+# Install the plugin
+claude plugin install smalltalk-dev
 ```
 
 ### Option 2: Local Development
+
+For local testing and development:
 
 ```bash
 # Clone the repository
 git clone https://github.com/mumez/smalltalk-dev-plugin.git
 cd smalltalk-dev-plugin
 
-# Install the plugin from local directory
-claude plugin install .
+# Add local directory as marketplace
+claude plugin marketplace add .
+
+# Install the plugin
+claude plugin install smalltalk-dev
 ```
+
+### Verify Installation
+
+After installation, check available commands:
+
+```bash
+/help
+```
+
+You should see the following commands:
+- `/st:import` - Import Tonel package to Pharo
+- `/st:test` - Run SUnit tests
+- `/st:validate` - Validate Tonel syntax
 
 ## Configuration
 
