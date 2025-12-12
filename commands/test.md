@@ -1,5 +1,5 @@
 ---
-name: test
+name: st:test
 description: Run SUnit tests
 ---
 

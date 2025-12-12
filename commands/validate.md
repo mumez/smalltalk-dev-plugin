@@ -1,5 +1,5 @@
 ---
-name: validate
+name: st:validate
 description: Validate Tonel syntax (optional, modern AI usually generates correct Tonel)
 ---
 

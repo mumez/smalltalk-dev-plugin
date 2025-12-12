@@ -1,5 +1,5 @@
 ---
-name: import
+name: st:import
 description: Import Tonel package to Pharo image
 ---
 
