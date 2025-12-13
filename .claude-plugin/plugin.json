@@ -7,6 +7,6 @@
   },
   "repository": "https://github.com/mumez/smalltalk-dev-plugin",
   "commands": ["./commands/import.md", "./commands/test.md", "./commands/validate.md"],
-  "skills": ["./skills/smalltalk-developer", "./skills/smalltalk-debugger"],
+  "skills": ["./skills/smalltalk-developer", "./skills/smalltalk-debugger", "./skills/smalltalk-usage-finder"],
   "mcpServers": ["./.mcp.json"]
 }
