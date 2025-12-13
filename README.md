@@ -119,6 +119,17 @@ Automatically activated when debugging is needed. Provides:
 
 **Triggers**: "test failed", "error", "debug", "inspect", etc.
 
+#### smalltalk-usage-finder
+
+Automatically activated when exploring code usage. Provides:
+
+- Class responsibility discovery
+- Usage pattern analysis
+- Method usage examples
+- Package overview generation
+
+**Triggers**: "how to use", "find usage", "class responsibility", "package overview", etc.
+
 ### MCP Tools
 
 The plugin exposes all tools from both MCP servers:
@@ -263,8 +274,10 @@ smalltalk-dev-plugin/
 ├── skills/
 │   ├── smalltalk-developer/
 │   │   └── SKILL.md         # Development workflow
-│   └── smalltalk-debugger/
-│       └── SKILL.md         # Debugging techniques
+│   ├── smalltalk-debugger/
+│   │   └── SKILL.md         # Debugging techniques
+│   └── smalltalk-usage-finder/
+│       └── SKILL.md         # Usage exploration
 ├── hooks/
 │   └── hooks.json           # Event hooks
 ├── scripts/
