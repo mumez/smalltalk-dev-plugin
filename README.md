@@ -192,7 +192,7 @@ When developing locally and need to test changes:
 claude plugin uninstall smalltalk-dev
 
 # Remove marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
+claude plugin marketplace remove smalltalk-dev-marketplace
 
 # Re-add marketplace
 claude plugin marketplace add ./
