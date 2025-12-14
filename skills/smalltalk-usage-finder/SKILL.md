@@ -34,7 +34,7 @@ This skill helps you understand how Smalltalk classes, methods, and packages are
 
 **Goal**: Discover what a class is responsible for and its intended purpose.
 
-**Primary Tool**: `get_class_comment`
+**Primary Tool**: `mcp__smalltalk-interop__get_class_comment`
 
 **Workflow**:
 
@@ -64,7 +64,7 @@ get_class_comment("Point")
 
 **Goal**: Understand how to use a class by examining real usage examples.
 
-**Primary Tools**: `search_references_to_class`, `get_method_source`, `list_methods`
+**Primary Tools**: `mcp__smalltalk-interop__search_references_to_class`, `mcp__smalltalk-interop__get_method_source`, `mcp__smalltalk-interop__list_methods`
 
 **Workflow**:
 
@@ -122,7 +122,7 @@ Common usage: x@y, point x, point y, point1 + point2"
 
 **Goal**: Understand how a specific method is used in context.
 
-**Primary Tools**: `search_references`, `get_method_source`
+**Primary Tools**: `mcp__smalltalk-interop__search_references`, `mcp__smalltalk-interop__get_method_source`
 
 **Challenge**: Polymorphism means the same method name appears in multiple classes. Use variable naming and context to identify the correct class.
 
@@ -175,7 +175,7 @@ Example: (100@100) distanceTo: (200@200) → 141.42..."
 
 **Goal**: Understand the overall structure and purpose of a package.
 
-**Primary Tools**: `list_classes`, `get_class_comment`
+**Primary Tools**: `mcp__smalltalk-interop__list_classes`, `mcp__smalltalk-interop__get_class_comment`
 
 **Workflow**:
 
@@ -222,7 +222,7 @@ Entry points: ReadStream on: aCollection"
 
 **Goal**: Handle incomplete or incorrect class/method names.
 
-**Primary Tools**: `search_classes_like`, `search_methods_like`
+**Primary Tools**: `mcp__smalltalk-interop__search_classes_like`, `mcp__smalltalk-interop__search_methods_like`
 
 **Workflow**:
 

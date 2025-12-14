@@ -130,6 +130,18 @@ Automatically activated when exploring code usage. Provides:
 
 **Triggers**: "how to use", "find usage", "class responsibility", "package overview", etc.
 
+#### smalltalk-implementation-finder
+
+Automatically activated when analyzing method implementations. Provides:
+
+- Abstract method implementation discovery
+- Implementation pattern and idiom learning
+- Signature change impact assessment
+- Refactoring opportunity identification
+- Implementation-based usage narrowing
+
+**Triggers**: "find implementors", "who implements", "abstract method", "implementation pattern", etc.
+
 ### MCP Tools
 
 The plugin exposes all tools from both MCP servers:
@@ -192,7 +204,7 @@ When developing locally and need to test changes:
 claude plugin uninstall smalltalk-dev
 
 # Remove marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
+claude plugin marketplace remove smalltalk-dev-marketplace
 
 # Re-add marketplace
 claude plugin marketplace add ./
@@ -272,10 +284,12 @@ smalltalk-dev-plugin/
 │   ├── test.md              # /st:test command
 │   └── validate.md          # /st:validate command
 ├── skills/
-│   ├── smalltalk-developer/
-│   │   └── SKILL.md         # Development workflow
 │   ├── smalltalk-debugger/
 │   │   └── SKILL.md         # Debugging techniques
+│   ├── smalltalk-developer/
+│   │   └── SKILL.md         # Development workflow
+│   ├── smalltalk-implementation-finder/
+│   │   └── SKILL.md         # Implementation analysis
 │   └── smalltalk-usage-finder/
 │       └── SKILL.md         # Usage exploration
 ├── hooks/
