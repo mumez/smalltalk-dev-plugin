@@ -1,6 +1,13 @@
 ---
 name: smalltalk-usage-finder
-description: Understanding class responsibilities, usage patterns, and package overviews in Smalltalk code
+description: This skill should be used when investigating how Smalltalk code is actually used:
+  - User asks "how is X used?", "show usage examples of X", "how do I use X?"
+  - Finding usage patterns: "typical usage of binaryWriteStreamDo:"
+  - Checking API compatibility: "is this compatible with X?"
+  - Understanding class responsibilities: "what is this class responsible for?"
+  - Finding references: "where is this method called?"
+  - Discovering usage examples from existing code
+  Use search_references, search_references_to_class, and analyze real-world usage patterns.
 model_selection:
   enabled: false
 triggers:

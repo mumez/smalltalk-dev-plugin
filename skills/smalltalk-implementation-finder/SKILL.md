@@ -1,6 +1,12 @@
 ---
 name: smalltalk-implementation-finder
-description: Finding and analyzing method implementations across class hierarchies in Smalltalk
+description: This skill should be used when investigating method implementations in Smalltalk:
+  - User asks "how is X implemented?", "what does method X do?", "check implementation of X"
+  - Tracing method implementations across class hierarchies
+  - Finding which class actually implements a method
+  - Understanding inheritance and method lookup
+  - Following implementors from superclass to subclass
+  Use when you need to use search_implementors, get_method_source, or trace class hierarchies.
 model_selection:
   enabled: false
 triggers:

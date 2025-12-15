@@ -280,6 +280,7 @@ smalltalk-dev-plugin/
 ├── .mcp.json                # MCP server configuration
 ├── commands/
 │   ├── eval.md              # /st:eval command
+│   ├── export.md            # /st:export command
 │   ├── import.md            # /st:import command
 │   ├── test.md              # /st:test command
 │   └── validate.md          # /st:validate command
@@ -297,6 +298,7 @@ smalltalk-dev-plugin/
 ├── scripts/
 │   ├── suggest-import.sh    # FileChange hook
 │   └── check-pharo-connection.sh  # SessionStart hook
+├── Commands.md              # Commands quick reference
 └── README.md
 ```
 
