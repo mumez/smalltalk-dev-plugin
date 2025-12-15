@@ -17,6 +17,9 @@ Thumbs.db
 test-output/
 test-env/
 
+# Cursor
+.cursor/
+
 # Claude
 CLAUDE.md
 .claude/
