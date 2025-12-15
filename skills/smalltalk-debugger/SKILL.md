@@ -1,6 +1,12 @@
 ---
 name: smalltalk-debugger
-description: Debugging techniques for Smalltalk development
+description: This skill should be used when debugging Smalltalk code, including:
+  - Test failures ("test failed", "test error")
+  - Runtime errors and exceptions
+  - Analyzing stack traces
+  - Investigating unexpected behavior
+  - Finding root causes of bugs
+  Use this after tests fail or when the user asks "why is this failing?" or "debug this".
 model_selection:
   enabled: false
 triggers:

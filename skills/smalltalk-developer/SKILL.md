@@ -1,6 +1,11 @@
 ---
 name: smalltalk-developer
-description: AI-driven Smalltalk development workflow expertise
+description: This skill should be used for Pharo Smalltalk development tasks including:  
+  - Editing Tonel files  
+  - Importing packages to Pharo image  
+  - Running SUnit tests  
+  - Debugging Smalltalk code  
+  Implements the standard workflow: Edit → Import → Test cycle.
 model_selection:
   enabled: false
 triggers:
