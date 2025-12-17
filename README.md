@@ -186,11 +186,7 @@ claude plugin uninstall smalltalk-dev
 If you also want to remove the marketplace entry:
 
 ```bash
-# For GitHub marketplace
 claude plugin marketplace remove smalltalk-dev-marketplace
-
-# For local development marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
 ```
 
 **Note**: The marketplace name depends on how you added it. Use `claude plugin marketplace list` to see the exact name.
