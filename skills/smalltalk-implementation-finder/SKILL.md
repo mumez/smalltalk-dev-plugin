@@ -1,12 +1,6 @@
 ---
 name: smalltalk-implementation-finder
-description: This skill should be used when investigating method implementations in Smalltalk:
-  - User asks "how is X implemented?", "what does method X do?", "check implementation of X"
-  - Tracing method implementations across class hierarchies
-  - Finding which class actually implements a method
-  - Understanding inheritance and method lookup
-  - Following implementors from superclass to subclass
-  Use when you need to use search_implementors, get_method_source, or trace class hierarchies.
+description: This skill should be used when investigating method implementations in Pharo Smalltalk, including tracing implementations across class hierarchies, finding which class implements a method, understanding abstract methods and subclass responsibilities, discovering implementation patterns and idioms, and assessing impact of signature changes. Use when you need to trace "who implements X?" or "how is X implemented across subclasses?".
 model_selection:
   enabled: false
 triggers:
@@ -31,430 +25,333 @@ tool_permissions:
 
 # Smalltalk Implementation Finder
 
-This skill helps you find and analyze method implementations across class hierarchies. It's particularly useful for understanding abstract methods, identifying implementation patterns, discovering refactoring opportunities, and assessing the impact of signature changes.
+Find and analyze method implementations across class hierarchies to understand abstract methods, implementation patterns, and assess refactoring opportunities.
 
 ## Core Use Cases
 
 ### 1. Understanding Abstract Method Implementations
 
-**Goal**: See how abstract methods (marked with `self subclassResponsibility`) are concretely implemented across subclasses.
+**Goal**: See how abstract methods (`self subclassResponsibility`) are implemented in concrete subclasses.
 
-**Primary Tool**: `mcp__smalltalk-interop__search_implementors`
+**Primary Tool**: `search_implementors` - Finds all classes implementing a method
 
 **Workflow**:
-
 ```
-1. Find all implementors of the abstract method:
-   search_implementors(method_name)
-
-2. Get the superclass hierarchy to filter relevant implementations:
-   eval("ClassA allSubclasses")
-
-3. For each relevant implementor:
-   get_method_source(class_name, method_name)
-
-4. Analyze patterns and learn implementation approaches
+1. Find all implementors: search_implementors(method_name)
+2. Optionally scope by hierarchy: eval("ClassA allSubclasses")
+3. Get source for relevant implementors: get_method_source
+4. Analyze patterns and idioms
 ```
 
-**Example**: Understanding how to implement `printOn:`
+**Example**: Understanding `printOn:` implementations
 
-```smalltalk
-# Step 1: Find implementors
+```
 search_implementors("printOn:")
 → Returns hundreds of implementations
 
-# Step 2: Get hierarchy context
-eval("Object allSubclasses select: [:c | c name includesSubstring: 'Collection']")
-→ Focus on Collection hierarchy
+# Focus on Collection hierarchy
+eval("Collection allSubclasses")
 
-# Step 3: Examine implementations
 get_method_source("Array", "printOn:")
-→ Shows: "printOn: aStream
-          aStream nextPutAll: '#('.
-          self do: [:each | each printOn: aStream. aStream space].
-          aStream nextPutAll: ')'"
+→ Shows: "#(" prefix, recursive printOn:, ")" suffix
 
 get_method_source("Dictionary", "printOn:")
-→ Shows: "printOn: aStream
-          aStream nextPutAll: 'a Dictionary('.
-          self associations do: [:assoc |
-            assoc key printOn: aStream.
-            aStream nextPutAll: '->'.
-            assoc value printOn: aStream] separatedBy: [aStream space].
-          aStream nextPut: $)"
+→ Shows: "a Dictionary(" prefix, key->value format, ")" suffix
 
-# Step 4: Learn pattern
-"Common pattern for printOn::
+Pattern identified:
 - Start with class identifier
-- Use recursive printOn: for elements
-- Use separators between items
-- End with closing delimiter"
+- Recursively call printOn: on elements
+- Use appropriate delimiters
 ```
 
-**Why This Helps**: When implementing an abstract method in your subclass, seeing existing implementations provides:
-- Idiomatic patterns for that method
-- Common edge cases to handle
-- Expected behavior and format
-
----
+**Why useful**: Learn idiomatic patterns by studying existing implementations.
 
 ### 2. Learning Implementation Idioms
 
-**Goal**: Understand common patterns and idioms for specific method implementations.
+**Goal**: Discover common patterns and best practices for implementing specific methods.
 
-**Primary Tool**: `mcp__smalltalk-interop__search_implementors`
+**Common Idioms**:
 
-**Common Idioms to Discover**:
-
-#### Idiom 1: `hash` Methods Use `bitXor:`
-
+**Idiom: `hash` methods use `bitXor:`**
 ```smalltalk
-search_implementors("hash")
-→ Find multiple implementations
+Point>>hash
+    ^ x hash bitXor: y hash
 
-get_method_source("Point", "hash")
-→ "hash ^ x hash bitXor: y hash"
-
-get_method_source("Association", "hash")
-→ "hash ^ key hash bitXor: value hash"
-
-# Pattern: Combine element hashes with bitXor:
+Association>>hash
+    ^ key hash bitXor: value hash
 ```
 
-#### Idiom 2: `initialize` Calls Super First
-
+**Idiom: `initialize` calls super first**
 ```smalltalk
-search_implementors("initialize")
-
-get_method_source("OrderedCollection", "initialize")
-→ "initialize
-     super initialize.
-     array := Array new: 10"
-
-get_method_source("WriteStream", "initialize")
-→ "initialize
-     super initialize.
-     position := 0"
-
-# Pattern: Always call super initialize first
+OrderedCollection>>initialize
+    super initialize.
+    array := Array new: 10
 ```
 
-**Workflow for Learning Idioms**:
-
-```
-1. Search for method implementors: search_implementors(method_name)
-2. Sample 5-10 implementations from well-known classes
-3. Get source for each: get_method_source(class_name, method_name)
-4. Identify common patterns:
-   - Call sequences (e.g., super first)
-   - Helper methods used (e.g., bitXor:)
-   - Conditional checks (e.g., class matching)
-5. Document the idiom for your implementation
+**Idiom: `=` checks class then compares fields**
+```smalltalk
+Point>>= aPoint
+    self class = aPoint class ifFalse: [^ false].
+    ^ x = aPoint x and: [y = aPoint y]
 ```
 
----
+**Workflow for discovering idioms**:
+```
+1. search_implementors(method_name)
+2. Sample 5-10 well-known class implementations
+3. get_method_source for each
+4. Identify common patterns
+5. Apply pattern to your implementation
+```
 
 ### 3. Assessing Signature Change Impact
 
 **Goal**: Understand how many implementations would be affected by changing a method signature.
 
-**Primary Tools**: `mcp__smalltalk-interop__search_implementors`, `mcp__smalltalk-interop__search_references`
-
 **Workflow**:
-
 ```
-1. Find all implementors:
-   search_implementors(method_name)
+1. Find implementors: search_implementors(method_name)
+   → Count implementations to update
 
-2. Find all callers:
-   search_references(method_name)
+2. Find references: search_references(method_name)
+   → Count call sites to update
 
-3. Assess impact:
-   - Count of implementors = methods to update
-   - Count of references = call sites to update
-   - Review critical callers to understand usage
-
-4. Decision: Is the change worth the impact?
+3. Assess impact: High/Medium/Low
+4. Make informed decision
 ```
 
 **Example**: Changing `at:put:` signature
 
-```smalltalk
-# Step 1: Find implementors
+```
 search_implementors("at:put:")
-→ Returns 50+ implementations (Dictionary, Array, etc.)
+→ 50+ implementations
 
-# Step 2: Find references
 search_references("at:put:")
-→ Returns 500+ call sites
+→ 500+ call sites
 
-# Step 3: Assess
-"Changing at:put: signature would affect:
-- 50+ class implementations to update
-- 500+ call sites to update
-- Core collection protocol (very high impact)
-
-Recommendation: Do NOT change this signature.
-Consider adding a new method instead."
+Impact: VERY HIGH
+Recommendation: Don't change. Add new method instead.
 ```
 
-**Use Case**: Before renaming or changing signatures, use this workflow to:
-- Estimate refactoring effort
-- Identify critical dependencies
-- Make informed decisions about API changes
-
----
+**Impact levels**:
+- **Low**: < 5 implementors, < 20 references
+- **Medium**: 5-20 implementors, 20-100 references
+- **High**: 20+ implementors, 100+ references
 
 ### 4. Discovering Refactoring Opportunities
 
-**Goal**: Find duplicate or similar implementations that could be consolidated.
-
-**Primary Tool**: `mcp__smalltalk-interop__search_implementors`
+**Goal**: Find duplicate implementations that could be consolidated.
 
 **Workflow**:
+```
+1. Find implementors in same hierarchy
+2. Compare implementations
+3. Identify patterns:
+   - Identical → Pull up to superclass
+   - Similar → Parameterize and share
+   - Scattered → Consider redesign
+```
+
+**Example**: Duplicate `isEmpty` implementations
 
 ```
-1. Find all implementors: search_implementors(method_name)
-2. Get source for implementors in same hierarchy
-3. Compare implementations:
-   - Identical implementations = can be pulled up to superclass
-   - Similar implementations = can be parameterized and shared
-4. Propose refactoring
-```
-
-**Example**: Finding duplicate `isEmpty` implementations
-
-```smalltalk
-# Step 1: Find implementors
-search_implementors("isEmpty")
-→ Returns implementations in multiple Collection subclasses
-
-# Step 2: Get sources
 get_method_source("Array", "isEmpty")
-→ "isEmpty ^ self size = 0"
+→ "^ self size = 0"
 
 get_method_source("OrderedCollection", "isEmpty")
-→ "isEmpty ^ self size = 0"
+→ "^ self size = 0"
 
 get_method_source("Set", "isEmpty")
-→ "isEmpty ^ self size = 0"
+→ "^ self size = 0"
 
-# Step 3: Identify duplication
-"All implementations are identical: ^ self size = 0
-
-Refactoring opportunity:
-Move isEmpty to Collection superclass and remove from subclasses.
-This eliminates 3+ duplicate implementations."
+Opportunity: All identical. Pull up to Collection superclass.
 ```
 
-**Red Flags for Refactoring**:
-- Exact same implementation in multiple subclasses → Pull up to superclass
-- Similar implementations with small variations → Parameterize the variation
-- Many classes overriding with `self subclassResponsibility` → Consider redesign
+**Refactoring indicators**:
+- ✅ Exact same code in 3+ subclasses
+- ✅ Similar code with minor variations
+- ❌ Many `subclassResponsibility` stubs
 
----
+### 5. Narrowing Usage Search
 
-### 5. Narrowing Usage Search with Implementors
+**Goal**: Filter method references by which class's implementation is actually being called.
 
-**Goal**: When searching for method usage, use implementors to narrow down which class's method is being called.
+**Problem**: `search_references` returns ALL calls to ANY method with that name.
 
-**Primary Tools**: `mcp__smalltalk-interop__search_implementors`, `mcp__smalltalk-interop__search_references`, `mcp__smalltalk-interop__get_method_source`
-
-**Problem**: `search_references` returns all calls to any method with that name, regardless of which class implements it.
-
-**Solution**: Combine implementor search with reference analysis.
+**Solution**: Combine with implementor analysis.
 
 **Workflow**:
-
 ```
 1. Find implementors: search_implementors(method_name)
-   → Get list of classes that implement this method
+   → Get list of implementing classes
 
-2. Find all references: search_references(method_name)
+2. Find references: search_references(method_name)
    → Get all call sites
 
-3. Filter references by implementor context:
-   - Get source for each reference
-   - Match variable types with implementor classes
-   - Focus on relevant call sites
-
-4. Present filtered usage
+3. Filter by context:
+   - Check variable names
+   - Check receiver types
+   - Match with implementor classes
 ```
 
-**Example**: Finding usage of `Collection>>select:`
+**Example**: Finding Collection>>select: usage
 
-```smalltalk
-# Step 1: Find implementors
+```
 search_implementors("select:")
-→ ["Collection", "Dictionary", "Interval", "Set", ...]
+→ [Collection, Dictionary, Interval, ...]
 
-# Step 2: Find references
 search_references("select:")
-→ Returns 1000+ call sites
+→ 1000+ call sites
 
-# Step 3: Filter by checking receiver types
-get_method_source("SomeClass", "filterData")
-→ "filterData
-     ^ self dataArray select: [:item | item isValid]"
-→ "dataArray" is an Array (Collection subclass) ✓
+Filter by checking receiver:
+  "dataArray select: [:item | ...]"
+  → dataArray is Array → uses Collection>>select:
 
-get_method_source("ConfigManager", "activeSettings")
-→ "activeSettings
-     ^ self settingsDict select: [:setting | setting isActive]"
-→ "settingsDict" is a Dictionary ✓ (but Dictionary has specialized select:)
-
-# Step 4: Present filtered results
-"Collection>>select: is used primarily with:
-- Arrays for filtering elements
-- OrderedCollections for filtering sequences
-- Sets for subset selection
-
-Dictionary>>select: has specialized behavior for key-value filtering."
+  "settingsDict select: [:setting | ...]"
+  → settingsDict is Dictionary → uses Dictionary>>select:
 ```
 
-**Why This Helps**: Narrowing by implementors reduces noise and helps you understand:
-- Which variant of a polymorphic method is being used
-- Context-specific behavior differences
-- Actual usage patterns per class
+## Quick Reference
 
----
+### MCP Tools
 
-## Advanced Technique: Scoping by Class Hierarchy
-
-**Challenge**: Smalltalk allows unrelated classes to define methods with the same signature. To focus on relevant implementations, scope your search to a specific class hierarchy.
-
-**Workflow**:
-
+**Find implementations**:
 ```
-1. Get the class hierarchy:
-   eval("ClassA subclasses")         → Direct subclasses
-   eval("ClassA allSubclasses")      → All descendants
-   eval("ClassA superclass")         → Direct superclass
-   eval("ClassA allSuperclasses")    → All superclasses
-
-2. Find all implementors:
-   search_implementors(method_name)
-
-3. Filter implementors by hierarchy:
-   - Keep only classes in the hierarchy from step 1
-   - Discard unrelated classes
-
-4. Analyze only relevant implementations
+mcp__smalltalk-interop__search_implementors: 'methodName'
 ```
 
-**Example**: Focusing on `Stream` hierarchy for `next`
-
-```smalltalk
-# Step 1: Get Stream hierarchy
-eval("Stream allSubclasses")
-→ ["ReadStream", "WriteStream", "FileStream", "SocketStream", ...]
-
-# Step 2: Find all implementors
-search_implementors("next")
-→ Returns 100+ implementations (including Iterator, Random, etc.)
-
-# Step 3: Filter to Stream hierarchy only
-# Manually filter results to Stream subclasses:
-["ReadStream", "WriteStream", "FileStream", "SocketStream"]
-
-# Step 4: Analyze filtered set
-get_method_source("ReadStream", "next")
-→ Stream-specific implementation
-
-get_method_source("FileStream", "next")
-→ File-specific implementation
-
-# Result: Focused analysis on Stream variants only
+**Get method source**:
+```
+mcp__smalltalk-interop__get_method_source: class: 'ClassName' method: 'methodName'
 ```
 
-**When to Use Hierarchy Scoping**:
-- Implementing an abstract method in a specific hierarchy
-- Understanding variations within a family of classes
-- Avoiding confusion from unrelated classes with same method names
-- Refactoring within a specific subsystem
+**Eval for hierarchy**:
+```
+mcp__smalltalk-interop__eval: 'Collection allSubclasses'
+```
 
----
+**Find references**:
+```
+mcp__smalltalk-interop__search_references: 'methodName'
+```
 
-## Tool Reference
+### Analysis Patterns
 
-### Primary Tool
-
-- **`search_implementors(method_name)`**
-  - Returns: List of all classes that implement this method
-  - Format: `[{class, method, package}, ...]`
-  - Use: Finding all implementations of a method selector
-
-### Supporting Tools
-
-- **`get_method_source(class_name, method_name, is_class_method=false)`**
-  - Returns: Method source code
-  - Use: Inspecting individual implementations
-
-- **`eval(code)`**
-  - Returns: Result of Smalltalk code execution
-  - Use: Getting class hierarchies, filtering collections
-
-- **`search_references(method_name)`**
-  - Returns: All call sites of this method
-  - Use: Assessing impact, finding usage
-
-- **`get_class_source(class_name)`**
-  - Returns: Complete class definition
-  - Use: Understanding class structure and hierarchy
-
----
+| Goal | Primary Tool | Pattern |
+|------|--------------|---------|
+| Learn idiom | search_implementors | Sample 5-10 → identify pattern |
+| Impact assessment | search_implementors + search_references | Count both → assess risk |
+| Find duplicates | search_implementors + get_method_source | Compare → find identical |
+| Narrow usage | search_implementors → search_references | Filter by receiver type |
 
 ## Best Practices
 
-1. **Sample Representative Implementations**: Don't examine all 500 implementations. Sample 5-10 from well-known, well-designed classes.
+### 1. Scope by Hierarchy
 
-2. **Focus on Your Hierarchy**: Use `eval` to get relevant subclasses and filter implementors to that hierarchy.
+Focus on relevant class hierarchies:
 
-3. **Check Both Class and Instance Side**: Use `is_class_method: true` to check class-side implementations when relevant.
+✅ **Good**:
+```
+eval("Collection allSubclasses")
+→ Filter implementors to Collection hierarchy
+```
 
-4. **Combine with References**: For complete understanding, check both implementors (who defines it) and references (who uses it).
+❌ **Bad**: Analyze all 500+ implementors without filtering
 
-5. **Document Idioms**: When you discover a common pattern, document it for your team as a coding standard.
+### 2. Sample Representative Classes
 
-6. **Assess Impact Before Changing**: Always run implementor/reference search before changing method signatures.
+Choose well-known classes for learning:
 
----
+✅ **Good**: Array, Dictionary, Point (common, well-implemented)
+❌ **Bad**: Obscure internal classes (may have non-standard patterns)
 
-## Common Pitfalls
+### 3. Count Before Analyzing
 
-**Pitfall 1: Too Many Results**
-- Problem: `search_implementors("at:")` returns 200+ classes
-- Solution: Filter by hierarchy or sample from major classes only
+Get overview before diving deep:
 
-**Pitfall 2: Ignoring Class Hierarchy**
-- Problem: Comparing implementations from unrelated classes
-- Solution: Use `eval` to get relevant hierarchy first
+✅ **Good**:
+```
+1. Count implementors
+2. If < 10, analyze all
+3. If > 10, sample top classes
+```
 
-**Pitfall 3: Not Checking Super Implementation**
-- Problem: Missing context from parent class implementation
-- Solution: Check superclass implementation when method calls `super`
+❌ **Bad**: Try to analyze 500 implementations
 
-**Pitfall 4: Only Looking at One Example**
-- Problem: Single implementation may have quirks
-- Solution: Review 3-5 implementations to find common patterns
+### 4. Check Super Implementation
 
-**Pitfall 5: Forgetting Class-Side Methods**
-- Problem: Missing class-side implementations
-- Solution: Check `is_class_method: true` for class constructors and utilities
+Understand inherited behavior:
 
----
+✅ **Good**: Check superclass implementation first
+❌ **Bad**: Only look at subclass implementations
+
+### 5. Consider Polymorphism
+
+Remember same method name ≠ same implementation:
+
+✅ **Good**: "Collection>>select: and Dictionary>>select: behave differently"
+❌ **Bad**: "select: works this way" (which class?)
+
+## Common Workflows
+
+### Workflow 1: Implement Abstract Method
+
+```
+Problem: Need to implement printOn: in new class
+
+1. search_implementors("printOn:")
+2. Filter by similar classes
+3. get_method_source for 3-5 examples
+4. Identify pattern:
+   - Class identifier prefix
+   - Recursive element printing
+   - Closing delimiter
+5. Apply pattern to your class
+```
+
+### Workflow 2: Assess Refactoring
+
+```
+Problem: Want to change at:put: signature
+
+1. search_implementors("at:put:")
+   → 50+ implementations
+
+2. search_references("at:put:")
+   → 500+ call sites
+
+3. Decision: Too high impact. Don't change.
+   Alternative: Add new method at:put:ifAbsent:
+```
+
+### Workflow 3: Find Duplication
+
+```
+Problem: Suspect duplicate isEmpty implementations
+
+1. search_implementors("isEmpty")
+2. get_method_source for Collection subclasses
+3. Compare:
+   Array: "^ self size = 0"
+   Set: "^ self size = 0"
+   OrderedCollection: "^ self size = 0"
+
+4. Refactor: Pull up to Collection superclass
+```
+
+For detailed analysis techniques and comprehensive examples, see:
+
+- **[Implementation Analysis Reference](references/implementation-analysis.md)** - Detailed techniques
+- **[Implementation Scenarios](examples/implementation-scenarios.md)** - Real-world examples
 
 ## Summary
 
-Use `search_implementors` to:
+**Key workflow**: Find implementors → Get source → Analyze patterns → Apply learnings
 
-1. **Learn Abstract Method Implementation**: See how `subclassResponsibility` is fulfilled
-2. **Discover Implementation Idioms**: Identify common patterns (hash with bitXor:, initialize with super, etc.)
-3. **Assess Change Impact**: Count affected implementations before signature changes
-4. **Find Refactoring Opportunities**: Spot duplicate implementations to consolidate
-5. **Narrow Usage Search**: Combine with references to filter by class context
+**Primary use cases**:
+1. **Learn idioms** - Study existing implementations
+2. **Assess impact** - Count implementations + references
+3. **Find duplication** - Compare implementations
+4. **Narrow search** - Filter by implementor class
 
-**Key Workflow**:
-1. Find implementors → 2. Filter by hierarchy → 3. Sample implementations → 4. Identify patterns → 5. Apply learnings
-
-**Key Principle**: Learn from existing implementations before creating your own.
+**Remember**: Implementations across a hierarchy reveal design patterns and idioms. Use them to write better, more idiomatic code.
