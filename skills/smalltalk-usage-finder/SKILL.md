@@ -1,16 +1,17 @@
 ---
 name: smalltalk-usage-finder
-description: This skill should be used when investigating how Pharo Smalltalk code is actually used, including finding usage patterns, understanding class responsibilities, discovering usage examples from existing code, and checking API compatibility. Use when user asks "how is X used?", "show usage examples", "what is X responsible for?", or "how do I use X?".
+description: Use this skill when user asks "how to use X class?", "show usage examples", "what is X responsible for?", "find examples of Y", "what does this class do?", "package overview", or needs to understand Smalltalk code usage patterns, class responsibilities, or API usage from existing implementations.
 model_selection:
   enabled: false
 triggers:
-  - "class responsibility"
   - "how to use"
-  - "usage of"
-  - "find usage"
-  - "find examples"
+  - "how do I use"
+  - "usage examples"
+  - "show examples"
+  - "what does X do"
+  - "class responsibility"
   - "package overview"
-  - "example method"
+  - "find usage"
 tool_permissions:
   allowed_tools:
     - get_class_comment

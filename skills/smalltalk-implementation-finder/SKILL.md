@@ -1,18 +1,18 @@
 ---
 name: smalltalk-implementation-finder
-description: This skill should be used when investigating method implementations in Pharo Smalltalk, including tracing implementations across class hierarchies, finding which class implements a method, understanding abstract methods and subclass responsibilities, discovering implementation patterns and idioms, and assessing impact of signature changes. Use when you need to trace "who implements X?" or "how is X implemented across subclasses?".
+description: Use this skill when user asks "who implements X?", "find implementors of Y", "how is this method implemented?", "show implementations", "which classes override Z?", "abstract method implementations", or needs to analyze method implementations across classes, discover implementation patterns, understand subclass responsibilities, or assess refactoring impact by tracing implementations through class hierarchies.
 model_selection:
   enabled: false
 triggers:
   - "find implementors"
   - "who implements"
+  - "show implementations"
   - "implementations of"
+  - "which classes override"
   - "abstract method"
   - "subclass responsibility"
   - "implementation pattern"
-  - "refactoring opportunity"
-  - "method signature"
-  - "implementation idiom"
+  - "search implementors"
 tool_permissions:
   allowed_tools:
     - search_implementors

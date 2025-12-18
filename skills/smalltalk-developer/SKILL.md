@@ -1,17 +1,18 @@
 ---
 name: smalltalk-developer
-description: This skill should be used for Pharo Smalltalk development tasks including editing Tonel files, importing packages to Pharo image, running SUnit tests, and debugging Smalltalk code. Implements the standard Edit → Import → Test workflow.
+description: Use this skill when user asks to "create a Smalltalk class", "add a method to Pharo", "write Smalltalk code", "edit Tonel files", "import package to Pharo", "run Smalltalk tests", "implement in Pharo", or describes Pharo Smalltalk development tasks. Implements the standard Edit → Import → Test workflow for AI-driven Pharo development.
 model_selection:
   enabled: false
 triggers:
-  - "Pharo Smalltalk development"
-  - "tonel file"
-  - "import package"
   - "create class"
   - "add method"
-  - "apply changes"
+  - "implement"
+  - "write Smalltalk code"
   - "edit tonel"
+  - "import package"
+  - "apply changes"
   - "sync to pharo"
+  - "Pharo development"
 tool_permissions:
   allowed_tools:
     - validate_tonel_smalltalk_from_file

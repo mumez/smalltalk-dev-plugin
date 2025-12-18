@@ -1,18 +1,19 @@
 ---
 name: smalltalk-debugger
-description: This skill should be used when debugging Smalltalk code, including test failures, runtime errors, analyzing stack traces, investigating unexpected behavior, and finding root causes of bugs. Use this after tests fail or when the user asks "why is this failing?" or "debug this".
+description: Use this skill when user says "test failed", "debug this error", "MessageNotUnderstood", "inspect the object", "why is this failing?", "run partial code", or encounters Smalltalk exceptions, stack traces, or unexpected behavior. Provides systematic debugging approach with step-by-step investigation using eval tool.
 model_selection:
   enabled: false
 triggers:
   - "test failed"
-  - "test failure"
-  - "error occurred"
   - "debug"
-  - "verify behavior"
-  - "run partially"
+  - "error"
+  - "MessageNotUnderstood"
+  - "stack trace"
+  - "why failing"
   - "inspect"
   - "investigate"
-  - "check result"
+  - "verify behavior"
+  - "run partially"
 tool_permissions:
   allowed_tools:
     - eval
