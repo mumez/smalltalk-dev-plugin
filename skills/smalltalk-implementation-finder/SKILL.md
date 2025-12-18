@@ -27,331 +27,233 @@ tool_permissions:
 
 Find and analyze method implementations across class hierarchies to understand abstract methods, implementation patterns, and assess refactoring opportunities.
 
-## Core Use Cases
+## Purpose
 
-### 1. Understanding Abstract Method Implementations
+Use this skill to:
+- **Learn implementation idioms** by studying existing code
+- **Assess refactoring impact** before making changes
+- **Discover implementation patterns** across class hierarchies
+- **Find duplicate implementations** that could be consolidated
+- **Understand subclass responsibilities** for abstract methods
 
-**Goal**: See how abstract methods (`self subclassResponsibility`) are implemented in concrete subclasses.
-
-**Primary Tool**: `search_implementors` - Finds all classes implementing a method
-
-**Workflow**:
-```
-1. Find all implementors: search_implementors(method_name)
-2. Optionally scope by hierarchy: eval("ClassA allSubclasses")
-3. Get source for relevant implementors: get_method_source
-4. Analyze patterns and idioms
-```
-
-**Example**: Understanding `printOn:` implementations
+## Core Workflow
 
 ```
-search_implementors("printOn:")
-→ Returns hundreds of implementations
-
-# Focus on Collection hierarchy
-eval("Collection allSubclasses")
-
-get_method_source("Array", "printOn:")
-→ Shows: "#(" prefix, recursive printOn:, ")" suffix
-
-get_method_source("Dictionary", "printOn:")
-→ Shows: "a Dictionary(" prefix, key->value format, ")" suffix
-
-Pattern identified:
-- Start with class identifier
-- Recursively call printOn: on elements
-- Use appropriate delimiters
+1. Find implementors → search_implementors(method_name)
+2. Get source code → get_method_source(class, method)
+3. Analyze patterns → Compare implementations
+4. Apply learnings → Use discovered idioms in your code
 ```
 
-**Why useful**: Learn idiomatic patterns by studying existing implementations.
+## Primary Use Cases
 
-### 2. Learning Implementation Idioms
+### 1. Learning Implementation Idioms
 
-**Goal**: Discover common patterns and best practices for implementing specific methods.
+**When to use**: Implementing a method for the first time and want to follow conventions.
 
-**Common Idioms**:
-
-**Idiom: `hash` methods use `bitXor:`**
-```smalltalk
-Point>>hash
-    ^ x hash bitXor: y hash
-
-Association>>hash
-    ^ key hash bitXor: value hash
+**Quick workflow**:
 ```
-
-**Idiom: `initialize` calls super first**
-```smalltalk
-OrderedCollection>>initialize
-    super initialize.
-    array := Array new: 10
-```
-
-**Idiom: `=` checks class then compares fields**
-```smalltalk
-Point>>= aPoint
-    self class = aPoint class ifFalse: [^ false].
-    ^ x = aPoint x and: [y = aPoint y]
-```
-
-**Workflow for discovering idioms**:
-```
-1. search_implementors(method_name)
-2. Sample 5-10 well-known class implementations
+1. search_implementors("methodName")
+2. Sample 5-10 well-known classes
 3. get_method_source for each
-4. Identify common patterns
-5. Apply pattern to your implementation
+4. Identify common pattern
+5. Apply to your implementation
 ```
 
-### 3. Assessing Signature Change Impact
+**Common idioms**:
+- `hash` → Combine fields with `bitXor:`
+- `initialize` → Call `super initialize` first
+- `=` → Check class equality, then compare fields
+- `printOn:` → Use class identifier + element printing
 
-**Goal**: Understand how many implementations would be affected by changing a method signature.
-
-**Workflow**:
+**Example**: Learning hash implementation
 ```
-1. Find implementors: search_implementors(method_name)
-   → Count implementations to update
+Point>>hash → "^ x hash bitXor: y hash"
+Association>>hash → "^ key hash bitXor: value hash"
 
-2. Find references: search_references(method_name)
-   → Count call sites to update
-
-3. Assess impact: High/Medium/Low
-4. Make informed decision
+Pattern: field1 hash bitXor: field2 hash
 ```
 
-**Example**: Changing `at:put:` signature
+### 2. Assessing Refactoring Impact
 
+**When to use**: Planning to change a method signature or refactor implementations.
+
+**Quick workflow**:
 ```
-search_implementors("at:put:")
-→ 50+ implementations
+1. Count implementors: search_implementors(method)
+2. Count references: search_references(method)
+3. Assess impact: Low (<5 impl, <20 refs) / Medium (5-20, 20-100) / High (20+, 100+)
+4. Decide: Proceed / Add new method / Don't change
+```
 
-search_references("at:put:")
-→ 500+ call sites
-
+**Example**: Changing `at:put:`
+```
+Implementors: 50+ classes
+References: 500+ call sites
 Impact: VERY HIGH
-Recommendation: Don't change. Add new method instead.
+Decision: Don't change. Add new method instead.
 ```
 
-**Impact levels**:
-- **Low**: < 5 implementors, < 20 references
-- **Medium**: 5-20 implementors, 20-100 references
-- **High**: 20+ implementors, 100+ references
+### 3. Finding Duplicate Code
 
-### 4. Discovering Refactoring Opportunities
+**When to use**: Suspect multiple classes have identical implementations.
 
-**Goal**: Find duplicate implementations that could be consolidated.
-
-**Workflow**:
+**Quick workflow**:
 ```
 1. Find implementors in same hierarchy
-2. Compare implementations
-3. Identify patterns:
-   - Identical → Pull up to superclass
-   - Similar → Parameterize and share
-   - Scattered → Consider redesign
+2. Get source for each
+3. Compare for duplicates
+4. Refactor identical code to superclass
 ```
 
-**Example**: Duplicate `isEmpty` implementations
-
+**Example**: Consolidating `isEmpty`
 ```
-get_method_source("Array", "isEmpty")
-→ "^ self size = 0"
+Array>>isEmpty → "^ self size = 0"
+Set>>isEmpty → "^ self size = 0"
+OrderedCollection>>isEmpty → "^ self size = 0"
 
-get_method_source("OrderedCollection", "isEmpty")
-→ "^ self size = 0"
-
-get_method_source("Set", "isEmpty")
-→ "^ self size = 0"
-
-Opportunity: All identical. Pull up to Collection superclass.
+Action: Pull up to Collection superclass
 ```
 
-**Refactoring indicators**:
-- ✅ Exact same code in 3+ subclasses
-- ✅ Similar code with minor variations
-- ❌ Many `subclassResponsibility` stubs
+### 4. Understanding Abstract Methods
+
+**When to use**: Encountering `self subclassResponsibility` and need to see concrete implementations.
+
+**Quick workflow**:
+```
+1. Check abstract definition in superclass
+2. Find all implementors
+3. Study 3-5 concrete implementations
+4. Understand expected behavior
+```
+
+**Example**: Understanding `Collection>>do:`
+```
+Collection>>do: → "self subclassResponsibility"
+Array>>do: → "1 to: self size do: [:i | aBlock value: (self at: i)]"
+LinkedList>>do: → "[node notNil] whileTrue: [aBlock value: node value. ...]"
+
+Understanding: Each uses its own iteration strategy
+```
 
 ### 5. Narrowing Usage Search
 
-**Goal**: Filter method references by which class's implementation is actually being called.
+**When to use**: Finding references to a specific class's implementation, not all implementations.
 
-**Problem**: `search_references` returns ALL calls to ANY method with that name.
-
-**Solution**: Combine with implementor analysis.
-
-**Workflow**:
+**Quick workflow**:
 ```
-1. Find implementors: search_implementors(method_name)
-   → Get list of implementing classes
-
-2. Find references: search_references(method_name)
-   → Get all call sites
-
-3. Filter by context:
-   - Check variable names
-   - Check receiver types
-   - Match with implementor classes
+1. Find implementors
+2. Find all references
+3. Filter by receiver type/context
+4. Focus on relevant usage
 ```
 
-**Example**: Finding Collection>>select: usage
-
+**Example**: Finding `Collection>>select:` usage (not `Dictionary>>select:`)
 ```
-search_implementors("select:")
-→ [Collection, Dictionary, Interval, ...]
+Implementors: [Collection, Dictionary, Interval, ...]
+References: 1000+ call sites
 
-search_references("select:")
-→ 1000+ call sites
-
-Filter by checking receiver:
-  "dataArray select: [:item | ...]"
-  → dataArray is Array → uses Collection>>select:
-
-  "settingsDict select: [:setting | ...]"
-  → settingsDict is Dictionary → uses Dictionary>>select:
+Filter by variable context:
+  "myArray select: [...]" → Collection implementation
+  "myDict select: [...]" → Dictionary implementation
 ```
 
-## Quick Reference
+## MCP Tools
 
-### MCP Tools
-
-**Find implementations**:
+### search_implementors
 ```
 mcp__smalltalk-interop__search_implementors: 'methodName'
 ```
+Returns all classes implementing the method.
 
-**Get method source**:
+### get_method_source
 ```
 mcp__smalltalk-interop__get_method_source: class: 'ClassName' method: 'methodName'
 ```
+Gets source code for a specific implementation.
 
-**Eval for hierarchy**:
+### eval (for hierarchy exploration)
 ```
 mcp__smalltalk-interop__eval: 'Collection allSubclasses'
 ```
+Useful for scoping analysis to specific hierarchies.
 
-**Find references**:
+### search_references
 ```
 mcp__smalltalk-interop__search_references: 'methodName'
 ```
+Finds all senders (combines well with implementor analysis).
 
-### Analysis Patterns
+## Quick Reference
 
-| Goal | Primary Tool | Pattern |
-|------|--------------|---------|
-| Learn idiom | search_implementors | Sample 5-10 → identify pattern |
-| Impact assessment | search_implementors + search_references | Count both → assess risk |
-| Find duplicates | search_implementors + get_method_source | Compare → find identical |
+| Goal | Tools | Pattern |
+|------|-------|---------|
+| Learn idiom | search_implementors → get_method_source | Sample 5-10, identify pattern |
+| Assess impact | search_implementors + search_references | Count both, assess risk |
+| Find duplicates | search_implementors → get_method_source | Compare, find identical |
 | Narrow usage | search_implementors → search_references | Filter by receiver type |
 
 ## Best Practices
 
-### 1. Scope by Hierarchy
+### ✅ Do
 
-Focus on relevant class hierarchies:
+- **Scope by hierarchy**: Focus on relevant class hierarchies using `eval("ClassA allSubclasses")`
+- **Sample wisely**: Choose well-known, well-implemented classes (Array, Dictionary, Point)
+- **Count first**: Get overview before analyzing 500+ implementations
+- **Check super**: Understand inherited behavior
 
-✅ **Good**:
-```
-eval("Collection allSubclasses")
-→ Filter implementors to Collection hierarchy
-```
+### ❌ Don't
 
-❌ **Bad**: Analyze all 500+ implementors without filtering
-
-### 2. Sample Representative Classes
-
-Choose well-known classes for learning:
-
-✅ **Good**: Array, Dictionary, Point (common, well-implemented)
-❌ **Bad**: Obscure internal classes (may have non-standard patterns)
-
-### 3. Count Before Analyzing
-
-Get overview before diving deep:
-
-✅ **Good**:
-```
-1. Count implementors
-2. If < 10, analyze all
-3. If > 10, sample top classes
-```
-
-❌ **Bad**: Try to analyze 500 implementations
-
-### 4. Check Super Implementation
-
-Understand inherited behavior:
-
-✅ **Good**: Check superclass implementation first
-❌ **Bad**: Only look at subclass implementations
-
-### 5. Consider Polymorphism
-
-Remember same method name ≠ same implementation:
-
-✅ **Good**: "Collection>>select: and Dictionary>>select: behave differently"
-❌ **Bad**: "select: works this way" (which class?)
+- Analyze all implementors without filtering
+- Use obscure classes as examples
+- Ignore superclass implementations
+- Assume same method name = same behavior
 
 ## Common Workflows
 
-### Workflow 1: Implement Abstract Method
-
+### Workflow: Implement Abstract Method
 ```
 Problem: Need to implement printOn: in new class
 
 1. search_implementors("printOn:")
-2. Filter by similar classes
+2. Filter to similar classes
 3. get_method_source for 3-5 examples
-4. Identify pattern:
-   - Class identifier prefix
-   - Recursive element printing
-   - Closing delimiter
-5. Apply pattern to your class
+4. Identify pattern
+5. Apply to your class
 ```
 
-### Workflow 2: Assess Refactoring
-
+### Workflow: Assess Refactoring
 ```
 Problem: Want to change at:put: signature
 
-1. search_implementors("at:put:")
-   → 50+ implementations
-
-2. search_references("at:put:")
-   → 500+ call sites
-
-3. Decision: Too high impact. Don't change.
-   Alternative: Add new method at:put:ifAbsent:
+1. search_implementors("at:put:") → Count implementations
+2. search_references("at:put:") → Count call sites
+3. Assess impact (High/Medium/Low)
+4. Decide: Change / Add new / Don't change
 ```
 
-### Workflow 3: Find Duplication
-
+### Workflow: Find Duplication
 ```
 Problem: Suspect duplicate isEmpty implementations
 
 1. search_implementors("isEmpty")
-2. get_method_source for Collection subclasses
-3. Compare:
-   Array: "^ self size = 0"
-   Set: "^ self size = 0"
-   OrderedCollection: "^ self size = 0"
-
-4. Refactor: Pull up to Collection superclass
+2. Focus on Collection hierarchy
+3. get_method_source for subclasses
+4. Compare for identical code
+5. Refactor to superclass if identical
 ```
 
-For detailed analysis techniques and comprehensive examples, see:
+## Detailed Resources
 
-- **[Implementation Analysis Reference](references/implementation-analysis.md)** - Detailed techniques
-- **[Implementation Scenarios](examples/implementation-scenarios.md)** - Real-world examples
+For comprehensive analysis techniques and real-world scenarios, see:
+
+- **[Implementation Analysis Reference](references/implementation-analysis.md)** - Detailed techniques for analyzing implementations, MCP tools reference, advanced patterns, and performance considerations
+- **[Implementation Scenarios](examples/implementation-scenarios.md)** - Real-world examples including implementing abstract methods, assessing refactoring impact, finding duplicate code, learning idioms, and understanding template method patterns
 
 ## Summary
 
-**Key workflow**: Find implementors → Get source → Analyze patterns → Apply learnings
+**Key principle**: Implementations across a hierarchy reveal design patterns and idioms. Use them to write better, more idiomatic code.
 
-**Primary use cases**:
-1. **Learn idioms** - Study existing implementations
-2. **Assess impact** - Count implementations + references
-3. **Find duplication** - Compare implementations
-4. **Narrow search** - Filter by implementor class
+**Primary workflow**: Find implementors → Get source → Analyze patterns → Apply learnings
 
-**Remember**: Implementations across a hierarchy reveal design patterns and idioms. Use them to write better, more idiomatic code.
+**Remember**: Always scope your analysis to relevant hierarchies and representative classes to avoid information overload.

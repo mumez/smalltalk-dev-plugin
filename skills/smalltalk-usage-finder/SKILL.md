@@ -12,6 +12,8 @@ triggers:
   - "class responsibility"
   - "package overview"
   - "find usage"
+  - "find senders"
+  - "find class references"
 tool_permissions:
   allowed_tools:
     - get_class_comment
