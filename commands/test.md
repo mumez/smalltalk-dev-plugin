@@ -1,6 +1,9 @@
 ---
 name: st:test
 description: Run SUnit tests
+allowed-tools:
+  - mcp__smalltalk-interop__run_class_test
+  - mcp__smalltalk-interop__run_package_test
 ---
 
 # Run SUnit Tests

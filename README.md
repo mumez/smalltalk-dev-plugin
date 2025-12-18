@@ -85,8 +85,9 @@ After installation, you should see the custom commands starting with `/st:`.
 
 ### Commands
 
-Five essential commands for Smalltalk development:
+Six essential commands for Smalltalk development:
 
+- **`/st:init`** - Start development session and load workflow guidance (recommended for beginners)
 - **`/st:eval`** - Execute Smalltalk code snippets for testing and debugging
 - **`/st:import`** - Import Tonel packages into Pharo image
 - **`/st:export`** - Export packages from Pharo image to Tonel files

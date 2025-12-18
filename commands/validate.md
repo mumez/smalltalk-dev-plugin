@@ -1,6 +1,10 @@
 ---
 name: st:validate
 description: Validate Tonel syntax (optional, modern AI usually generates correct Tonel)
+allowed-tools:
+  - mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
+  - mcp__smalltalk-validator__validate_tonel_smalltalk
+  - mcp__smalltalk-validator__validate_smalltalk_method_body
 ---
 
 # Validate Tonel

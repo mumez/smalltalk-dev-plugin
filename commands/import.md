@@ -1,6 +1,9 @@
 ---
 name: st:import
 description: Import Tonel package to Pharo image
+allowed-tools:
+  - mcp__smalltalk-interop__import_package
+  - mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
 ---
 
 # Import Tonel Package
