@@ -85,8 +85,9 @@ After installation, you should see the custom commands starting with `/st:`.
 
 ### Commands
 
-Five essential commands for Smalltalk development:
+Six essential commands for Smalltalk development:
 
+- **`/st:init`** - Start development session and load workflow guidance (recommended for beginners)
 - **`/st:eval`** - Execute Smalltalk code snippets for testing and debugging
 - **`/st:import`** - Import Tonel packages into Pharo image
 - **`/st:export`** - Export packages from Pharo image to Tonel files
@@ -186,11 +187,7 @@ claude plugin uninstall smalltalk-dev
 If you also want to remove the marketplace entry:
 
 ```bash
-# For GitHub marketplace
 claude plugin marketplace remove smalltalk-dev-marketplace
-
-# For local development marketplace
-claude plugin marketplace remove smalltalk-dev-plugin
 ```
 
 **Note**: The marketplace name depends on how you added it. Use `claude plugin marketplace list` to see the exact name.

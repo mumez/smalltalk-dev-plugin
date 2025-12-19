@@ -4,6 +4,26 @@ Quick reference for all available slash commands. For detailed AI-driven usage, 
 
 ## Available Commands
 
+### `/st:init`
+
+Start a new Smalltalk development session. Loads the `smalltalk-developer` skill and explains the Edit → Import → Test workflow.
+
+```bash
+/st:init
+```
+
+**Use for:**
+- Starting a new development session
+- Getting oriented with the Pharo development workflow
+- Verifying your environment is ready
+- Learning the available commands
+
+**What it does:**
+- Loads smalltalk-developer skill
+- Verifies Pharo connection
+- Explains the standard development cycle
+- Lists available commands and tools
+
 ### `/st:eval [code]`
 
 Execute Smalltalk code snippets for quick testing and debugging.

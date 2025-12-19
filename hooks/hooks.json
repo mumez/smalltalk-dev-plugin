@@ -1,11 +1,11 @@
 {
   "FileChange": {
     "patterns": ["*.st"],
-    "script": "scripts/suggest-import.sh",
+    "script": "${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
     "description": "Suggest import after Tonel file changes"
   },
   "SessionStart": {
-    "script": "scripts/check-pharo-connection.sh",
+    "script": "${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh",
     "description": "Check Pharo MCP connection on startup"
   }
 }

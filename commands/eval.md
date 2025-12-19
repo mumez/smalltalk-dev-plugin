@@ -1,6 +1,8 @@
 ---
 name: st:eval
 description: Execute Smalltalk code snippet
+allowed-tools:
+  - mcp__smalltalk-interop__eval
 ---
 
 # Execute Smalltalk Code

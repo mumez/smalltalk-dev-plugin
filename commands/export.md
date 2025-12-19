@@ -1,6 +1,8 @@
 ---
 name: st:export
 description: Export package from Pharo image to Tonel files
+allowed-tools:
+  - mcp__smalltalk-interop__export_package
 ---
 
 # Export Package from Pharo
