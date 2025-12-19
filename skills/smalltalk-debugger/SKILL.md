@@ -1,6 +1,6 @@
 ---
 name: smalltalk-debugger
-description: Use this skill when user says "test failed", "debug this error", "MessageNotUnderstood", "inspect the object", "why is this failing?", "run partial code", or encounters Smalltalk exceptions, stack traces, or unexpected behavior. Provides systematic debugging approach with step-by-step investigation using eval tool.
+description: Use this skill when user says "test failed", "debug this error", "MessageNotUnderstood", "MNU", "why is this failing?", "run partial code", "not responding", "timeout", or encounters Pharo Smalltalk exceptions, stack traces, or unexpected behavior. Provides systematic debugging approach with step-by-step investigation using eval tool and UI debugging for detecting debugger windows.
 model_selection:
   enabled: false
 triggers:
@@ -14,6 +14,11 @@ triggers:
   - "investigate"
   - "verify behavior"
   - "run partially"
+  - "not responding"
+  - "no response"
+  - "hung"
+  - "timeout"
+  - "stuck"
 tool_permissions:
   allowed_tools:
     - eval
@@ -22,6 +27,7 @@ tool_permissions:
     - search_implementors
     - search_references
     - run_class_test
+    - read_screen
 ---
 
 # Smalltalk Debugger
@@ -78,6 +84,37 @@ step2 := step1 select: [:each | each isValid].
 1. **Fix in Tonel file** (never in Pharo)
 2. **Re-import** with `import_package`
 3. **Re-test** with `run_class_test`
+
+## When Operations Stop Responding
+
+If MCP tool calls hang or timeout with no response, a **debugger window may have opened in the Pharo image**. Since the debugger is invisible from the AI editor, operations will appear stuck.
+
+### Detecting Hidden Debuggers
+
+Use the `read_screen` tool to capture the Pharo UI state:
+
+```
+mcp__smalltalk-interop__read_screen: target_type='world'
+```
+
+This captures all morphs including debugger windows. Look for:
+- Window titles containing "Debugger", "Error", or "Exception"
+- UI hierarchy showing debugger-related components
+- Error messages or stack traces in window content
+
+### Resolution Steps
+
+1. **Notify the user**: Inform them that a debugger window appears to be open in Pharo
+2. **Request manual intervention**: Ask the user to:
+   - Check their Pharo image for open debugger windows
+   - Close any debugger windows
+   - Review the error shown in the debugger to understand the root cause
+3. **Address root cause**: Once the debugger is closed, investigate and fix the underlying error using standard debugging techniques
+4. **Retry operation**: Re-run the failed MCP operation
+
+**Note**: The Pharo debugger cannot be controlled remotely through MCP tools. User intervention in the Pharo image is required.
+
+For complete UI debugging guidance, see [UI Debugging Reference](references/ui-debugging.md).
 
 ## Essential Debugging Patterns
 
