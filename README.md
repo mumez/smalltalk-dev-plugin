@@ -10,6 +10,7 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 - **Commands**: Essential slash commands for import, test, eval, and validation
 - **Skills**: AI-powered development workflow and debugging expertise
+- **Agents**: Autonomous assistants for guidance and documentation
 - **MCP Integration**: Seamless connection to Pharo and validation servers
 - **Hooks**: Automatic suggestions after file changes
 
@@ -85,9 +86,10 @@ After installation, you should see the custom commands starting with `/st:`.
 
 ### Commands
 
-Six essential commands for Smalltalk development:
+Seven essential commands for Smalltalk development:
 
 - **`/st:init`** - Start development session and load workflow guidance (recommended for beginners)
+- **`/st:setup-project`** - Set up new Pharo project boilerplate structure (for starting from scratch)
 - **`/st:eval`** - Execute Smalltalk code snippets for testing and debugging
 - **`/st:import`** - Import Tonel packages into Pharo image
 - **`/st:export`** - Export packages from Pharo image to Tonel files
@@ -142,6 +144,45 @@ Automatically activated when analyzing method implementations. Provides:
 - Implementation-based usage narrowing
 
 **Triggers**: "find implementors", "who implements", "abstract method", "implementation pattern", etc.
+
+### Agents
+
+Autonomous agents that provide specialized assistance and can work independently on complex tasks.
+
+#### smalltalk-buddy
+
+A friendly development partner for Smalltalk programmers learning AI-assisted workflows. Provides:
+
+- Intelligent question routing to appropriate skills
+- Clear guidance on plugin usage and workflows
+- Support for development, debugging, and code understanding
+- Learning assistance for AI-powered development
+
+**Use cases**:
+- New to the plugin: "How do I use this plugin?"
+- Development help: "I want to add a method to calculate total price"
+- Debugging help: "Why does my test fail with MessageNotUnderstood?"
+- Code understanding: "What does the Collection class hierarchy do?"
+
+**Usage**: The agent automatically activates when you have questions about Smalltalk development, or you can invoke it directly for guidance.
+
+#### smalltalk-commenter
+
+Proactive documentation specialist that maintains high-quality class documentation. Provides:
+
+- Automatic detection of undocumented classes
+- Complexity-based prioritization for documentation needs
+- CRC (Class-Responsibility-Collaborator) format comment generation
+- Validation and user approval workflow
+
+**Proactive triggers**:
+- After 3+ Tonel files modified in session
+- Package creation with multiple new classes
+- Detection of missing or minimal class comments
+
+**User triggers**: "add class comments", "document classes", "check class documentation", "suggest CRC comments"
+
+**Usage**: The agent works proactively after file changes, or can be invoked directly to document classes in your packages.
 
 ### MCP Tools
 
@@ -275,21 +316,34 @@ smalltalk-dev-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata
 ├── .mcp.json                # MCP server configuration
+├── agents/
+│   ├── smalltalk-buddy.md   # Development guidance agent
+│   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
 │   ├── eval.md              # /st:eval command
 │   ├── export.md            # /st:export command
 │   ├── import.md            # /st:import command
+│   ├── init.md              # /st:init command
+│   ├── setup-project.md     # /st:setup-project command
 │   ├── test.md              # /st:test command
 │   └── validate.md          # /st:validate command
 ├── skills/
 │   ├── smalltalk-debugger/
-│   │   └── SKILL.md         # Debugging techniques
+│   │   ├── SKILL.md         # Debugging techniques
+│   │   ├── examples/        # Debug scenarios
+│   │   └── references/      # Error patterns, inspection techniques
 │   ├── smalltalk-developer/
-│   │   └── SKILL.md         # Development workflow
+│   │   ├── SKILL.md         # Development workflow
+│   │   ├── examples/        # Development sessions
+│   │   └── references/      # Best practices, Tonel format
 │   ├── smalltalk-implementation-finder/
-│   │   └── SKILL.md         # Implementation analysis
+│   │   ├── SKILL.md         # Implementation analysis
+│   │   ├── examples/        # Implementation scenarios
+│   │   └── references/      # Implementation analysis
 │   └── smalltalk-usage-finder/
-│       └── SKILL.md         # Usage exploration
+│       ├── SKILL.md         # Usage exploration
+│       ├── examples/        # Usage scenarios
+│       └── references/      # Usage analysis
 ├── hooks/
 │   └── hooks.json           # Event hooks
 ├── scripts/

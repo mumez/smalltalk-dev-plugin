@@ -24,6 +24,31 @@ Start a new Smalltalk development session. Loads the `smalltalk-developer` skill
 - Explains the standard development cycle
 - Lists available commands and tools
 
+### `/st:setup-project [ProjectName]`
+
+Set up Pharo project boilerplate structure from scratch. Creates standard package layout with BaselineOf, Core, and Tests packages.
+
+```bash
+/st:setup-project MyProject
+/st:setup-project
+```
+
+**Use for:**
+- Starting a new Pharo project from zero
+- Creating standard package structure
+- Generating baseline configuration automatically
+
+**What it creates:**
+- `.project` file with src directory configuration
+- `src/BaselineOfXXX/` with baseline class and package.st
+- `src/XXX-Core/` with package.st
+- `src/XXX-Tests/` with package.st
+- Baseline method with proper package dependencies
+
+**Requirements:**
+- Project name must be in PascalCase (e.g., MyProject, RedisClient)
+- Will not overwrite existing projects (stops if src/ contains packages)
+
 ### `/st:eval [code]`
 
 Execute Smalltalk code snippets for quick testing and debugging.

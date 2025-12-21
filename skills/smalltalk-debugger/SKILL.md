@@ -4,6 +4,7 @@ description: Use this skill when user says "test failed", "debug this error", "M
 model_selection:
   enabled: false
 triggers:
+  - "with smalltalk-debugger"
   - "test failed"
   - "debug"
   - "error"

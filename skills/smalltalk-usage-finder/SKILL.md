@@ -4,6 +4,7 @@ description: Use this skill when user asks "how to use X class?", "show usage ex
 model_selection:
   enabled: false
 triggers:
+  - "with smalltalk-usage-finder"
   - "how to use"
   - "how do I use"
   - "usage examples"
