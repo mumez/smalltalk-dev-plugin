@@ -1,12 +1,26 @@
 {
   "name": "smalltalk-dev",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Minimal Smalltalk development toolkit for AI-driven Pharo development",
   "author": {
     "name": "Masashi Umezawa"
   },
   "repository": "https://github.com/mumez/smalltalk-dev-plugin",
-  "commands": ["./commands/init.md", "./commands/eval.md", "./commands/export.md", "./commands/import.md", "./commands/test.md", "./commands/validate.md"],
-  "skills": ["./skills/smalltalk-debugger", "./skills/smalltalk-developer", "./skills/smalltalk-implementation-finder", "./skills/smalltalk-usage-finder"],
-  "mcpServers": ["./.mcp.json"]
+  "commands": [
+    "./commands/init.md",
+    "./commands/eval.md",
+    "./commands/export.md",
+    "./commands/import.md",
+    "./commands/test.md",
+    "./commands/validate.md"
+  ],
+  "skills": [
+    "./skills/smalltalk-debugger",
+    "./skills/smalltalk-developer",
+    "./skills/smalltalk-implementation-finder",
+    "./skills/smalltalk-usage-finder"
+  ],
+  "mcpServers": [
+    "./.mcp.json"
+  ]
 }
