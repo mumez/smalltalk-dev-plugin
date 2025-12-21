@@ -4,6 +4,7 @@ description: Use this skill when user asks to "create a Smalltalk class", "add a
 model_selection:
   enabled: false
 triggers:
+  - "with smalltalk-developer"
   - "create class"
   - "add method"
   - "implement"

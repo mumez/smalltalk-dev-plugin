@@ -4,6 +4,7 @@ description: Use this skill when user asks "who implements X?", "find implemento
 model_selection:
   enabled: false
 triggers:
+  - "with smalltalk-implementation-finder"
   - "find implementors"
   - "who implements"
   - "show implementations"
