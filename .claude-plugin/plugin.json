@@ -8,6 +8,7 @@
   "repository": "https://github.com/mumez/smalltalk-dev-plugin",
   "commands": [
     "./commands/init.md",
+    "./commands/setup-project.md",
     "./commands/eval.md",
     "./commands/export.md",
     "./commands/import.md",
