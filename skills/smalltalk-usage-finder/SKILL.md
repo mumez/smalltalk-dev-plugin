@@ -1,6 +1,6 @@
 ---
 name: smalltalk-usage-finder
-description: Use this skill when user asks "how to use X class?", "show usage examples", "what is X responsible for?", "find examples of Y", "what does this class do?", "package overview", or needs to understand Smalltalk code usage patterns, class responsibilities, or API usage from existing implementations.
+description: Use this skill when user asks "with smalltalk-usage-finder", "how to use X class?", "show usage examples", "what is X responsible for?", "find examples of Y", "what does this class do?", "package overview", or needs to understand Smalltalk code usage patterns, class responsibilities, or API usage from existing implementations.
 model_selection:
   enabled: false
 triggers:

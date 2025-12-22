@@ -1,6 +1,6 @@
 ---
 name: smalltalk-developer
-description: Use this skill when user asks to "create a Smalltalk class", "add a method to Pharo", "write Smalltalk code", "edit Tonel files", "import package to Pharo", "run Smalltalk tests", "implement in Pharo", or describes Pharo Smalltalk development tasks. Implements the standard Edit → Import → Test workflow for AI-driven Pharo development.
+description: Use this skill when user asks to - "with smalltalk-developer", "create a Smalltalk class", "add a method to Pharo", "write Smalltalk code", "edit Tonel files", "import package to Pharo", "run Smalltalk tests", "implement in Pharo", or describes Pharo Smalltalk development tasks. Implements the standard Edit → Import → Test workflow for AI-driven Pharo development.
 model_selection:
   enabled: false
 triggers:
