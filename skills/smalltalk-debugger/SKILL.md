@@ -1,6 +1,6 @@
 ---
 name: smalltalk-debugger
-description: Use this skill when user says "test failed", "debug this error", "MessageNotUnderstood", "MNU", "why is this failing?", "run partial code", "not responding", "timeout", or encounters Pharo Smalltalk exceptions, stack traces, or unexpected behavior. Provides systematic debugging approach with step-by-step investigation using eval tool and UI debugging for detecting debugger windows.
+description: Use this skill when user says "with smalltalk-debugger", "test failed", "debug this error", "MessageNotUnderstood", "MNU", "why is this failing?", "run partial code", "not responding", "timeout", or encounters Pharo Smalltalk exceptions, stack traces, or unexpected behavior. Provides systematic debugging approach with step-by-step investigation using eval tool and UI debugging for detecting debugger windows.
 model_selection:
   enabled: false
 triggers:
@@ -11,12 +11,10 @@ triggers:
   - "MessageNotUnderstood"
   - "stack trace"
   - "why failing"
-  - "inspect"
   - "investigate"
   - "verify behavior"
   - "run partially"
   - "not responding"
-  - "no response"
   - "hung"
   - "timeout"
   - "stuck"

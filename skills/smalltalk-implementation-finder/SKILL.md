@@ -1,6 +1,6 @@
 ---
 name: smalltalk-implementation-finder
-description: Use this skill when user asks "who implements X?", "find implementors of Y", "how is this method implemented?", "show implementations", "which classes override Z?", "abstract method implementations", or needs to analyze method implementations across classes, discover implementation patterns, understand subclass responsibilities, or assess refactoring impact by tracing implementations through class hierarchies.
+description: Use this skill when user asks "with smalltalk-implementation-finder", "who implements X?", "find implementors of Y", "how is this method implemented?", "show implementations", "which classes override Z?", "abstract method implementations", or needs to analyze method implementations across classes, discover implementation patterns, understand subclass responsibilities, or assess refactoring impact by tracing implementations through class hierarchies.
 model_selection:
   enabled: false
 triggers:

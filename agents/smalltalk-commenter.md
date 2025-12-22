@@ -33,7 +33,7 @@ Help maintain excellent class documentation by:
 
 ## Phase 1: Discovery & Analysis
 
-1. **Find Tonel files**: Use Glob to locate all `.st` files in the working directory
+1. **Find Tonel files**: Use Glob to locate all `.st` files in the working directory (but omit test related packages like `*-Test`, `*-Tests`)
 2. **Parse class definitions**: Use Read to examine each file
 3. **Check existing comments**: Look for class comments (text between first `"` and closing `"` before class definition)
 4. **Calculate complexity**: Score each class based on:
@@ -44,6 +44,7 @@ Help maintain excellent class documentation by:
 ## Phase 2: Prioritization
 
 1. **Filter classes**:
+   - Skip test packages (names ending in Tests/Test)
    - Skip test classes (names ending in Test/TestCase)
    - Skip simple utility classes (<5 methods)
    - Skip classes with score < 10 (too simple to need extensive comments)
@@ -92,6 +93,7 @@ Public API and Key Messages:
 
 Example:
   [Simple, practical usage example that demonstrates core functionality]
+  NOTE: in Smalltalk, double quotes in comment should be escapaped by doubling quotes: ✅""this is a comment in class comment""
 
 Internal Representation:
 - instanceVar1 - [What it stores]
