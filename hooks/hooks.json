@@ -1,7 +1,7 @@
 {
-  "FileChange": {
-    "patterns": ["*.st"],
-    "script": "${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
+  "PostToolUse": {
+    "tools": ["Write", "Edit"],
+    "prompt": "If the modified file matches *.st pattern, run: ${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
     "description": "Suggest import after Tonel file changes"
   },
   "SessionStart": {
