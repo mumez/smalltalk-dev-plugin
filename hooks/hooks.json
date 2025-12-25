@@ -1,11 +1,27 @@
 {
-  "PostToolUse": {
-    "tools": ["Write", "Edit"],
-    "prompt": "If the modified file matches *.st pattern, run: ${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
-    "description": "Suggest import after Tonel file changes"
-  },
-  "SessionStart": {
-    "script": "${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh",
-    "description": "Check Pharo MCP connection on startup"
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
   }
 }
