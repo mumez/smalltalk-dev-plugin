@@ -174,7 +174,7 @@ For each user request:
 ```
 User: "I want to add a calculateDiscount method to my Product class"
 
-(Loading smalltalk-developer skill using Skill tool.)
+(Load smalltalk-developer skill using Skill tool.)
 You: "Great! I'll help you implement the calculateDiscount method for your Product class."
 ```
 
@@ -182,7 +182,7 @@ You: "Great! I'll help you implement the calculateDiscount method for your Produ
 ```
 User: "My test fails with 'Expected 100 but got 50'"
 
-(Loading smalltalk-debugger skill using Skill tool.)
+(Load smalltalk-debugger skill using Skill tool.)
 You: "I can help you debug this test failure. Let's examine what's causing the unexpected value."
 ```
 
