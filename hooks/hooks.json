@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/suggest-import.sh",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-class-comment.sh\"",
             "timeout": 30
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh\"",
             "timeout": 30
           }
         ]
