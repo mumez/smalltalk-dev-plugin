@@ -16,31 +16,35 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 ## Usage
 
+### Quick Start
+
+The easiest way to use this plugin is to **talk to @smalltalk-buddy**:
+
+```
+You: "@smalltalk-buddy I want to create a Person class with name and age"
+AI:  I'll help you create that! [Creates Tonel files and guides you through the process]
+
+You: "@smalltalk-buddy How do I test this?"
+AI:  Let me run the tests for you... [Executes tests and shows results]
+
+You: "@smalltalk-buddy The test failed, can you help?"
+AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
+```
+
+**@smalltalk-buddy** is your friendly development partner that:
+- Understands what you want to do and routes to the right tools
+- Guides you through development, testing, and debugging
+- Helps you learn AI-assisted Smalltalk development
+- Works naturally through conversation
+
 ### Development Workflow
 
-This plugin enables a natural conversation-based workflow with AI:
+1. **Ask @smalltalk-buddy** what you want to do
+2. **AI implements** and manages the workflow (editing Tonel, importing, testing)
+3. **Review results** and continue the conversation
+4. **Iterate** until you're satisfied
 
-1. **Describe what you want**: "Create a Person class with name and age in Pharo Smalltalk"
-2. **AI implements**: Claude edits Tonel files and suggests import
-3. **Import to Pharo**: Confirm or run `/st:import PackageName /path`
-4. **Request testing**: "Test the Person class" or `/st:test PersonTest`
-5. **Debug if needed**: "The test failed, debug it" - AI uses `/st:eval` to investigate
-6. **Iterate**: Continue conversation to refine implementation
-
-**Example conversation:**
-```
-You: "I need a JSON parser for Redis responses in Pharo"
-AI:  Creates Tonel files, suggests /st:import RediStick-Json /home/user/project/src
-
-You: "Import and test it"
-AI:  Runs import, then /st:test RsJsonTest
-
-You: "Test failed with 'key not found' error"
-AI:  Uses /st:eval to debug, identifies issue, fixes Tonel, suggests re-import
-
-You: "Re-import and test again"
-AI:  Success! All tests pass.
-```
+For experienced users who prefer direct commands, see [Commands.md](Commands.md).
 
 ## Prerequisites
 
@@ -86,103 +90,51 @@ After installation, you should see the custom commands starting with `/st:`.
 
 ### Commands
 
-Seven essential commands for Smalltalk development:
+The plugin provides essential commands for Smalltalk development:
 
-- **`/st:init`** - Start development session and load workflow guidance (recommended for beginners)
-- **`/st:setup-project`** - Set up new Pharo project boilerplate structure (for starting from scratch)
-- **`/st:eval`** - Execute Smalltalk code snippets for testing and debugging
-- **`/st:import`** - Import Tonel packages into Pharo image
-- **`/st:export`** - Export packages from Pharo image to Tonel files
-- **`/st:test`** - Run SUnit tests
-- **`/st:validate`** - Validate Tonel syntax (rarely needed)
+- `/st:init`, `/st:setup-project`, `/st:eval`, `/st:import`, `/st:export`, `/st:test`, `/st:validate`
 
-For detailed usage and examples, see [Commands.md](Commands.md).
+**Most users won't need to use these commands directly** - @smalltalk-buddy will use them for you as needed.
+
+For command details and advanced usage, see [Commands.md](Commands.md).
 
 ### Skills
 
-#### smalltalk-developer
+The plugin includes specialized AI skills that activate automatically based on your needs:
 
-Automatically activated when working on Smalltalk development tasks. Provides:
+- **smalltalk-developer** - Development workflow and best practices
+- **smalltalk-debugger** - Error handling and debugging procedures
+- **smalltalk-usage-finder** - Code usage exploration and analysis
+- **smalltalk-implementation-finder** - Implementation discovery and patterns
 
-- Standard development workflow guidance
-- Import/test command suggestions
-- Best practices for Tonel editing
-- Path and timing recommendations
-
-**Triggers**: "Smalltalk development", "create class", "add method", "import package", etc.
-
-#### smalltalk-debugger
-
-Automatically activated when debugging is needed. Provides:
-
-- Error handling patterns
-- Step-by-step debugging procedures
-- Object inspection techniques
-- Common error solutions
-
-**Triggers**: "test failed", "error", "debug", "inspect", etc.
-
-#### smalltalk-usage-finder
-
-Automatically activated when exploring code usage. Provides:
-
-- Class responsibility discovery
-- Usage pattern analysis
-- Method usage examples
-- Package overview generation
-
-**Triggers**: "how to use", "find usage", "class responsibility", "package overview", etc.
-
-#### smalltalk-implementation-finder
-
-Automatically activated when analyzing method implementations. Provides:
-
-- Abstract method implementation discovery
-- Implementation pattern and idiom learning
-- Signature change impact assessment
-- Refactoring opportunity identification
-- Implementation-based usage narrowing
-
-**Triggers**: "find implementors", "who implements", "abstract method", "implementation pattern", etc.
+**These skills work behind the scenes** when you talk to @smalltalk-buddy, providing specialized knowledge for each task.
 
 ### Agents
 
-Autonomous agents that provide specialized assistance and can work independently on complex tasks.
+#### @smalltalk-buddy (Primary Interface)
 
-#### smalltalk-buddy
+**This is your main entry point for using the plugin.** A friendly development partner that:
 
-A friendly development partner for Smalltalk programmers learning AI-assisted workflows. Provides:
+- Routes your questions to the right skills and tools
+- Guides you through development, testing, and debugging workflows
+- Helps you learn AI-assisted Smalltalk development
+- Works naturally through conversation
 
-- Intelligent question routing to appropriate skills
-- Clear guidance on plugin usage and workflows
-- Support for development, debugging, and code understanding
-- Learning assistance for AI-powered development
+**Just ask what you want to do:**
+- "I want to create a new class..."
+- "How do I test this?"
+- "Why is this failing?"
+- "Show me how to use Collection"
 
-**Use cases**:
-- New to the plugin: "How do I use this plugin?"
-- Development help: "I want to add a method to calculate total price"
-- Debugging help: "Why does my test fail with MessageNotUnderstood?"
-- Code understanding: "What does the Collection class hierarchy do?"
+#### @smalltalk-commenter (Documentation Assistant)
 
-**Usage**: The agent automatically activates when you have questions about Smalltalk development, or you can invoke it directly for guidance.
+Automatically suggests class documentation improvements:
 
-#### smalltalk-commenter
+- Detects undocumented classes after file changes (occasionally, not every time)
+- Generates CRC-style class comments
+- Can be invoked directly: "document my classes"
 
-Proactive documentation specialist that maintains high-quality class documentation. Provides:
-
-- Automatic detection of undocumented classes
-- Complexity-based prioritization for documentation needs
-- CRC (Class-Responsibility-Collaborator) format comment generation
-- Validation and user approval workflow
-
-**Proactive triggers**:
-- After 3+ Tonel files modified in session
-- Package creation with multiple new classes
-- Detection of missing or minimal class comments
-
-**User triggers**: "add class comments", "document classes", "check class documentation", "suggest CRC comments"
-
-**Usage**: The agent works proactively after file changes, or can be invoked directly to document classes in your packages.
+**Works quietly in the background** - you'll get occasional suggestions to improve documentation.
 
 ### MCP Tools
 
@@ -314,43 +266,46 @@ SisServer current.  "Should show running server"
 ```
 smalltalk-dev-plugin/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin metadata
+│   ├── plugin.json          # Plugin metadata (v1.2.0)
+│   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
 ├── agents/
-│   ├── smalltalk-buddy.md   # Development guidance agent
+│   ├── smalltalk-buddy.md   # Primary development partner (main interface)
 │   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
-│   ├── eval.md              # /st:eval command
-│   ├── export.md            # /st:export command
-│   ├── import.md            # /st:import command
-│   ├── init.md              # /st:init command
-│   ├── setup-project.md     # /st:setup-project command
-│   ├── test.md              # /st:test command
-│   └── validate.md          # /st:validate command
+│   ├── init.md              # /st:init - Start development session
+│   ├── setup-project.md     # /st:setup-project - Project boilerplate
+│   ├── eval.md              # /st:eval - Execute Smalltalk code
+│   ├── import.md            # /st:import - Import Tonel packages
+│   ├── export.md            # /st:export - Export packages
+│   ├── test.md              # /st:test - Run SUnit tests
+│   └── validate.md          # /st:validate - Validate Tonel syntax
 ├── skills/
-│   ├── smalltalk-debugger/
-│   │   ├── SKILL.md         # Debugging techniques
-│   │   ├── examples/        # Debug scenarios
-│   │   └── references/      # Error patterns, inspection techniques
 │   ├── smalltalk-developer/
 │   │   ├── SKILL.md         # Development workflow
 │   │   ├── examples/        # Development sessions
 │   │   └── references/      # Best practices, Tonel format
-│   ├── smalltalk-implementation-finder/
-│   │   ├── SKILL.md         # Implementation analysis
-│   │   ├── examples/        # Implementation scenarios
-│   │   └── references/      # Implementation analysis
-│   └── smalltalk-usage-finder/
-│       ├── SKILL.md         # Usage exploration
-│       ├── examples/        # Usage scenarios
-│       └── references/      # Usage analysis
+│   ├── smalltalk-debugger/
+│   │   ├── SKILL.md         # Debugging techniques
+│   │   ├── examples/        # Debug scenarios
+│   │   └── references/      # Error patterns, inspection, UI debugging
+│   ├── smalltalk-usage-finder/
+│   │   ├── SKILL.md         # Usage exploration
+│   │   ├── examples/        # Usage scenarios
+│   │   └── references/      # Usage analysis
+│   └── smalltalk-implementation-finder/
+│       ├── SKILL.md         # Implementation analysis
+│       ├── examples/        # Implementation scenarios
+│       └── references/      # Implementation analysis
 ├── hooks/
-│   └── hooks.json           # Event hooks
+│   └── hooks.json           # PostToolUse & SessionStart hooks
 ├── scripts/
-│   ├── suggest-import.sh    # FileChange hook
-│   └── check-pharo-connection.sh  # SessionStart hook
+│   ├── check-pharo-connection.sh    # SessionStart hook (connection check)
+│   └── suggest-class-comment.sh     # PostToolUse hook (10% probability)
 ├── Commands.md              # Commands quick reference
-└── README.md
+├── README.md                # This file
+└── claudedocs/
+    └── test-scenarios.md    # Testing documentation
 ```
 
 ## Contributing
