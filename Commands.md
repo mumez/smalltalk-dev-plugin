@@ -4,6 +4,41 @@ Quick reference for all available slash commands. For detailed AI-driven usage, 
 
 ## Available Commands
 
+### `/st:buddy` ⭐ Recommended Entry Point
+
+Start your friendly Smalltalk development assistant. This is the easiest way to use the plugin.
+
+```bash
+/st:buddy
+```
+
+**Use for:**
+- Getting started with Smalltalk development
+- General questions about development, debugging, or code understanding
+- Guided workflows with automatic skill loading
+- Learning AI-assisted Smalltalk development
+
+**What it does:**
+- Provides a friendly, conversational interface
+- Routes questions to appropriate specialized skills
+- Guides through development, testing, and debugging workflows
+- Helps you learn effective AI development patterns
+
+**Example interaction:**
+```
+/st:buddy
+
+You: "I want to create a Person class with name and age"
+AI:  I'll help you create that! [Loads smalltalk-developer skill and guides implementation]
+
+You: "My test failed with MessageNotUnderstood"
+AI:  Let me help debug this... [Loads smalltalk-debugger skill and investigates]
+```
+
+**After running /st:buddy once**, you can simply ask questions naturally without prefixing commands.
+
+---
+
 ### `/st:init`
 
 Start a new Smalltalk development session. Loads the `smalltalk-developer` skill and explains the Edit → Import → Test workflow.
