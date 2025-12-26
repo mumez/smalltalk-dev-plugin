@@ -3,18 +3,24 @@
 
 PHARO_PORT="${PHARO_SIS_PORT:-8086}"
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🔧 Smalltalk Development Environment"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
-echo "📦 MCP Servers:"
-echo "   • pharo-interop: Pharo Smalltalk Interop"
-echo "   • smalltalk-validator: Tonel Validator"
-echo ""
-echo "🌐 Pharo Connection:"
-echo "   Expected port: $PHARO_PORT"
-echo "   Make sure PharoSmalltalkInteropServer is running"
-echo ""
-echo "💡 Quick Start:"
-echo "   Run /st:buddy to start your friendly development assistant"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# Display environment information
+cat >&2 <<EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 Smalltalk Development Environment
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 MCP Servers:
+   • pharo-interop: Pharo Smalltalk Interop
+   • smalltalk-validator: Tonel Validator
+
+🌐 Pharo Connection:
+   Expected port: $PHARO_PORT
+   Make sure PharoSmalltalkInteropServer is running
+
+💡 Quick Start:
+   Run /st:buddy to start your friendly development assistant
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+
+# Return success (no JSON needed for display-only hook)
+exit 0
