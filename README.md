@@ -4,7 +4,7 @@ Claude Code plugin for AI-driven Smalltalk (Pharo) development.
 
 ## Overview
 
-This plugin provides a minimal, practical toolkit for Smalltalk development using AI editors. It focuses on the essential workflow of editing Tonel files, importing them into Pharo, and running tests.
+This plugin provides a minimal, practical toolkit for Smalltalk development using AI agents. It focuses on the essential workflow of editing Tonel files, importing them into Pharo, and running tests.
 
 ## Features
 
@@ -18,20 +18,24 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 ### Quick Start
 
-The easiest way to use this plugin is to **talk to @smalltalk-buddy**:
+The easiest way to use this plugin is to use the **/st:buddy** command:
 
-```
-You: "@smalltalk-buddy I want to create a Person class with name and age"
+```bash
+# Start Smalltalk Buddy (once per session)
+/st:buddy
+
+# Then ask questions naturally
+You: "I want to create a Person class with name and age"
 AI:  I'll help you create that! [Creates Tonel files and guides you through the process]
 
-You: "@smalltalk-buddy How do I test this?"
+You: "How do I test this?"
 AI:  Let me run the tests for you... [Executes tests and shows results]
 
-You: "@smalltalk-buddy The test failed, can you help?"
+You: "The test failed, can you help?"
 AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 ```
 
-**@smalltalk-buddy** is your friendly development partner that:
+**/st:buddy** is your friendly development partner that:
 - Understands what you want to do and routes to the right tools
 - Guides you through development, testing, and debugging
 - Helps you learn AI-assisted Smalltalk development
@@ -39,10 +43,11 @@ AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 
 ### Development Workflow
 
-1. **Ask @smalltalk-buddy** what you want to do
-2. **AI implements** and manages the workflow (editing Tonel, importing, testing)
-3. **Review results** and continue the conversation
-4. **Iterate** until you're satisfied
+1. **Run /st:buddy** once at the start of your session
+2. **Ask questions** naturally about what you want to do
+3. **AI implements** and manages the workflow (editing Tonel, importing, testing)
+4. **Review results** and continue the conversation
+5. **Iterate** until you're satisfied
 
 For experienced users who prefer direct commands, see [Commands.md](Commands.md).
 
@@ -92,9 +97,16 @@ After installation, you should see the custom commands starting with `/st:`.
 
 The plugin provides essential commands for Smalltalk development:
 
-- `/st:init`, `/st:setup-project`, `/st:eval`, `/st:import`, `/st:export`, `/st:test`, `/st:validate`
+- `/st:buddy` - Start your friendly Smalltalk development assistant (recommended starting point)
+- `/st:init` - Load smalltalk-developer skill and explain workflow
+- `/st:setup-project` - Set up Pharo project structure
+- `/st:eval` - Execute Smalltalk code snippets
+- `/st:import` - Import Tonel packages to Pharo
+- `/st:export` - Export packages from Pharo
+- `/st:test` - Run SUnit tests
+- `/st:validate` - Validate Tonel syntax
 
-**Most users won't need to use these commands directly** - @smalltalk-buddy will use them for you as needed.
+**Most users should start with /st:buddy** - it will guide you and use the other commands as needed.
 
 For command details and advanced usage, see [Commands.md](Commands.md).
 
@@ -107,24 +119,9 @@ The plugin includes specialized AI skills that activate automatically based on y
 - **smalltalk-usage-finder** - Code usage exploration and analysis
 - **smalltalk-implementation-finder** - Implementation discovery and patterns
 
-**These skills work behind the scenes** when you talk to @smalltalk-buddy, providing specialized knowledge for each task.
+**These skills work behind the scenes** when you use /st:buddy, providing specialized knowledge for each task.
 
 ### Agents
-
-#### @smalltalk-buddy (Primary Interface)
-
-**This is your main entry point for using the plugin.** A friendly development partner that:
-
-- Routes your questions to the right skills and tools
-- Guides you through development, testing, and debugging workflows
-- Helps you learn AI-assisted Smalltalk development
-- Works naturally through conversation
-
-**Just ask what you want to do:**
-- "I want to create a new class..."
-- "How do I test this?"
-- "Why is this failing?"
-- "Show me how to use Collection"
 
 #### @smalltalk-commenter (Documentation Assistant)
 
@@ -270,9 +267,9 @@ smalltalk-dev-plugin/
 │   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
 ├── agents/
-│   ├── smalltalk-buddy.md   # Primary development partner (main interface)
 │   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
+│   ├── buddy.md             # /st:buddy - Friendly development assistant
 │   ├── init.md              # /st:init - Start development session
 │   ├── setup-project.md     # /st:setup-project - Project boilerplate
 │   ├── eval.md              # /st:eval - Execute Smalltalk code

@@ -14,13 +14,14 @@ Help maintain excellent class documentation by:
 2. Prioritizing complex classes that need documentation most
 3. Generating accurate, helpful CRC-format class comments
 4. Ensuring all changes are validated and user-approved
+5. Avoid class comments that are too long (over 200 lines). Concise is better.
+
+
 
 # When You're Invoked
 
 **Proactive triggers** (automatically suggest):
-- After 3+ Tonel (.st) files have been modified in the session
-- After package creation with multiple new classes
-- When you notice classes with missing or minimal comments
+- By hook, "Consider running @smalltalk-commenter"
 
 **Reactive triggers** (user requests):
 - "add class comments"
@@ -72,7 +73,7 @@ For each class the user approves:
    - Who does it collaborate with?
    - What's its public API?
 
-3. **Generate CRC comment** following this template:
+3. **Generate CRC style class comment** following this template:
 
 ```smalltalk
 "
@@ -104,6 +105,9 @@ Implementation Points:
 - [Performance considerations]
 - [Thread safety notes if applicable]
 "
+
+(Actual smalltalk tonel source code follows)
+
 ```
 
 ## Phase 4: Application
