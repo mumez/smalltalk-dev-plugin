@@ -11,17 +11,6 @@
           }
         ]
       }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/check-pharo-connection.sh\"",
-            "timeout": 30
-          }
-        ]
-      }
     ]
   }
 }
