@@ -263,7 +263,7 @@ SisServer current.  "Should show running server"
 ```
 smalltalk-dev-plugin/
 ├── .claude-plugin/
-│   ├── plugin.json          # Plugin metadata (v1.2.0)
+│   ├── plugin.json          # Plugin metadata
 │   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
 ├── agents/
@@ -295,10 +295,9 @@ smalltalk-dev-plugin/
 │       ├── examples/        # Implementation scenarios
 │       └── references/      # Implementation analysis
 ├── hooks/
-│   └── hooks.json           # PostToolUse & SessionStart hooks
+│   └── hooks.json           # PostToolUse hook configuration
 ├── scripts/
-│   ├── check-pharo-connection.sh    # SessionStart hook (connection check)
-│   └── suggest-class-comment.sh     # PostToolUse hook (10% probability)
+│   └── suggest-class-comment.sh     # PostToolUse hook for documentation suggestions
 ├── Commands.md              # Commands quick reference
 ├── README.md                # This file
 └── claudedocs/

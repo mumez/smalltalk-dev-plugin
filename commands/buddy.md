@@ -3,6 +3,7 @@ name: st:buddy
 description: Friendly Smalltalk development assistant - helps with development questions, debugging, code understanding, and plugin usage
 allowed-tools:
   - Skill
+  - Task
   - Read
   - Grep
   - Glob
