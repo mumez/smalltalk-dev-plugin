@@ -1,6 +1,6 @@
 ---
 name: smalltalk-developer
-description: This skill should be used when the user asks to "How do I write a class in Pharo?", "How to add a method to a Smalltalk class", "continue developing Pharo code", "refactor Smalltalk code", "load edited packages to Pharo", "import Tonel files", "run Smalltalk tests", "follow standard workflow in Pharo Smalltalk development", "Edit → Import → Test with /st* commands", or needs guidance on efficient Pharo Smalltalk development practices using the Tonel format and AI editors.
+description: Comprehensive development workflow guide interacting Pharo Smalltalk. This skill should be used when the user asks to "How do I write a class in Pharo?", "How to add a method to a Smalltalk class", "continue developing Pharo code", "refactor Smalltalk code", "load edited packages to Pharo", "import Tonel files", "run Smalltalk tests", "follow standard workflow in Pharo Smalltalk development", "Edit → Import → Test with /st* commands", or needs guidance on efficient Pharo Smalltalk development practices using the Tonel format and AI editors.
 ---
 
 # Smalltalk Developer Workflow

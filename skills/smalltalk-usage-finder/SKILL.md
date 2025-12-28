@@ -1,6 +1,6 @@
 ---
 name: smalltalk-usage-finder
-description: This skill should be used when the user asks "find with smalltalk-usage-finder", "how to use X class in Pharo?", "show usage examples in Pharo Smalltalk", "what is ClassA responsible for?", "find examples of ClassA>>methodX:y:", "what does this class do in Pharo?", "Explain this Smalltalk package overview", or needs to understand Pharo Smalltalk code usage patterns, class responsibilities, or API usage from existing implementations.
+description: Code usage finder for Pharo Smalltalk. This skill should be used when the user asks "find with smalltalk-usage-finder", "how to use X class in Pharo?", "show usage examples in Pharo Smalltalk", "what is ClassA responsible for?", "find examples of ClassA>>methodX:y:", "what does this class do in Pharo?", "Explain this Smalltalk package overview", or needs to understand Pharo Smalltalk code usage patterns, class responsibilities, or API usage from existing implementations.
 ---
 
 # Smalltalk Usage Finder
