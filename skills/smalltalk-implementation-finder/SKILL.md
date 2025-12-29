@@ -1,6 +1,6 @@
 ---
 name: smalltalk-implementation-finder
-description: Code implementations finder for Pharo Smalltalk. This skill should be used when user asks "find with smalltalk-implementation-finder", "who implements X in Pharo?", "find implementors of Y in Smalltalk", "how is this method implemented in Pharo?", "show implementations of ClassA>>methodA", "which classes override ClassA>>methodA?", or needs to analyze method implementations across classes, discover implementation patterns, understand subclass responsibilities, or assess refactoring impact by tracing implementations through class hierarchies in Pharo Smalltalk.
+description: Method implementation finder and analyzer for Pharo Smalltalk. Provides expertise in discovering implementors across class hierarchies (search_implementors), analyzing implementation patterns, learning coding idioms from existing implementations, assessing refactoring impact (counting implementors and references), finding duplicate code for consolidation, understanding abstract method implementations (subclassResponsibility), and tracing method overrides through inheritance chains. Use when analyzing method implementations across classes, learning implementation idioms, assessing refactoring risk before changes, finding duplicate implementations for consolidation, understanding how abstract methods are implemented in concrete classes, or tracing which classes override specific methods.
 ---
 
 # Smalltalk Implementation Finder

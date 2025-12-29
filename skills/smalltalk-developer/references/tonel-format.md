@@ -80,6 +80,142 @@ Class {
 }
 ```
 
+## Class Comments
+
+Class comments are crucial documentation in Smalltalk. They explain the purpose, responsibilities, and usage of a class.
+
+### Correct Format: Double Quotes at Top of File
+
+**✅ CORRECT**: Class comments MUST be placed at the very beginning of the `.st` file, enclosed in double quotes `""`, BEFORE the `Class { }` definition:
+
+```smalltalk
+"
+I represent a person with basic demographic information.
+
+Responsibility:
+- Store and manage personal data (name, age)
+- Provide formatted output of person information
+- Validate age constraints
+
+Collaborators:
+- String: For name formatting
+- Integer: For age storage
+
+Public API and Key Messages:
+- #fullName - Returns formatted full name
+- #age: - Sets age with validation
+- #initialize - Sets default values
+
+Example:
+  person := Person new
+      firstName: 'John';
+      lastName: 'Doe';
+      age: 30;
+      yourself.
+  person fullName. ""Returns 'John Doe'""
+
+Internal Representation:
+- firstName - String containing first name
+- lastName - String containing last name
+- age - Integer for person's age (>= 0)
+"
+
+Class {
+    #name : #Person,
+    #superclass : #Object,
+    #instVars : [
+        'firstName',
+        'lastName',
+        'age'
+    ],
+    #category : #'MyPackage-Model'
+}
+
+{ #category : #accessing }
+Person >> firstName [
+    ^ firstName
+]
+
+...
+```
+
+### CRITICAL: Common Mistake to Avoid
+
+**❌ WRONG**: Do NOT place comments inside the `Class { }` definition using `#comment :`:
+
+```smalltalk
+Class {
+    #name : #Person,
+    #comment : 'This represents a person',  ← This will be IGNORED!
+    #superclass : #Object,
+    #instVars : [
+        'firstName',
+        'lastName'
+    ],
+    #category : #'MyPackage-Model'
+}
+```
+
+**Why this is wrong:**
+- The `#comment : 'text'` syntax inside `Class { }` CAN be imported to Pharo
+- However, it will be **completely ignored** and won't appear as a class comment in the image
+- Pharo only recognizes comments in the `""` format at the top of the file
+
+### Class Comment Best Practices
+
+1. **First-person perspective**: Write as if the class is speaking ("I represent...", "I maintain...")
+2. **CRC format**: Cover Class, Responsibility, Collaborators
+3. **Include examples**: Show practical usage with real code
+4. **Escape quotes**: Use `""` to include quotes within comments
+5. **Be concise**: Aim for clarity over length (avoid >200 lines)
+6. **Document public API**: List key methods and their purposes
+7. **Explain internal state**: Describe important instance variables
+
+### Minimal Class Comment Example
+
+For simpler classes, a shorter comment is acceptable:
+
+```smalltalk
+"
+I represent a point in 2D space with x and y coordinates.
+
+Example:
+  point := Point x: 10 y: 20.
+  point distanceTo: (Point x: 0 y: 0). ""Returns 22.36...""
+"
+
+Class {
+    #name : #Point,
+    #superclass : #Object,
+    #instVars : [
+        'x',
+        'y'
+    ],
+    #category : #'Geometry-Core'
+}
+```
+
+### Quote Escaping in Comments
+
+Since comments are delimited by `"`, you must escape internal quotes by doubling them:
+
+```smalltalk
+"
+Example with quotes:
+  ""This text appears in quotes""
+  person name: ""John"". ""Sets the name""
+"
+```
+
+**Important:** Single quotes don't need escaping:
+
+```smalltalk
+"
+Example:
+  person name: 'John'.  ← Single quotes work as-is
+"
+```
+
 ## Method Definition Format
 
 ### Basic Method Syntax
