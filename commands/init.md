@@ -27,14 +27,66 @@ Start a new Pharo Smalltalk development session by loading the `smalltalk-develo
 ## Implementation
 
 This command:
-1. Uses the `Skill` tool to load `smalltalk-developer` skill
-2. Runs a connection test using `eval` to verify Pharo is ready
-3. Presents the development workflow overview
-4. Lists available commands and tools
+1. **Checks for existing project structure** - Verifies if `.project` file or `src/` directory exists
+2. **Prompts for setup if needed** - If no project structure found, suggests running `/st:setup-project` first
+3. Uses the `Skill` tool to load `smalltalk-developer` skill
+4. Runs a connection test using `eval` to verify Pharo is ready
+5. Presents the development workflow overview
+6. Lists available commands and tools
+
+### Project Detection Logic
+
+Before loading the skill and showing commands, check if a Pharo project exists in the current directory:
+
+```bash
+# Check if project structure exists
+if [ ! -f ".project" ] && [ ! -d "src" ]; then
+  echo "⚠️  No Pharo project structure detected in current directory"
+  echo ""
+  echo "It looks like you're starting fresh. I recommend setting up a project structure first:"
+  echo ""
+  echo "  /st:setup-project MyProjectName"
+  echo ""
+  echo "This will create:"
+  echo "  • .project configuration file"
+  echo "  • src/ directory with package structure"
+  echo "  • BaselineOf class for dependency management"
+  echo "  • Core and Tests packages"
+  echo ""
+  echo "Would you like to run /st:setup-project now, or continue with initialization?"
+  exit 0
+fi
+```
+
+**Detection criteria:**
+- ✅ **Project exists**: If `.project` file OR `src/` directory exists → Continue with normal initialization
+- ⚠️ **No project**: If neither exists → Show setup-project recommendation and pause
+
+**Important:** This check should happen BEFORE loading the skill and BEFORE the connection test.
 
 ## Expected Output
 
-After running `/st:init`, you'll see:
+### If No Project Structure Exists
+
+```
+⚠️  No Pharo project structure detected in current directory
+
+It looks like you're starting fresh. I recommend setting up a project structure first:
+
+  /st:setup-project MyProjectName
+
+This will create:
+  • .project configuration file
+  • src/ directory with package structure
+  • BaselineOf class for dependency management
+  • Core and Tests packages
+
+Would you like to run /st:setup-project now, or continue with initialization?
+```
+
+### If Project Structure Exists
+
+After running `/st:init` in a directory with an existing project, you'll see:
 
 - ✅ Smalltalk developer skill loaded
 - ✅ Pharo connection verified (or error message if not connected)
