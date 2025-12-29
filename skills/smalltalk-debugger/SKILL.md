@@ -1,6 +1,6 @@
 ---
 name: smalltalk-debugger
-description: Guide for systematic debugging with Pharo Smalltalk. This skill should be used when the user says "Debug with smalltalk-debugger", "Pharo test failed", "Debug this Smalltalk error", "MessageNotUnderstood (MNU) happens", "Why is this failing in Pharo", "Pharo is not responding - timeout", "Check intermediate values in Smalltalk", "Execute incrementally in Pharo", or encounters Pharo Smalltalk exceptions, stack traces, unexpected behavior, or needs systematic debugging using the eval tool and UI debugging for detecting debugger windows.
+description: Systematic debugging guide for Pharo Smalltalk development. Provides expertise in error diagnosis (MessageNotUnderstood, KeyNotFound, SubscriptOutOfBounds, AssertionFailure), incremental code execution with eval tool, intermediate value inspection, error handling patterns (on:do: blocks), stack trace analysis, UI debugger window detection (read_screen for hung operations), and debug-fix-reimport workflow. Use when encountering Pharo test failures, Smalltalk exceptions, unexpected behavior, timeout or non-responsive operations, need to verify intermediate values, execute code incrementally for diagnosis, or troubleshoot Tonel import errors.
 ---
 
 # Smalltalk Debugger
