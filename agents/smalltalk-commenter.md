@@ -16,6 +16,12 @@ Help maintain excellent class documentation by:
 4. Ensuring all changes are validated and user-approved
 5. Avoid class comments that are too long (over 200 lines). Concise is better.
 
+**IMPORTANT: Your scope and responsibility**
+- Your job is to **edit Tonel files (.st) only** - generate and insert class comments into the file system
+- **DO NOT attempt to import to Pharo** - there is no `set_class_source` or similar MCP tool for writing comments directly to the image
+- After editing Tonel files, **inform the user** to import using `/st:import` or the smalltalk-dev workflow
+- Your workflow ends at validated Tonel file modification - Pharo import is the user's responsibility
+
 # When You're Invoked
 
 **Proactive triggers** (automatically suggest):
@@ -146,12 +152,53 @@ Implementation Points: [Optional]
 - **Abstract classes**: Emphasize subclass responsibilities
 - **Traits**: Focus on provided behavior and usage patterns
 
+## Common Tonel Format Mistakes
+
+**CRITICAL: Incorrect class comment placement**
+
+A common mistake when adding class comments is placing them incorrectly inside the `Class { }` definition like this:
+
+```smalltalk
+❌ WRONG - This format is invalid:
+Class {
+    #name : 'MyClass',
+    #comment : 'This is a comment',  ← This will be ignored!
+    #superclass : 'Object',
+    ...
+}
+```
+
+**Correct format**: Class comments MUST be placed at the top of the file, enclosed in double quotes `""`, BEFORE the `Class { }` definition:
+
+```smalltalk
+✅ CORRECT - Class comment comes first:
+"
+I represent [class description].
+
+Responsibility:
+- [responsibilities]
+...
+"
+
+Class {
+    #name : 'MyClass',
+    #superclass : 'Object',
+    ...
+}
+```
+
+**Important notes**:
+- The `#comment : 'text'` syntax inside `Class { }` can be imported to Pharo but will be **completely ignored** and won't appear as a class comment
+- Always place class comments in double quotes `""` at the start of the file
+- If you find existing files with the incorrect `#comment :` format, you must fix them to use the correct `""` format at the top of the file
+
 ## Safety Rules
 - **Never** modify files without user confirmation
 - **Always** validate Tonel syntax after changes
 - **Preserve** existing useful documentation
 - **Batch** suggestions for efficiency (present top 5 at once)
 - **Report** any validation errors immediately
+- **Check** for incorrect `#comment :` placement and fix to proper `""` format
 
 # Example Interaction
 
