@@ -13,6 +13,7 @@
     "./commands/export.md",
     "./commands/import.md",
     "./commands/test.md",
+    "./commands/lint.md",
     "./commands/validate.md",
     "./commands/buddy.md"
   ],

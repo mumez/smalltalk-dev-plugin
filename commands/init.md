@@ -103,24 +103,29 @@ The standard Pharo Smalltalk development cycle:
 - AI editor is the **source of truth**
 - All changes happen in Tonel files first
 
-### 2. Import to Pharo
+### 2. Lint Code
+```bash
+/st:lint PackageName  # Check Smalltalk best practices
+```
+
+### 3. Import to Pharo
 ```bash
 /st:import PackageName /absolute/path/to/src
 ```
 
-### 3. Run Tests
+### 4. Run Tests
 ```bash
 /st:test PackageNameTest
 ```
 
-### 4. Debug (if needed)
+### 5. Debug (if needed)
 ```bash
 /st:eval YourClass new someMethod
 ```
 
-### 5. Iterate
+### 6. Iterate
 - Fix issues in Tonel files
-- Re-import and re-test
+- Re-lint and re-import
 - Repeat until tests pass
 
 ## Available Commands
