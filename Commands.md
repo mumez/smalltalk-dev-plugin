@@ -98,6 +98,27 @@ Execute Smalltalk code snippets for quick testing and debugging.
 - Quick code testing
 - Debugging with error handling patterns
 
+### `/st:lint [path]`
+
+Lint Tonel files for Smalltalk best practices before importing.
+
+```bash
+/st:lint src/MyPackage
+/st:lint src/MyPackage/MyClass.st
+/st:lint src
+```
+
+**Use for:**
+- Checking code quality before import
+- Ensuring Smalltalk best practices
+- Finding common code issues early
+
+**What it checks:**
+- Class prefix (name collision prevention)
+- Method length (15 lines standard, 40 for UI/tests)
+- Instance variable count (max 10)
+- Direct instance variable access (use accessors)
+
 ### `/st:import [PackageName] [path]`
 
 Import Tonel packages into running Pharo image.
@@ -110,6 +131,12 @@ Import Tonel packages into running Pharo image.
 **Use for:**
 - Loading changes after editing Tonel files
 - Re-importing after fixes
+
+**Recommended workflow:**
+1. Edit Tonel files
+2. Run `/st:lint` to check quality
+3. Run `/st:import` to load into Pharo
+4. Run `/st:test` to verify
 
 ### `/st:export [PackageName] [path]`
 

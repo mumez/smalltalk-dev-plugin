@@ -101,6 +101,7 @@ The plugin provides essential commands for Smalltalk development:
 - `/st:init` - Load smalltalk-developer skill and explain workflow
 - `/st:setup-project` - Set up Pharo project structure
 - `/st:eval` - Execute Smalltalk code snippets
+- `/st:lint` - Check code quality and best practices
 - `/st:import` - Import Tonel packages to Pharo
 - `/st:export` - Export packages from Pharo
 - `/st:test` - Run SUnit tests
@@ -201,6 +202,19 @@ claude plugin install smalltalk-dev
 ```
 
 ## Best Practices
+
+### Development Workflow
+1. **Edit** Tonel files (AI editor is the source of truth)
+2. **Lint** code with `/st:lint` to check quality
+3. **Import** to Pharo with absolute paths
+4. **Test** after every import
+
+### Code Quality
+- Use `/st:lint` before importing to catch issues early
+- Add class prefixes to avoid name collisions
+- Keep methods focused (15 lines standard, 40 for UI/tests)
+- Limit instance variables (max 10 per class)
+- Access instance variables through methods, not directly
 
 ### Path Management
 - Always use absolute paths for imports

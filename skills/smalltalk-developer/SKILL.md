@@ -26,13 +26,20 @@ For detailed Tonel syntax and examples, see [Tonel Format Reference](references/
 
 ### 2. Import to Pharo
 
-After editing, import the package into the running Pharo image using absolute paths:
+**Before importing**, run lint to check code quality:
+
+```
+/st:lint src/MyPackage   # Check Smalltalk best practices
+```
+
+Then import the package into the running Pharo image using absolute paths:
 
 ```
 mcp__smalltalk-interop__import_package: 'MyPackage' path: '/home/user/project/src'
 ```
 
 **Critical rules:**
+- ✅ **Lint before import** - Check code quality first
 - ✅ Always use **absolute paths** (never relative)
 - ✅ Re-import after **every change**
 - ✅ Import packages in **dependency order**
@@ -221,6 +228,8 @@ This skill provides focused guidance for the core workflow. For comprehensive in
 ```
 Edit .st file
     ↓
+Lint code (/st:lint)
+    ↓
 Import package (absolute path)
     ↓
 Run tests
@@ -230,4 +239,4 @@ Tests pass? → Done
 Tests fail? → Debug with /st:eval → Fix .st file → Re-import
 ```
 
-**Remember**: The cycle is Edit → Import → Test. Never skip import or tests.
+**Remember**: The cycle is Edit → Lint → Import → Test. Never skip lint, import, or tests.
