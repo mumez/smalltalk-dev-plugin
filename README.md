@@ -290,6 +290,7 @@ smalltalk-dev-plugin/
 │   ├── import.md            # /st:import - Import Tonel packages
 │   ├── export.md            # /st:export - Export packages
 │   ├── test.md              # /st:test - Run SUnit tests
+│   ├── lint.md              # /st:lint - Check code quality
 │   └── validate.md          # /st:validate - Validate Tonel syntax
 ├── skills/
 │   ├── smalltalk-developer/
