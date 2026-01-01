@@ -182,12 +182,16 @@ The MCP server returns lint results in this format:
     {
       "severity": "warning",
       "message": "No class prefix: Person (consider adding project prefix)",
-      "line_number": null
+      "class_name": "Person",
+      "selector": null,
+      "is_class_method": false
     },
     {
       "severity": "warning",
       "message": "Method 'complexProcess' long: 22 lines (recommended: 15)",
-      "line_number": null
+      "class_name": "Person",
+      "selector": "complexProcess",
+      "is_class_method": false
     }
   ],
   "issues_count": 2,
