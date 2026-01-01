@@ -258,6 +258,7 @@ I've loaded the **smalltalk-developer** skill to help you with the Edit → Impo
 
 **Development Workflow:**
 1. **Edit** Tonel files in your editor (AI is the source of truth)
+2. **Lint** Tonel files `/st:lint /path/to/src`
 2. **Import** to Pharo: `/st:import PackageName /path/to/src`
 3. **Test**: `/st:test TestClassName`
 4. **Debug** if needed: `/st:eval YourClass new method`
@@ -271,6 +272,7 @@ I've loaded the **smalltalk-developer** skill to help you with the Edit → Impo
 
 **Available Commands:**
 - `/st:import` - Import Tonel packages
+- `/st:lint` - Lint Tonel packages
 - `/st:test` - Run SUnit tests
 - `/st:eval` - Execute code snippets
 - `/st:export` - Export packages (when needed)

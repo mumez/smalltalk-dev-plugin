@@ -146,10 +146,12 @@ The plugin exposes all tools from both MCP servers:
 - `search_implementors`, `search_references`: Code navigation
 - And more...
 
-**smalltalk-validator** (3 tools):
+**smalltalk-validator** (5 tools):
 - `validate_tonel_smalltalk_from_file`: File validation
 - `validate_tonel_smalltalk`: Content validation
 - `validate_smalltalk_method_body`: Method validation
+- `lint_tonel_smalltalk_from_file`: File linting
+- `lint_tonel_smalltalk`: Content linting
 
 ## Configuration
 
@@ -290,6 +292,7 @@ smalltalk-dev-plugin/
 │   ├── import.md            # /st:import - Import Tonel packages
 │   ├── export.md            # /st:export - Export packages
 │   ├── test.md              # /st:test - Run SUnit tests
+│   ├── lint.md              # /st:lint - Check code quality
 │   └── validate.md          # /st:validate - Validate Tonel syntax
 ├── skills/
 │   ├── smalltalk-developer/
