@@ -177,27 +177,22 @@ The MCP server returns lint results in this format:
 ```json
 {
   "success": true,
-  "result": {
-    "issues": [
-      {
-        "type": "warning",
-        "rule": "class_prefix",
-        "message": "No class prefix: Person (consider adding project prefix)",
-        "line": 2
-      },
-      {
-        "type": "warning",
-        "rule": "method_length",
-        "message": "Method 'complexProcess' too long: 22 lines",
-        "line": 45
-      }
-    ],
-    "summary": {
-      "files_analyzed": 1,
-      "warnings": 2,
-      "errors": 0
+  "file_path": "/path/to/MyClass.st",
+  "issue_list": [
+    {
+      "severity": "warning",
+      "message": "No class prefix: Person (consider adding project prefix)",
+      "line_number": null
+    },
+    {
+      "severity": "warning",
+      "message": "Method 'complexProcess' long: 22 lines (recommended: 15)",
+      "line_number": null
     }
-  }
+  ],
+  "issues_count": 2,
+  "warnings_count": 2,
+  "errors_count": 0
 }
 ```
 
