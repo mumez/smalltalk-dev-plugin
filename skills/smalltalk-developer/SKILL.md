@@ -220,6 +220,7 @@ See [Best Practices: Error Handling](references/best-practices.md#error-handling
 This skill provides focused guidance for the core workflow. For comprehensive information:
 
 - **[Tonel Format Reference](references/tonel-format.md)** - Complete Tonel syntax guide
+- **[Style Guide](references/style-guide.md)** - Idiomatic Smalltalk patterns and concise coding practices
 - **[Best Practices](references/best-practices.md)** - Detailed practices and patterns
 - **[Development Examples](examples/development-sessions.md)** - Real-world session workflows
 
