@@ -105,6 +105,80 @@ condition ifTrue: [ ^ true ].
 ^ condition
 ```
 
+## Avoid Accessing Instance Variables Directly
+
+A fundamental Smalltalk idiom is to access instance variables through accessor methods rather than directly.
+
+### Define Accessors for Instance Variables
+
+When you have an instance variable `count`, define accessor methods:
+
+```smalltalk
+count
+	^ count
+
+count: aValue
+	count := aValue
+```
+
+### Use Accessors Instead of Direct Access
+
+```smalltalk
+❌ Direct access:
+increment
+	count := count + 1
+
+✅ Use accessors:
+increment
+	self count: self count + 1
+```
+
+### Why Use Accessors?
+
+Accessors serve as **hooks** that enable future enhancements without changing client code:
+
+**Validation:**
+```smalltalk
+count: aValue
+	count := aValue asInteger abs  "Ensure count is positive integer"
+```
+
+**Lazy initialization:**
+```smalltalk
+count
+	count ifNil: [ count := 0 ].  "Initialize on first access"
+	^ count
+```
+
+**Data transformation:**
+```smalltalk
+count: aValue
+	count := aValue max: 0  "Prevent negative values"
+```
+
+### Exception: Initialize Methods
+
+Direct assignment is acceptable in `initialize` methods since their purpose is explicit initialization:
+
+```smalltalk
+✅ Direct assignment in initialize:
+initialize
+	super initialize.
+	count := 0.
+	items := OrderedCollection new
+```
+
+**Why**: `initialize` is called immediately after `new` and has a clear contract to set up initial state.
+
+### Benefits of This Pattern
+
+1. **Extensibility**: Add validation, transformation, or logging without changing callers
+2. **Debugging**: Set breakpoints in accessors to track variable changes
+3. **Lazy initialization**: Defer object creation until needed
+4. **Encapsulation**: Hide internal representation details
+
+This is a traditional Smalltalk practice that provides flexibility for future requirements.
+
 ## Common Idioms Summary
 
 | Pattern | Verbose | Concise |
@@ -115,6 +189,7 @@ condition ifTrue: [ ^ true ].
 | Not-nil check | `x notNil ifTrue: [...]` | `x ifNotNil: [...]` |
 | Boolean comparison | `flag = true` | `flag` |
 | Negation | `flag = false` | `flag not` |
+| Instance variable access | `count := count + 1` | `self count: self count + 1` |
 
 ## When to Use These Patterns
 
