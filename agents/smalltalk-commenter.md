@@ -92,7 +92,40 @@ Class {
 }
 ```
 
-Basically just add the comment part at the beginning of the tonel file. " is the start/end marker for the comment part. 
+Basically just add the comment part at the beginning of the tonel file. " is the start/end marker for the comment part.
+
+**CRITICAL: Escaping Rules in Class Comments**
+
+Since class comments are enclosed in double quotes `"..."`, and double quotes in Smalltalk represent comments:
+
+1. **To include double quote characters inside the class comment, double them**:
+   - ✅ CORRECT: `The ""factory"" pattern is used here`
+   - ❌ WRONG: `The "factory" pattern is used here` (will break parsing)
+
+2. **To add a comment-like note within the class comment, double the quotes**:
+   - ✅ CORRECT: `""TODO: refactor this logic""`
+   - ✅ CORRECT: `""Note: This assumes non-nil input""`
+
+3. **Single quotes (strings) need NO escaping**:
+   - ✅ CORRECT: `Use 'default' as the initial value`
+   - ✅ CORRECT: `I cache at: 'key' put: 'value'`
+
+4. **Example with proper escaping**:
+   ```smalltalk
+   "
+   I represent a configuration manager using the ""singleton"" pattern.
+
+   Example:
+     config := ConfigManager uniqueInstance.
+     config at: 'name' put: 'MyApp'.
+     ""This returns the stored value""
+     config at: 'name'.
+
+   Implementation Points:
+   - I use a ""lazy initialization"" strategy
+   - ""WARNING: Not thread-safe in current implementation""
+   "
+   ```
 
 Here is template details:
 
@@ -139,8 +172,7 @@ If the user requested to add examples, add Examples section before Internal Repr
 ```
 Example: [Optional]
   [Simple, practical usage example that demonstrates core functionality]
-  NOTE: double quotes in class comment should be escapaped by doubling them up: ✅""this is a comment in comment""
-  NOTE: No need to escape single quotes.
+  NOTE: Remember to apply escaping rules (see above) - double quotes must be doubled: ""like this""
 ```
 
 ## Phase 4: Application
@@ -192,7 +224,7 @@ Class {
 }
 ```
 
-**Correct format**: Class comments MUST be placed at the top of the file, enclosed in double quotes `""`, BEFORE the `Class { }` definition:
+**Correct format**: Class comments MUST be placed at the top of the file, enclosed in double quotes `"<comment>"`, BEFORE the `Class { }` definition:
 
 ```smalltalk
 ✅ CORRECT - Class comment comes first:
