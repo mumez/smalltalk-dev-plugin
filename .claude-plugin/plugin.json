@@ -1,6 +1,6 @@
 {
   "name": "smalltalk-dev",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
   "author": {
     "name": "Masashi Umezawa"
