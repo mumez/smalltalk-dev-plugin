@@ -81,6 +81,54 @@ For each class the user approves:
 
 ### Template
 
+Here is the class comment structure in tonel: 
+
+```
+"
+<generated comment>
+"
+Class {
+   ...
+}
+```
+
+Basically just add the comment part at the beginning of the tonel file. " is the start/end marker for the comment part.
+
+**CRITICAL: Escaping Rules in Class Comments**
+
+Since class comments are enclosed in double quotes `"..."`, and double quotes in Smalltalk represent comments:
+
+1. **To include double quote characters inside the class comment, double them**:
+   - ✅ CORRECT: `The ""factory"" pattern is used here`
+   - ❌ WRONG: `The "factory" pattern is used here` (will break parsing)
+
+2. **To add a comment-like note within the class comment, double the quotes**:
+   - ✅ CORRECT: `""TODO: refactor this logic""`
+   - ✅ CORRECT: `""Note: This assumes non-nil input""`
+
+3. **Single quotes (strings) need NO escaping**:
+   - ✅ CORRECT: `Use 'default' as the initial value`
+   - ✅ CORRECT: `I cache at: 'key' put: 'value'`
+
+4. **Example with proper escaping**:
+   ```smalltalk
+   "
+   I represent a configuration manager using the ""singleton"" pattern.
+
+   Example:
+     config := ConfigManager uniqueInstance.
+     config at: 'name' put: 'MyApp'.
+     ""This returns the stored value""
+     config at: 'name'.
+
+   Implementation Points:
+   - I use a ""lazy initialization"" strategy
+   - ""WARNING: Not thread-safe in current implementation""
+   "
+   ```
+
+Here is template details:
+
 ```smalltalk
 "
 I represent [one-line summary in first person].
@@ -99,11 +147,6 @@ Public API and Key Messages:
 - #anotherMessage: - [What it does, key parameters]
 NOTE: Avoid listing all public methods. Just extract key ones.
 
-Example: [Optional]
-  [Simple, practical usage example that demonstrates core functionality]
-  NOTE: in Smalltalk, double quotes in comment should be escapaped by doubling quotes: ✅""this is a comment in comment""
-  NOTE: This escape is necessary because " is the start and end marker for comments. No need to escape single quotes.
-
 Internal Representation: [Optional]
 - instanceVar1 - [What it stores]
 - instanceVar2 - [What it stores]
@@ -116,7 +159,20 @@ Implementation Points: [Optional]
 "
 
 (Actual smalltalk tonel source code follows)
+Class {
+	#name : 'MyObject',
+	#superclass : 'Object',
+   ...
+}
 
+```
+
+If the user requested to add examples, add Examples section before Internal Representation:
+
+```
+Example: [Optional]
+  [Simple, practical usage example that demonstrates core functionality]
+  NOTE: Remember to apply escaping rules (see above) - double quotes must be doubled: ""like this""
 ```
 
 ## Phase 4: Application
@@ -168,7 +224,7 @@ Class {
 }
 ```
 
-**Correct format**: Class comments MUST be placed at the top of the file, enclosed in double quotes `""`, BEFORE the `Class { }` definition:
+**Correct format**: Class comments MUST be placed at the top of the file, enclosed in double quotes `"<comment>"`, BEFORE the `Class { }` definition:
 
 ```smalltalk
 ✅ CORRECT - Class comment comes first:
@@ -179,7 +235,6 @@ Responsibility:
 - [responsibilities]
 ...
 "
-
 Class {
     #name : 'MyClass',
     #superclass : 'Object',
@@ -189,8 +244,7 @@ Class {
 
 **Important notes**:
 - The `#comment : 'text'` syntax inside `Class { }` can be imported to Pharo but will be **completely ignored** and won't appear as a class comment
-- Always place class comments in double quotes `""` at the start of the file
-- If you find existing files with the incorrect `#comment :` format, you must fix them to use the correct `""` format at the top of the file
+- If you find existing files with the incorrect `#comment :` format, you must remove the entry and place the content before the `Class { }` definition. 
 
 ## Safety Rules
 - **Never** modify files without user confirmation
@@ -198,7 +252,7 @@ Class {
 - **Preserve** existing useful documentation
 - **Batch** suggestions for efficiency (present top 5 at once)
 - **Report** any validation errors immediately
-- **Check** for incorrect `#comment :` placement and fix to proper `""` format
+- **Check** for incorrect `#comment :` placement and fix to proper format
 
 # Example Interaction
 
