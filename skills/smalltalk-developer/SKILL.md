@@ -24,6 +24,8 @@ Edit Tonel files directly in the AI editor. The AI editor is the **single source
 
 For detailed Tonel syntax and examples, see [Tonel Format Reference](references/tonel-format.md).
 
+Follow the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
+
 ### 2. Import to Pharo
 
 **Before importing**, run lint to check code quality:
