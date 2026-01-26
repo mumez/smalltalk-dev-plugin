@@ -164,7 +164,7 @@ if [ -n "$HOOKS_FILE" ]; then
   "hooks": {
     "afterFileEdit": [
       {
-        "command": "./.cursor/scripts/suggest-class-comment.sh"
+        "command": "./scripts/suggest-class-comment.sh"
       }
     ]
   }
@@ -172,14 +172,15 @@ if [ -n "$HOOKS_FILE" ]; then
 EOF
 fi
 
-# Copy scripts directory (needed for hooks)
-if [ -d "$PROJECT_ROOT/scripts" ]; then
-    echo "Copying scripts directory..."
-    mkdir -p "$CURSOR_DIR/scripts"
-    if [ -f "$PROJECT_ROOT/scripts/suggest-class-comment.sh" ]; then
-        cp "$PROJECT_ROOT/scripts/suggest-class-comment.sh" "$CURSOR_DIR/scripts/"
-        chmod +x "$CURSOR_DIR/scripts/suggest-class-comment.sh"
-    fi
+# Copy Cursor-specific hook script
+CURSOR_HOOK_SCRIPT="$PROJECT_ROOT/extra/suggest-class-comment_cursor.sh"
+if [ -f "$CURSOR_HOOK_SCRIPT" ]; then
+    echo "Copying Cursor hook script..."
+    mkdir -p "$TARGET_DIR/scripts"
+    cp "$CURSOR_HOOK_SCRIPT" "$TARGET_DIR/scripts/suggest-class-comment.sh"
+    chmod +x "$TARGET_DIR/scripts/suggest-class-comment.sh"
+else
+    echo "⚠️  Warning: Cursor hook script not found at $CURSOR_HOOK_SCRIPT"
 fi
 
 echo ""
@@ -193,8 +194,8 @@ echo "  - mcp.json (MCP server configuration)"
 if [ -f "$CURSOR_DIR/hooks.json" ]; then
     echo "  - hooks.json (afterFileEdit hooks)"
 fi
-if [ -d "$CURSOR_DIR/scripts" ]; then
-    echo "  - scripts/ (hook scripts)"
+if [ -d "$TARGET_DIR/scripts" ]; then
+    echo "  - scripts/suggest-class-comment.sh (hook script)"
 fi
 echo ""
 echo "Note: Command references have been converted from /st:name to /st-name format."
