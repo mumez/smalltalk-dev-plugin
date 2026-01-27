@@ -176,9 +176,9 @@ fi
 CURSOR_HOOK_SCRIPT="$PROJECT_ROOT/extra/suggest-class-comment_cursor.sh"
 if [ -f "$CURSOR_HOOK_SCRIPT" ]; then
     echo "Copying Cursor hook script..."
-    mkdir -p "$TARGET_DIR/scripts"
-    cp "$CURSOR_HOOK_SCRIPT" "$TARGET_DIR/scripts/suggest-class-comment.sh"
-    chmod +x "$TARGET_DIR/scripts/suggest-class-comment.sh"
+    mkdir -p "$CURSOR_DIR/scripts"
+    cp "$CURSOR_HOOK_SCRIPT" "$CURSOR_DIR/scripts/suggest-class-comment.sh"
+    chmod +x "$CURSOR_DIR/scripts/suggest-class-comment.sh"
 else
     echo "⚠️  Warning: Cursor hook script not found at $CURSOR_HOOK_SCRIPT"
 fi
@@ -194,7 +194,7 @@ echo "  - mcp.json (MCP server configuration)"
 if [ -f "$CURSOR_DIR/hooks.json" ]; then
     echo "  - hooks.json (afterFileEdit hooks)"
 fi
-if [ -d "$TARGET_DIR/scripts" ]; then
+if [ -d "$CURSOR_DIR/scripts" ]; then
     echo "  - scripts/suggest-class-comment.sh (hook script)"
 fi
 echo ""
