@@ -49,7 +49,7 @@ AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 4. **Review results** and continue the conversation
 5. **Iterate** until you're satisfied
 
-For experienced users who prefer direct commands, see [Commands.md](Commands.md).
+For experienced users who prefer direct commands, see [Commands.md](doc/Commands.md).
 
 ## Prerequisites
 
