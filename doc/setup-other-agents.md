@@ -2,9 +2,9 @@
 
 This plugin is designed for Claude Code, but can also be used with other AI agents via setup scripts provided in the `extra/` directory. Currently supported:
 
-- **Cursor**
-- **Windsurf**
-- **Antigravity**
+- [Cursor](https://cursor.com/)
+- [Windsurf](https://windsurf.com/)
+- [Antigravity](https://antigravity.google/)
 
 ## Prerequisites
 

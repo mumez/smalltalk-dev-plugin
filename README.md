@@ -1,6 +1,8 @@
 # smalltalk-dev Plugin
 
-Claude Code plugin for AI-driven Smalltalk (Pharo) development.
+[Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
+
+> Also available for [Cursor, Windsurf, and Antigravity](doc/setup-other-agents.md).
 
 ## Overview
 
