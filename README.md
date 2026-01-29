@@ -49,7 +49,7 @@ AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 4. **Review results** and continue the conversation
 5. **Iterate** until you're satisfied
 
-For experienced users who prefer direct commands, see [Commands.md](Commands.md).
+For experienced users who prefer direct commands, see [Commands.md](doc/Commands.md).
 
 ## Prerequisites
 
@@ -60,6 +60,8 @@ Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInt
 ### 2. Claude Code
 
 Install [Claude Code](https://github.com/anthropics/claude-code).
+
+> **Other AI agents**: If you use Cursor, Windsurf, or Antigravity instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
 
 ## Installation
 
@@ -109,7 +111,7 @@ The plugin provides essential commands for Smalltalk development:
 
 **Most users should start with /st:buddy** - it will guide you and use the other commands as needed.
 
-For command details and advanced usage, see [Commands.md](Commands.md).
+For command details and advanced usage, see [Commands.md](doc/Commands.md).
 
 ### Skills
 
@@ -315,7 +317,14 @@ smalltalk-dev-plugin/
 │   └── hooks.json           # PostToolUse hook configuration
 ├── scripts/
 │   └── suggest-class-comment.sh     # PostToolUse hook for documentation suggestions
-├── Commands.md              # Commands quick reference
+├── extra/
+│   ├── setup-cursor.sh              # Setup script for Cursor
+│   ├── setup-windsurf.sh            # Setup script for Windsurf
+│   ├── setup-antigravity.sh         # Setup script for Antigravity
+│   └── suggest-class-comment_cursor.sh # Hook script for Cursor
+├── doc/
+│   ├── Commands.md                  # Commands quick reference
+│   └── setup-other-agents.md       # Setup guide for other AI agents
 ├── README.md                # This file
 └── claudedocs/
     └── test-scenarios.md    # Testing documentation
