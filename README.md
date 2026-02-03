@@ -37,6 +37,8 @@ You: "The test failed, can you help?"
 AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 ```
 
+> https://github.com/user-attachments/assets/7d27ac29-e696-4a7b-8c71-d1404f67c67a
+
 **/st:buddy** is your friendly development partner that:
 - Understands what you want to do and routes to the right tools
 - Guides you through development, testing, and debugging
