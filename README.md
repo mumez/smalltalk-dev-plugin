@@ -334,6 +334,18 @@ smalltalk-dev-plugin/
     └── test-scenarios.md    # Testing documentation
 ```
 
+## Presentation
+
+- [Introducing smalltalk-dev Plugin](https://mumez.github.io/smalltalk-dev-plugin-slides/introducing-smalltalk-dev-plugin-en.html)
+
+## Examples
+
+Projects built with this plugin:
+
+- [smalltalk-dev-plugin-money-example](https://github.com/mumez/smalltalk-dev-plugin-money-example) - Multi-currency Money class with arithmetic operations and exchange rate conversion
+- [smalltalk-dev-plugin-graph-example](https://github.com/mumez/smalltalk-dev-plugin-graph-example) - Directed weighted graph with Dijkstra's shortest-path algorithm
+- [smalltalk-dev-plugin-gui-example](https://github.com/mumez/smalltalk-dev-plugin-gui-example) - Interactive to-do list app built with the Spec2 framework
+
 ## Contributing
 
 Contributions are welcome! Please:
