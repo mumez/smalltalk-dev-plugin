@@ -36,11 +36,13 @@ Most Smalltalk projects follow these conventions:
    - `pharo-local/iceberg/...` (Iceberg working copies)
 
 2. **Project metadata**: Check `.project` file in project root:
-   ```json
+   **If `.project` does not exist**, create it using Pharo's format (single quotes, tab indentation):
+   ```
    {
-     "srcDirectory": "src"
+   	'srcDirectory' : 'src'
    }
    ```
+   The `.project` file is **required** for Pharo to locate the source directory. Always create it when setting up a new project structure.
 
 3. **Typical project layout**:
    ```
@@ -378,6 +380,16 @@ Add JSON serialization support to RediStick
 ### Pitfall 7: Ignoring Error Messages
 **Problem**: Repeated failures without understanding root cause
 **Solution**: Read error messages carefully, use `/st:eval` to debug
+
+### Pitfall 8: Forgetting .project File When Creating Project Structure
+**Problem**: Creating `src/` directories and `package.st` files but forgetting the `.project` file in the project root
+**Solution**: When creating a new project structure from scratch, **always** create the `.project` file first. Use Pharo's format with single quotes:
+```
+{
+	'srcDirectory' : 'src'
+}
+```
+**Tip**: Use `/st:setup-project` command which handles all required files automatically.
 
 ## Summary Checklist
 

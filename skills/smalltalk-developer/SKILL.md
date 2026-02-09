@@ -126,9 +126,10 @@ See [Best Practices: File Editing](references/best-practices.md#file-editing-phi
 ### Pattern 1: Creating New Class
 
 ```
-1. Create src/MyPackage/MyClass.st with class definition
-2. import_package: 'MyPackage' path: '/absolute/path/src'
-3. run_class_test: 'MyClassTest'
+1. Ensure .project file exists in project root (create if missing - see Best Practices)
+2. Create src/MyPackage/MyClass.st with class definition
+3. import_package: 'MyPackage' path: '/absolute/path/src'
+4. run_class_test: 'MyClassTest'
 ```
 
 ### Pattern 2: Adding Methods

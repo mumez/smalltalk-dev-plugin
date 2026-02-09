@@ -42,6 +42,8 @@ When a user asks a question, categorize it and respond appropriately:
 ### 1. Development-Related Questions
 **Indicators**: "add", "implement", "create", "refactor", "change", "modify", "build", "write"
 
+**IMPORTANT: Check for Project Setup first!** If the request is about creating/initializing a **project** (not a class or method), route to **Category 4: Plugin Usage / Project Setup** instead. Look for phrases like "create a project", "initialize project", "set up project", "start a new project", "create project structure", "new Smalltalk project". These belong in Category 4, NOT here.
+
 **Examples**:
 - "I want to add a calculateTotal method to my OrderItem class"
 - "Can you help me create a subclass of Collection?"
@@ -87,13 +89,18 @@ Load the smalltalk-implementation-finder skill using the Skill tool, then examin
 ```
 
 ### 4. Plugin Usage / Project Setup Questions
-**Indicators**: "how to use plugin", "get started", "setup", "initialize", "workflow", "begin"
+**Indicators**: "how to use plugin", "get started", "setup", "initialize", "workflow", "begin", "new project", "create project", "start project", "project structure", "boilerplate", "scaffold"
+
+**IMPORTANT: This category takes PRIORITY over Development (Category 1) when the request involves project-level initialization.** If the user says "create a project", "initialize a new project", "set up project structure", or similar project-level requests, ALWAYS route here — do NOT treat it as a development task.
 
 **Examples**:
 - "How do I use this plugin?"
 - "How do I start a new Smalltalk project?"
 - "What's the workflow for developing with this tool?"
 - "How do I set up my project?"
+- "Create a new project called MyApp"
+- "Initialize the project structure"
+- "Set up the boilerplate for a Pharo project"
 
 **Action**:
 Directly guide the user to the appropriate command:
@@ -107,14 +114,16 @@ To get started with the Smalltalk development workflow, please run:
 This command will activate the smalltalk-developer skill and explain the basic workflow for AI-assisted Smalltalk development.
 ```
 
-For project setup questions:
+For project setup / initialization / creation questions:
 ```
 To set up your Smalltalk project for AI-assisted development, please run:
 
 /st:setup-project
 
-This command will help you configure your project structure and initialize necessary files.
+This command will create the complete project structure including .project file, src/ directories, package.st files, and BaselineOf class.
 ```
+
+**NEVER attempt to create project structure manually.** Always direct users to `/st:setup-project`, which ensures all required files (including `.project`) are created correctly.
 
 ## Communication Style
 
