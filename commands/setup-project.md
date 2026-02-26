@@ -79,7 +79,7 @@ mkdir -p src/${PROJECT_NAME}-Tests
 
 ### 5. Create .project File
 
-**If `.project` does NOT exist**, create it with Pharo's JSON-like format (using single quotes):
+**If `.project` does NOT exist**, create it with Pharo's JSON-like STON format (using single quotes):
 
 ```bash
 cat > .project << 'EOF'
@@ -89,12 +89,25 @@ cat > .project << 'EOF'
 EOF
 ```
 
+### 6. Create .properties File in src directory
+
+**If `.properties` does NOT exist**, create it with Pharo's JSON-like STON format (using #):
+
+```bash
+cat > "src/.properties" << EOF
+{
+	#format : #tonel
+}
+EOF
+fi
+```
+
 **Important:**
 - Use single quotes (Pharo's format, not standard JSON)
 - Only create if file doesn't exist
 - Use tab for indentation
 
-### 6. Create package.st Files
+### 7. Create package.st Files
 
 Create `package.st` in each package directory:
 
@@ -119,7 +132,7 @@ Package { #name : '${PROJECT_NAME}-Tests' }
 EOF
 ```
 
-### 7. Create BaselineOf Class File
+### 8. Create BaselineOf Class File
 
 Create `src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st` with the baseline definition:
 
@@ -160,7 +173,7 @@ sed -i "s/\${PROJECT_NAME}/${PROJECT_NAME}/g" "src/BaselineOf${PROJECT_NAME}/Bas
 - Include proper Tonel class definition format
 - Baseline method includes all package dependencies and groups
 
-### 8. Show Success Message
+### 9. Show Success Message
 
 Display created structure:
 
@@ -228,7 +241,16 @@ if [ ! -f ".project" ]; then
 EOF
 fi
 
-# Step 6: Create package.st files
+# Step 6: Create src/.properties if it doesn't exist
+if [ ! -f "src/.properties" ]; then
+  cat > "src/.properties" << EOF
+{
+	#format : #tonel
+}
+EOF
+fi
+
+# Step 7: Create package.st files
 cat > "src/BaselineOf${PROJECT_NAME}/package.st" << EOF
 Package { #name : 'BaselineOf${PROJECT_NAME}' }
 EOF
@@ -241,7 +263,7 @@ cat > "src/${PROJECT_NAME}-Tests/package.st" << EOF
 Package { #name : '${PROJECT_NAME}-Tests' }
 EOF
 
-# Step 7: Create BaselineOf class file
+# Step 8: Create BaselineOf class file
 cat > "src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st" << 'EOF'
 Class {
 	#name : 'BaselineOfPROJECT_NAME',
@@ -275,7 +297,7 @@ else
   sed -i '' "s/PROJECT_NAME/${PROJECT_NAME}/g" "src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st"
 fi
 
-# Step 8: Show success message
+# Step 9: Show success message
 echo "✓ Pharo project '${PROJECT_NAME}' created successfully!"
 echo ""
 echo "Project structure:"
