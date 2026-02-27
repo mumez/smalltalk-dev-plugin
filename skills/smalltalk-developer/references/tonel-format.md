@@ -45,7 +45,8 @@ Class {
     #classVars : [
         'ClassVariable'
     ],
-    #category : #'MyPackage'
+    #category : 'MyPackage',
+    #package : 'MyPackage'
 }
 ```
 
@@ -61,7 +62,42 @@ Class {
         'age',
         'email'
     ],
-    #category : #'MyPackage-Model'
+    #category : 'MyPackage-Model',
+    #package : 'MyPackage-Model'
+}
+```
+
+### Class with Class Instance Variables
+
+```smalltalk
+Class {
+	#name : #MySingleton,
+	#superclass : #Object,
+	#instVars : [
+		'settings'
+	],
+	#classInstVars : [
+		'soleInstance'
+	],
+	#category : 'MyPackage-Core',
+	#package : 'MyPackage-Core'
+}
+```
+
+### Class with Pool Dictionaries
+
+```smalltalk
+Class {
+	#name : #MyPoolImportingClass,
+	#superclass : #Object,
+	#instVars : [
+		'instanceVariable1'
+	],
+	#pools : [
+		'AxxConstants'
+	],
+	#category : 'MyPackage-FFI',
+	#package : 'MyPackage-FFI'
 }
 ```
 
@@ -159,7 +195,7 @@ Class {
 **Why this is wrong:**
 - The `#comment : 'text'` syntax inside `Class { }` CAN be imported to Pharo
 - However, it will be **completely ignored** and won't appear as a class comment in the image
-- Pharo only recognizes comments in the `""` format at the top of the file
+- Pharo only recognizes comments in the `"comment text"` format at the top of the file
 
 ### Class Comment Best Practices
 
@@ -285,10 +321,12 @@ Collection >> select: aBlock [
 Test classes inherit from `TestCase`:
 
 ```smalltalk
-TestCase subclass: #MyClassTest
-    instanceVariableNames: ''
-    classVariableNames: ''
-    package: 'MyPackage-Tests'
+Class {
+    #name : #MyClassTest,
+    #superclass : #TestCase,
+    #category : 'MyPackage-Tests',
+    #package: 'MyPackage-Tests'
+}
 ```
 
 ### Test Methods
