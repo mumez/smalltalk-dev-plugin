@@ -291,15 +291,15 @@ smalltalk-dev-plugin/
 ├── agents/
 │   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
-│   ├── buddy.md             # /st:buddy - Friendly development assistant
-│   ├── init.md              # /st:init - Start development session
-│   ├── setup-project.md     # /st:setup-project - Project boilerplate
-│   ├── eval.md              # /st:eval - Execute Smalltalk code
-│   ├── import.md            # /st:import - Import Tonel packages
-│   ├── export.md            # /st:export - Export packages
-│   ├── test.md              # /st:test - Run SUnit tests
-│   ├── lint.md              # /st:lint - Check code quality
-│   └── validate.md          # /st:validate - Validate Tonel syntax
+│   ├── st-buddy.md          # /st:buddy - Friendly development assistant
+│   ├── st-init.md           # /st:init - Start development session
+│   ├── st-setup-project.md  # /st:setup-project - Project boilerplate
+│   ├── st-eval.md           # /st:eval - Execute Smalltalk code
+│   ├── st-import.md         # /st:import - Import Tonel packages
+│   ├── st-export.md         # /st:export - Export packages
+│   ├── st-test.md           # /st:test - Run SUnit tests
+│   ├── st-lint.md           # /st:lint - Check code quality
+│   └── st-validate.md       # /st:validate - Validate Tonel syntax
 ├── skills/
 │   ├── smalltalk-developer/
 │   │   ├── SKILL.md         # Development workflow

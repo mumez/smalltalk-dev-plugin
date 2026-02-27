@@ -104,7 +104,7 @@ echo "Generating workflows for commands..."
 for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
     filename=$(basename -- "$cmd_file")
     name="${filename%.*}"
-    workflow_name="st-${name}"
+    workflow_name="${name}"
     target_file="$ANTIGRAVITY_DIR/$WORKFLOWS_DIR_NAME/$workflow_name.md"
     
     # Check if workflow already exists

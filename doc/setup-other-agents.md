@@ -32,7 +32,7 @@ Non-interactive mode (overwrites without confirmation):
 ### What the script does
 
 - Creates `.cursor/` directory structure
-- Copies commands with `st-` prefix (e.g., `init.md` -> `st-init.md`)
+- Copies commands (filenames already have `st-` prefix)
 - Copies skills and agents
 - Copies `.mcp.json` as `.cursor/mcp.json`
 - Creates `hooks.json` for `afterFileEdit` event
@@ -40,7 +40,7 @@ Non-interactive mode (overwrites without confirmation):
 
 ### Notes
 
-- Cursor uses the filename as the command name, so commands are prefixed with `st-` instead of using the `st:` namespace
+- Cursor uses the filename as the command name; command files already use the `st-` prefix
 - Command references in files are automatically rewritten from `/st:name` to `/st-name`
 - Restart Cursor after setup to recognize the new configuration
 
