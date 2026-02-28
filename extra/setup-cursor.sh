@@ -7,9 +7,6 @@
 #   ./extra/setup-cursor.sh -y [target-directory]  # Non-interactive mode
 #
 # If target-directory is not specified, uses the repository root.
-#
-# Note: Cursor uses filename as command name, so commands are prefixed with 'st-'
-#       (e.g., init.md -> st-init.md)
 
 set -e
 
@@ -84,25 +81,25 @@ copy_directory() {
     cp -r "$src" "$dst"
 }
 
-# Copy commands with st- prefix (Cursor uses filename as command name)
-echo "Copying commands with st- prefix..."
+# Copy commands (filenames already have st- prefix)
+echo "Copying commands..."
 for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
     if [ -f "$cmd_file" ]; then
         filename=$(basename -- "$cmd_file")
-        target_file="$CURSOR_DIR/commands/st-$filename"
+        target_file="$CURSOR_DIR/commands/$filename"
 
         if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-            echo "⚠️  Warning: st-$filename already exists."
+            echo "⚠️  Warning: $filename already exists."
             read -p "Overwrite? (y/N): " -n 1 -r
             echo
             if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping st-$filename..."
+                echo "Skipping $filename..."
                 continue
             fi
         fi
 
         cp "$cmd_file" "$target_file"
-        echo "  Copied st-$filename"
+        echo "  Copied $filename"
     fi
 done
 
@@ -111,10 +108,6 @@ copy_directory "$PROJECT_ROOT/skills" "$CURSOR_DIR/skills" "skills"
 
 # Copy agents
 copy_directory "$PROJECT_ROOT/agents" "$CURSOR_DIR/agents" "agents"
-
-# Global refactor of command references (/st:name -> /st-name)
-echo "Refactoring command references globally (/st:name -> /st-name)..."
-find "$CURSOR_DIR" -type f -name "*.md" -exec sed -i 's/\/st:\([a-zA-Z0-9_-]\+\)/\/st-\1/g' {} +
 
 # Copy .mcp.json
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
@@ -187,7 +180,7 @@ echo ""
 echo "✅ Setup complete!"
 echo ""
 echo "The following have been copied to .cursor/:"
-echo "  - commands/ (custom slash commands with st- prefix)"
+echo "  - commands/ (custom slash commands)"
 echo "  - skills/ (AI skills)"
 echo "  - agents/ (AI agents)"
 echo "  - mcp.json (MCP server configuration)"
@@ -198,5 +191,4 @@ if [ -d "$CURSOR_DIR/scripts" ]; then
     echo "  - scripts/suggest-class-comment.sh (hook script)"
 fi
 echo ""
-echo "Note: Command references have been converted from /st:name to /st-name format."
 echo "Cursor may require restart to recognize the new configuration."

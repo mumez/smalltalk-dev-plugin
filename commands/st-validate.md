@@ -1,5 +1,5 @@
 ---
-name: st:validate
+name: st-validate
 description: Validate Tonel syntax (optional, modern AI usually generates correct Tonel)
 allowed-tools:
   - mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
@@ -14,8 +14,8 @@ Optional validation before import. Modern AI usually generates correct Tonel.
 ## Usage
 
 ```bash
-/st:validate /path/to/file.st
-/st:validate /path/to/package/MyClass.st
+/st-validate /path/to/file.st
+/st-validate /path/to/package/MyClass.st
 ```
 
 ## Implementation
@@ -32,14 +32,14 @@ Uses `validate_tonel_smalltalk_from_file` from smalltalk-validator MCP server.
 
 ```bash
 # Validate with options
-/st:validate /path/to/file.st --structure-only
+/st-validate /path/to/file.st --structure-only
 ```
 
 ## Examples
 
 ```bash
 # Validate single file
-/st:validate /home/user/project/src/MyPackage/MyClass.st
+/st-validate /home/user/project/src/MyPackage/MyClass.st
 
 # Validate method body directly
 mcp__smalltalk-validator__validate_smalltalk_method_body: '^ self name asUppercase'

@@ -104,7 +104,7 @@ echo "Generating workflows for commands..."
 for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
     filename=$(basename -- "$cmd_file")
     name="${filename%.*}"
-    workflow_name="st-${name}"
+    workflow_name="${name}"
     target_file="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$workflow_name.md"
 
     # Check if workflow already exists
@@ -121,7 +121,7 @@ for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
     echo "Generating $workflow_name.md..."
     cat > "$target_file" <<EOL
 ---
-description: Run /st:$name command
+description: Run /$name command
 ---
 
 1. Read the command instructions at \`$WINDSURF_DIR_NAME/prompts/$filename\`
@@ -158,11 +158,6 @@ description: Run $name agent
 2. Adopt the persona and follow the instructions in that file.
 EOL
 done
-
-# Global refactor of command references (/st:name -> /st-name)
-echo "Refactoring command references globally (/st:name -> /st-name)..."
-# Target skills, prompts, workflows, and agents
-find "$WINDSURF_DIR" -type f -name "*.md" -exec sed -i 's/\/st:\([a-zA-Z0-9_-]\+\)/\/st-\1/g' {} +
 
 # Copy MCP config to user scope
 # Windsurf uses ~/.codeium/windsurf/mcp_config.json
@@ -207,5 +202,4 @@ echo "  - $WINDSURF_DIR_NAME/prompts/ (command prompt files)"
 echo "  - $WINDSURF_DIR_NAME/agents/ (AI agents)"
 echo "  - MCP config: ${target_mcp:-~/.codeium/windsurf/mcp_config.json}"
 echo ""
-echo "Note: Command references have been converted from /st:name to /st-name format."
 echo "Windsurf may require restart to recognize the new configuration."

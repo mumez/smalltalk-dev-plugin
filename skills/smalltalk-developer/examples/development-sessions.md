@@ -364,7 +364,7 @@ PersonTest >> testFullName [
 ]
 ```
 
-**Step 2: Use `/st:eval` to Debug**
+**Step 2: Use `/st-eval` to Debug**
 ```smalltalk
 | result |
 result := Array new: 2.
@@ -405,7 +405,7 @@ run_class_test: 'PersonTest'
 Result: Test passes now.
 
 ### Key Points
-- Use `/st:eval` to execute code snippets
+- Use `/st-eval` to execute code snippets
 - Test incrementally to isolate issues
 - Fix in Tonel file, not Pharo
 - Always re-import after fixes
@@ -624,7 +624,7 @@ import_package: 'RediStick-Json' path: '/home/user/git/RediStick/src'
 ### Pattern 4: Debugging Workflow
 ```
 1. Test fails
-2. Use /st:eval to investigate
+2. Use /st-eval to investigate
 3. Identify root cause
 4. Fix in Tonel file
 5. Re-import

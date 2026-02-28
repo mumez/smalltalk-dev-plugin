@@ -1,5 +1,5 @@
 ---
-name: st:export
+name: st-export
 description: Export package from Pharo image to Tonel files
 allowed-tools:
   - mcp__smalltalk-interop__export_package
@@ -12,8 +12,8 @@ Export a package from the running Pharo image back to Tonel files.
 ## Usage
 
 ```bash
-/st:export MyPackage /home/user/project/src
-/st:export MyPackage-Tests /home/user/project/src
+/st-export MyPackage /home/user/project/src
+/st-export MyPackage-Tests /home/user/project/src
 ```
 
 ## Implementation
@@ -43,7 +43,7 @@ Export is needed when code changes are made **in Pharo** rather than in Tonel fi
 ```
 1. Test fails in Pharo
 2. Use debugger to fix the issue
-3. /st:export MyPackage /home/user/project/src
+3. /st-export MyPackage /home/user/project/src
 4. Review the exported changes in Tonel files
 5. Continue development with updated Tonel files
 ```
@@ -52,7 +52,7 @@ Export is needed when code changes are made **in Pharo** rather than in Tonel fi
 
 ```
 1. Use Pharo's class builder to generate boilerplate classes
-2. /st:export MyPackage /home/user/project/src
+2. /st-export MyPackage /home/user/project/src
 3. AI can now see and work with the generated classes
 ```
 
@@ -61,7 +61,7 @@ Export is needed when code changes are made **in Pharo** rather than in Tonel fi
 ```
 1. Experiment with code in Pharo browser
 2. Once satisfied, export to preserve changes:
-   /st:export MyPackage /home/user/project/src
+   /st-export MyPackage /home/user/project/src
 3. Tonel files now reflect Pharo image state
 ```
 
@@ -80,5 +80,5 @@ mcp__smalltalk-interop__export_package: 'PackageName' path: '/absolute/path/to/s
 
 ## Related Commands
 
-- `/st:import` - Import Tonel files to Pharo (normal workflow)
-- `/st:test` - Run tests after export to verify changes
+- `/st-import` - Import Tonel files to Pharo (normal workflow)
+- `/st-test` - Run tests after export to verify changes

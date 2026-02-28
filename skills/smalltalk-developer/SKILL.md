@@ -31,7 +31,7 @@ Follow the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
 **Before importing**, run lint to check code quality:
 
 ```
-/st:lint src/MyPackage   # Check Smalltalk best practices
+/st-lint src/MyPackage   # Check Smalltalk best practices
 ```
 
 Then import the package into the running Pharo image using absolute paths:
@@ -187,10 +187,10 @@ mcp__smalltalk-validator__validate_tonel_smalltalk_from_file: '/path/to/file.st'
 
 ### Common Commands
 
-- `/st:import PackageName /path` - Import package
-- `/st:test TestClass` - Run tests
-- `/st:eval code` - Execute Smalltalk snippet
-- `/st:validate file.st` - Validate syntax
+- `/st-import PackageName /path` - Import package
+- `/st-test TestClass` - Run tests
+- `/st-eval code` - Execute Smalltalk snippet
+- `/st-validate file.st` - Validate syntax
 
 ## Troubleshooting
 
@@ -212,7 +212,7 @@ mcp__smalltalk-validator__validate_tonel_smalltalk_from_file: '/path/to/file.st'
 ### Tests Fail
 
 1. Read error message carefully
-2. Use `/st:eval` to debug incrementally
+2. Use `/st-eval` to debug incrementally
 3. Fix in Tonel file (not Pharo)
 4. Re-import and re-test
 
@@ -232,7 +232,7 @@ This skill provides focused guidance for the core workflow. For comprehensive in
 ```
 Edit .st file
     ↓
-Lint code (/st:lint)
+Lint code (/st-lint)
     ↓
 Import package (absolute path)
     ↓
@@ -240,7 +240,7 @@ Run tests
     ↓
 Tests pass? → Done
     ↓
-Tests fail? → Debug with /st:eval → Fix .st file → Re-import
+Tests fail? → Debug with /st-eval → Fix .st file → Re-import
 ```
 
 **Remember**: The cycle is Edit → Lint → Import → Test. Never skip lint, import, or tests.

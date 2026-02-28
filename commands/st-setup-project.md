@@ -1,5 +1,5 @@
 ---
-name: st:setup-project
+name: st-setup-project
 description: Set up Pharo project boilerplate structure from scratch
 allowed-tools:
   - Bash
@@ -15,10 +15,10 @@ Create a complete Pharo project structure with BaselineOf, core package, and tes
 
 ```bash
 # With project name argument
-/st:setup-project MyProject
+/st-setup-project MyProject
 
 # Interactive mode (prompts for project name)
-/st:setup-project
+/st-setup-project
 ```
 
 ## Implementation Steps
@@ -79,7 +79,7 @@ mkdir -p src/${PROJECT_NAME}-Tests
 
 ### 5. Create .project File
 
-**If `.project` does NOT exist**, create it with Pharo's JSON-like format (using single quotes):
+**If `.project` does NOT exist**, create it with Pharo's JSON-like STON format (using single quotes):
 
 ```bash
 cat > .project << 'EOF'
@@ -89,12 +89,25 @@ cat > .project << 'EOF'
 EOF
 ```
 
+### 6. Create .properties File in src directory
+
+**If `.properties` does NOT exist**, create it with Pharo's JSON-like STON format (using #):
+
+```bash
+cat > "src/.properties" << EOF
+{
+	#format : #tonel
+}
+EOF
+fi
+```
+
 **Important:**
 - Use single quotes (Pharo's format, not standard JSON)
 - Only create if file doesn't exist
 - Use tab for indentation
 
-### 6. Create package.st Files
+### 7. Create package.st Files
 
 Create `package.st` in each package directory:
 
@@ -119,7 +132,7 @@ Package { #name : '${PROJECT_NAME}-Tests' }
 EOF
 ```
 
-### 7. Create BaselineOf Class File
+### 8. Create BaselineOf Class File
 
 Create `src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st` with the baseline definition:
 
@@ -160,7 +173,7 @@ sed -i "s/\${PROJECT_NAME}/${PROJECT_NAME}/g" "src/BaselineOf${PROJECT_NAME}/Bas
 - Include proper Tonel class definition format
 - Baseline method includes all package dependencies and groups
 
-### 8. Show Success Message
+### 9. Show Success Message
 
 Display created structure:
 
@@ -179,7 +192,7 @@ echo "    ${PROJECT_NAME}-Tests/"
 echo "      package.st"
 echo ""
 echo "Next steps:"
-echo "  1. Use /st:import to load the baseline into Pharo"
+echo "  1. Use /st-import to load the baseline into Pharo"
 echo "  2. Start adding classes to ${PROJECT_NAME}-Core"
 echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 ```
@@ -228,7 +241,16 @@ if [ ! -f ".project" ]; then
 EOF
 fi
 
-# Step 6: Create package.st files
+# Step 6: Create src/.properties if it doesn't exist
+if [ ! -f "src/.properties" ]; then
+  cat > "src/.properties" << EOF
+{
+	#format : #tonel
+}
+EOF
+fi
+
+# Step 7: Create package.st files
 cat > "src/BaselineOf${PROJECT_NAME}/package.st" << EOF
 Package { #name : 'BaselineOf${PROJECT_NAME}' }
 EOF
@@ -241,7 +263,7 @@ cat > "src/${PROJECT_NAME}-Tests/package.st" << EOF
 Package { #name : '${PROJECT_NAME}-Tests' }
 EOF
 
-# Step 7: Create BaselineOf class file
+# Step 8: Create BaselineOf class file
 cat > "src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st" << 'EOF'
 Class {
 	#name : 'BaselineOfPROJECT_NAME',
@@ -275,14 +297,14 @@ else
   sed -i '' "s/PROJECT_NAME/${PROJECT_NAME}/g" "src/BaselineOf${PROJECT_NAME}/BaselineOf${PROJECT_NAME}.class.st"
 fi
 
-# Step 8: Show success message
+# Step 9: Show success message
 echo "✓ Pharo project '${PROJECT_NAME}' created successfully!"
 echo ""
 echo "Project structure:"
 tree -L 2 src/ 2>/dev/null || find src -type f | sed 's|[^/]*/| |g'
 echo ""
 echo "Next steps:"
-echo "  1. Use /st:import ${PROJECT_NAME} to load into Pharo"
+echo "  1. Use /st-import ${PROJECT_NAME} to load into Pharo"
 echo "  2. Start adding classes to ${PROJECT_NAME}-Core"
 echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 ```
@@ -306,19 +328,19 @@ echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 
 ```bash
 # Create project named MyRedisClient
-/st:setup-project MyRedisClient
+/st-setup-project MyRedisClient
 
 # Interactive mode
-/st:setup-project
+/st-setup-project
 # (Claude will ask: "What is your project name?")
 # User enters: JSONParser
 
 # Invalid name (will fail)
-/st:setup-project my-project
+/st-setup-project my-project
 # Error: Project name must be in PascalCase
 
 # Already exists (will fail)
-/st:setup-project ExistingProject
+/st-setup-project ExistingProject
 # Error: Project already exists
 ```
 
@@ -337,6 +359,6 @@ This command is designed for **beginners starting from zero**, so clear error me
 
 ## Related Commands
 
-- `/st:init` - Start Smalltalk development session with skill loading
-- `/st:import` - Import created packages into Pharo image
-- `/st:export` - Export packages from Pharo to filesystem
+- `/st-init` - Start Smalltalk development session with skill loading
+- `/st-import` - Import created packages into Pharo image
+- `/st-export` - Export packages from Pharo to filesystem

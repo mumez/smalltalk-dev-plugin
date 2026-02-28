@@ -19,7 +19,7 @@ Help maintain excellent class documentation by:
 **IMPORTANT: Your scope and responsibility**
 - Your job is to **edit Tonel files (.st) only** - generate and insert class comments into the file system
 - **DO NOT attempt to import to Pharo** - there is no `set_class_source` or similar MCP tool for writing comments directly to the image
-- After editing Tonel files, **inform the user** to import using `/st:import` or the smalltalk-dev workflow
+- After editing Tonel files, **inform the user** to import using `/st-import` or the smalltalk-dev workflow
 - Your workflow ends at validated Tonel file modification - Pharo import is the user's responsibility
 
 # When You're Invoked

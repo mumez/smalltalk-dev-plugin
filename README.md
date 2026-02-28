@@ -20,11 +20,11 @@ This plugin provides a minimal, practical toolkit for Smalltalk development usin
 
 ### Quick Start
 
-The easiest way to use this plugin is to use the **/st:buddy** command:
+The easiest way to use this plugin is to use the **/st-buddy** command:
 
 ```bash
 # Start Smalltalk Buddy (once per session)
-/st:buddy
+/st-buddy
 
 # Then ask questions naturally
 You: "I want to create a Person class with name and age"
@@ -39,7 +39,7 @@ AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 
 > https://github.com/user-attachments/assets/7d27ac29-e696-4a7b-8c71-d1404f67c67a
 
-**/st:buddy** is your friendly development partner that:
+**/st-buddy** is your friendly development partner that:
 - Understands what you want to do and routes to the right tools
 - Guides you through development, testing, and debugging
 - Helps you learn AI-assisted Smalltalk development
@@ -47,7 +47,7 @@ AI:  I'll debug this... [Investigates, identifies issue, and fixes it]
 
 ### Development Workflow
 
-1. **Run /st:buddy** once at the start of your session
+1. **Run /st-buddy** once at the start of your session
 2. **Ask questions** naturally about what you want to do
 3. **AI implements** and manages the workflow (editing Tonel, importing, testing)
 4. **Review results** and continue the conversation
@@ -97,23 +97,23 @@ claude plugin install smalltalk-dev
 
 ### Verify Installation
 
-After installation, you should see the custom commands starting with `/st:`.
+After installation, you should see the custom commands starting with `/st-`.
 
 ### Commands
 
 The plugin provides essential commands for Smalltalk development:
 
-- `/st:buddy` - Start your friendly Smalltalk development assistant (recommended starting point)
-- `/st:init` - Load smalltalk-developer skill and explain workflow
-- `/st:setup-project` - Set up Pharo project structure
-- `/st:eval` - Execute Smalltalk code snippets
-- `/st:lint` - Check code quality and best practices
-- `/st:import` - Import Tonel packages to Pharo
-- `/st:export` - Export packages from Pharo
-- `/st:test` - Run SUnit tests
-- `/st:validate` - Validate Tonel syntax
+- `/st-buddy` - Start your friendly Smalltalk development assistant (recommended starting point)
+- `/st-init` - Load smalltalk-developer skill and explain workflow
+- `/st-setup-project` - Set up Pharo project structure
+- `/st-eval` - Execute Smalltalk code snippets
+- `/st-lint` - Check code quality and best practices
+- `/st-import` - Import Tonel packages to Pharo
+- `/st-export` - Export packages from Pharo
+- `/st-test` - Run SUnit tests
+- `/st-validate` - Validate Tonel syntax
 
-**Most users should start with /st:buddy** - it will guide you and use the other commands as needed.
+**Most users should start with /st-buddy** - it will guide you and use the other commands as needed.
 
 For command details and advanced usage, see [Commands.md](doc/Commands.md).
 
@@ -126,7 +126,7 @@ The plugin includes specialized AI skills that activate automatically based on y
 - **smalltalk-usage-finder** - Code usage exploration and analysis
 - **smalltalk-implementation-finder** - Implementation discovery and patterns
 
-**These skills work behind the scenes** when you use /st:buddy, providing specialized knowledge for each task.
+**These skills work behind the scenes** when you use /st-buddy, providing specialized knowledge for each task.
 
 ### Agents
 
@@ -213,12 +213,12 @@ claude plugin install smalltalk-dev
 
 ### Development Workflow
 1. **Edit** Tonel files (AI editor is the source of truth)
-2. **Lint** code with `/st:lint` to check quality
+2. **Lint** code with `/st-lint` to check quality
 3. **Import** to Pharo with absolute paths
 4. **Test** after every import
 
 ### Code Quality
-- Use `/st:lint` before importing to catch issues early
+- Use `/st-lint` before importing to catch issues early
 - Add class prefixes to avoid name collisions
 - Keep methods focused (15 lines standard, 40 for UI/tests)
 - Limit instance variables (max 10 per class)
@@ -244,7 +244,7 @@ claude plugin install smalltalk-dev
 - Use `run_package_test` for full packages
 
 ### Debugging
-- Use `/st:eval` for quick partial execution
+- Use `/st-eval` for quick partial execution
 - Capture both results and errors in Array
 - Use `printString` for object serialization
 - Debug step-by-step
@@ -269,8 +269,8 @@ SisServer current.  "Should show running server"
 ### Tests fail after import
 
 1. Check test error message
-2. Use `/st:validate` to check syntax
-3. Use `/st:eval` to debug specific code
+2. Use `/st-validate` to check syntax
+3. Use `/st-eval` to debug specific code
 4. Fix in Tonel file
 5. Re-import and re-test
 
@@ -278,7 +278,7 @@ SisServer current.  "Should show running server"
 
 - Check Pharo Transcript for error messages
 - Verify server port matches configuration: `SisServer teapotConfig`
-- Try `/st:eval Smalltalk version` to test connection
+- Try `/st-eval Smalltalk version` to test connection
 
 ## Project Structure
 
@@ -291,15 +291,15 @@ smalltalk-dev-plugin/
 ├── agents/
 │   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
-│   ├── buddy.md             # /st:buddy - Friendly development assistant
-│   ├── init.md              # /st:init - Start development session
-│   ├── setup-project.md     # /st:setup-project - Project boilerplate
-│   ├── eval.md              # /st:eval - Execute Smalltalk code
-│   ├── import.md            # /st:import - Import Tonel packages
-│   ├── export.md            # /st:export - Export packages
-│   ├── test.md              # /st:test - Run SUnit tests
-│   ├── lint.md              # /st:lint - Check code quality
-│   └── validate.md          # /st:validate - Validate Tonel syntax
+│   ├── st-buddy.md          # /st-buddy - Friendly development assistant
+│   ├── st-init.md           # /st-init - Start development session
+│   ├── st-setup-project.md  # /st-setup-project - Project boilerplate
+│   ├── st-eval.md           # /st-eval - Execute Smalltalk code
+│   ├── st-import.md         # /st-import - Import Tonel packages
+│   ├── st-export.md         # /st-export - Export packages
+│   ├── st-test.md           # /st-test - Run SUnit tests
+│   ├── st-lint.md           # /st-lint - Check code quality
+│   └── st-validate.md       # /st-validate - Validate Tonel syntax
 ├── skills/
 │   ├── smalltalk-developer/
 │   │   ├── SKILL.md         # Development workflow

@@ -1,5 +1,5 @@
 ---
-name: st:test
+name: st-test
 description: Run SUnit tests
 allowed-tools:
   - mcp__smalltalk-interop__run_class_test
@@ -13,8 +13,8 @@ Execute tests after importing changes.
 ## Usage
 
 ```bash
-/st:test MyTestClass
-/st:test MyPackage-Tests
+/st-test MyTestClass
+/st-test MyPackage-Tests
 ```
 
 ## Implementation
@@ -31,10 +31,10 @@ Uses `run_class_test` or `run_package_test` from pharo-interop MCP server.
 
 ```bash
 # Run specific test class
-/st:test RsJsonTest
+/st-test RsJsonTest
 
 # Run all tests in package
-/st:test RediStick-Json-Tests
+/st-test RediStick-Json-Tests
 ```
 
 ## MCP Tool Calls

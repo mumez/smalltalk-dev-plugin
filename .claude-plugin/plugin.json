@@ -1,21 +1,21 @@
 {
   "name": "smalltalk-dev",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
   "author": {
     "name": "Masashi Umezawa"
   },
   "repository": "https://github.com/mumez/smalltalk-dev-plugin",
   "commands": [
-    "./commands/init.md",
-    "./commands/setup-project.md",
-    "./commands/eval.md",
-    "./commands/export.md",
-    "./commands/import.md",
-    "./commands/test.md",
-    "./commands/lint.md",
-    "./commands/validate.md",
-    "./commands/buddy.md"
+    "./commands/st-init.md",
+    "./commands/st-setup-project.md",
+    "./commands/st-eval.md",
+    "./commands/st-export.md",
+    "./commands/st-import.md",
+    "./commands/st-test.md",
+    "./commands/st-lint.md",
+    "./commands/st-validate.md",
+    "./commands/st-buddy.md"
   ],
   "skills": [
     "./skills/smalltalk-debugger",

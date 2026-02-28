@@ -1,5 +1,5 @@
 ---
-name: st:eval
+name: st-eval
 description: Execute Smalltalk code snippet
 allowed-tools:
   - mcp__smalltalk-interop__eval
@@ -12,9 +12,9 @@ Execute arbitrary Smalltalk code snippets for quick testing, verification, or co
 ## Usage
 
 ```bash
-/st:eval 1 + 1
-/st:eval Smalltalk version
-/st:eval MyClass new doSomething
+/st-eval 1 + 1
+/st-eval Smalltalk version
+/st-eval MyClass new doSomething
 ```
 
 ## Implementation
@@ -32,19 +32,19 @@ Uses `eval` from pharo-interop MCP server.
 
 ### Connection Check
 ```bash
-/st:eval Smalltalk version
-/st:eval 1 + 1
+/st-eval Smalltalk version
+/st-eval 1 + 1
 ```
 
 ### Quick Object Testing
 ```bash
-/st:eval MyClass new
-/st:eval Person new firstName: 'John'; lastName: 'Doe'; fullName
+/st-eval MyClass new
+/st-eval Person new firstName: 'John'; lastName: 'Doe'; fullName
 ```
 
 ### Partial Test Execution
 ```bash
-/st:eval | result |
+/st-eval | result |
 result := Array new: 2.
 [ | obj |
   obj := MyClass new name: 'Test'.
@@ -91,26 +91,26 @@ mapped := filtered collect: [:each | each name].
 
 ```bash
 # Simple expression
-/st:eval 2 + 2
+/st-eval 2 + 2
 
 # Check Pharo version
-/st:eval Smalltalk version
+/st-eval Smalltalk version
 
 # Object creation and method call
-/st:eval Person new firstName: 'Alice'; yourself
+/st-eval Person new firstName: 'Alice'; yourself
 
 # With error handling
-/st:eval | result |
+/st-eval | result |
 result := Array new: 2.
 [ result at: 1 put: (10 / 0) ]
 on: Error do: [:ex | result at: 2 put: ex description].
 ^ result
 
 # Collection inspection
-/st:eval #(1 2 3 4 5) select: [:n | n even]
+/st-eval #(1 2 3 4 5) select: [:n | n even]
 
 # Dictionary operations
-/st:eval | dict |
+/st-eval | dict |
 dict := Dictionary new.
 dict at: 'name' put: 'Test'.
 dict at: 'value' put: 42.
