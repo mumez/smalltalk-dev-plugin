@@ -300,6 +300,34 @@ Calculator >> computeTotal: items [
 ]
 ```
 
+#### CRITICAL: Temporary Variable Declaration Must Be First
+
+**❌ WRONG**: Temporary variable declarations (`| ... |`) placed after statements will cause import failure:
+
+```smalltalk
+{ #category : #tests }
+MyClassTest >> testMoneyConvertTo [
+    ExchangeRate current setFrom: 'USD' to: 'JPY' rate: 150.
+    | usd |
+    usd := Money amount: 2 currency: 'USD'.
+    ...
+]
+```
+
+**✅ CORRECT**: Temporary variable declarations must be at the very beginning of the method body, before any statements:
+
+```smalltalk
+{ #category : #tests }
+MyClassTest >> testMoneyConvertTo [
+    | usd |
+    ExchangeRate current setFrom: 'USD' to: 'JPY' rate: 150.
+    usd := Money amount: 2 currency: 'USD'.
+    ...
+]
+```
+
+**Why this matters**: Smalltalk syntax requires all temporary variable declarations to appear at the start of a method body. Placing them after any statement is a syntax error and will cause the import to fail.
+
 ### Method with Block Arguments
 
 ```smalltalk
