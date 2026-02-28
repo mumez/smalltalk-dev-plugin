@@ -1,5 +1,5 @@
 ---
-name: st:lint
+name: st-lint
 description: Lint Tonel files for Smalltalk best practices before import
 allowed-tools:
   - mcp__smalltalk-validator__lint_tonel_smalltalk_from_file
@@ -16,13 +16,13 @@ Analyze Tonel files for Smalltalk best practices and code quality issues before 
 
 ```bash
 # Lint specific file
-/st:lint src/MyPackage/MyClass.st
+/st-lint src/MyPackage/MyClass.st
 
 # Lint entire package
-/st:lint src/MyPackage
+/st-lint src/MyPackage
 
 # Lint all packages in src/
-/st:lint src
+/st-lint src
 ```
 
 ## Lint Rules
@@ -142,7 +142,7 @@ TARGET="$1"
 
 if [ -z "$TARGET" ]; then
   echo "Error: No target specified"
-  echo "Usage: /st:lint <file-or-directory>"
+  echo "Usage: /st-lint <file-or-directory>"
   exit 1
 fi
 
@@ -216,7 +216,7 @@ Display the lint results and exit with appropriate code:
 ### Example 1: Lint Single File
 
 ```bash
-/st:lint src/MyPackage/Person.st
+/st-lint src/MyPackage/Person.st
 ```
 
 The MCP tool will analyze the file and return issues found.
@@ -224,7 +224,7 @@ The MCP tool will analyze the file and return issues found.
 ### Example 2: Lint Entire Package
 
 ```bash
-/st:lint src/MyPackage
+/st-lint src/MyPackage
 ```
 
 Lints all `.st` files in the package directory.
@@ -233,22 +233,22 @@ Lints all `.st` files in the package directory.
 
 ```bash
 # Recommended workflow
-/st:lint src/MyPackage       # Check code quality (MCP)
-/st:import MyPackage /absolute/path/src  # Import to Pharo
-/st:test MyPackage-Tests     # Run tests
+/st-lint src/MyPackage       # Check code quality (MCP)
+/st-import MyPackage /absolute/path/src  # Import to Pharo
+/st-test MyPackage-Tests     # Run tests
 ```
 
 ## Integration with Other Commands
 
-- **Before `/st:import`**: Run lint to ensure code quality
+- **Before `/st-import`**: Run lint to ensure code quality
 - **After code generation**: Lint AI-generated code
 - **CI/CD**: Add to pre-commit hooks
 
 ## Related Commands
 
-- **`/st:validate`** - Syntax validation (Tonel structure)
-- **`/st:import`** - Import to Pharo (after linting)
-- **`/st:test`** - Run tests (after import)
+- **`/st-validate`** - Syntax validation (Tonel structure)
+- **`/st-import`** - Import to Pharo (after linting)
+- **`/st-test`** - Run tests (after import)
 
 ## Notes for Claude
 

@@ -561,7 +561,7 @@ When encountering an error:
 1. ✅ Read error message completely
 2. ✅ Check error type
 3. ✅ Look at stack trace
-4. ✅ Use `/st:eval` to test hypotheses
+4. ✅ Use `/st-eval` to test hypotheses
 5. ✅ Verify package is imported
 6. ✅ Check for typos
 7. ✅ Fix in Tonel file, not Pharo

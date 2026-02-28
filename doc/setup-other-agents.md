@@ -41,7 +41,6 @@ Non-interactive mode (overwrites without confirmation):
 ### Notes
 
 - Cursor uses the filename as the command name; command files already use the `st-` prefix
-- Command references in files are automatically rewritten from `/st:name` to `/st-name`
 - Restart Cursor after setup to recognize the new configuration
 
 ## Windsurf
@@ -70,7 +69,6 @@ Non-interactive mode:
 ### Notes
 
 - Workflows are generated as entry points that reference the prompt/agent files
-- Command references are rewritten from `/st:name` to `/st-name`
 - Restart Windsurf after setup
 
 ## Antigravity
@@ -99,7 +97,6 @@ Non-interactive mode:
 ### Notes
 
 - Workflows are generated as entry points that reference the prompt/agent files
-- Command references are rewritten from `/st:name` to `/st-name`
 
 ## Limitations
 
@@ -107,4 +104,3 @@ These setup scripts provide a simplified integration. Compared to the native Cla
 
 - **No plugin lifecycle management** - Updates require re-running the setup script
 - **Hook support varies** - Each agent has its own hook mechanism; only Cursor has a hook script included
-- **Command format** - Commands use `/st-name` format instead of `/st:name`

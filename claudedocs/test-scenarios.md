@@ -26,13 +26,13 @@ Before running these tests:
 
 ## Test Suite 1: Entry Point Command
 
-### Test 1.1: /st:init Command Execution
+### Test 1.1: /st-init Command Execution
 
-**Goal**: Verify /st:init command loads skill and provides guidance.
+**Goal**: Verify /st-init command loads skill and provides guidance.
 
 **Steps**:
 1. Start a new Claude Code session
-2. Run `/st:init`
+2. Run `/st-init`
 
 **Expected Results**:
 - ✅ Command executes without errors
@@ -44,7 +44,7 @@ Before running these tests:
 
 **Success Criteria**:
 - Output includes "Edit → Import → Test workflow"
-- Lists at least 5 commands (/st:import, /st:test, /st:eval, /st:export, /st:validate)
+- Lists at least 5 commands (/st-import, /st-test, /st-eval, /st-export, /st-validate)
 - Provides concrete examples
 
 **Common Issues**:
@@ -53,13 +53,13 @@ Before running these tests:
 
 ---
 
-### Test 1.2: /st:init Without Pharo Running
+### Test 1.2: /st-init Without Pharo Running
 
 **Goal**: Verify graceful handling when Pharo is not connected.
 
 **Steps**:
 1. Stop PharoSmalltalkInteropServer in Pharo
-2. Run `/st:init`
+2. Run `/st-init`
 
 **Expected Results**:
 - ✅ Command executes (doesn't crash)
@@ -99,7 +99,7 @@ Before running these tests:
 **Expected Results**:
 - ✅ `smalltalk-developer` skill activates
 - ✅ Claude understands Tonel file editing
-- ✅ Suggests `/st:import` after creating code
+- ✅ Suggests `/st-import` after creating code
 - ✅ Mentions Edit → Import → Test workflow
 
 **Verification**:
@@ -133,7 +133,7 @@ Look for responses that:
 
 **Expected Results**:
 - ✅ `smalltalk-debugger` skill activates
-- ✅ Suggests using `/st:eval` for investigation
+- ✅ Suggests using `/st-eval` for investigation
 - ✅ Systematic debugging approach (step-by-step)
 - ✅ Mentions partial execution with error handling
 
@@ -211,13 +211,13 @@ Look for:
 
 ## Test Suite 3: Command Execution with allowed-tools
 
-### Test 3.1: /st:eval Command
+### Test 3.1: /st-eval Command
 
 **Goal**: Verify eval command uses only allowed tools.
 
 **Steps**:
-1. Run `/st:eval 1 + 1`
-2. Run `/st:eval Smalltalk version`
+1. Run `/st-eval 1 + 1`
+2. Run `/st-eval Smalltalk version`
 
 **Expected Results**:
 - ✅ Command executes
@@ -229,7 +229,7 @@ Look for:
 ```bash
 # Check tool usage in debug mode
 claude --debug
-/st:eval 1 + 1
+/st-eval 1 + 1
 
 # Should see: mcp__smalltalk-interop__eval
 # Should NOT see: import_package, run_test, etc.
@@ -237,7 +237,7 @@ claude --debug
 
 ---
 
-### Test 3.2: /st:import Command
+### Test 3.2: /st-import Command
 
 **Goal**: Verify import command uses allowed tools only.
 
@@ -260,7 +260,7 @@ EOF
 ```
 
 **Steps**:
-1. Run `/st:import TestPackage ~/test-package/src`
+1. Run `/st-import TestPackage ~/test-package/src`
 
 **Expected Results**:
 - ✅ Uses `mcp__smalltalk-interop__import_package`
@@ -276,12 +276,12 @@ TestPackage removeFromSystem
 
 ---
 
-### Test 3.3: /st:test Command
+### Test 3.3: /st-test Command
 
 **Goal**: Verify test command uses allowed tools only.
 
 **Steps**:
-1. Run `/st:test SomeTestClass` (or package name)
+1. Run `/st-test SomeTestClass` (or package name)
 
 **Expected Results**:
 - ✅ Uses `mcp__smalltalk-interop__run_class_test` OR `run_package_test`
@@ -290,12 +290,12 @@ TestPackage removeFromSystem
 
 ---
 
-### Test 3.4: /st:export Command
+### Test 3.4: /st-export Command
 
 **Goal**: Verify export command uses allowed tools only.
 
 **Steps**:
-1. Run `/st:export SomePackage ~/export-test/src`
+1. Run `/st-export SomePackage ~/export-test/src`
 
 **Expected Results**:
 - ✅ Uses only `mcp__smalltalk-interop__export_package`
@@ -304,13 +304,13 @@ TestPackage removeFromSystem
 
 ---
 
-### Test 3.5: /st:validate Command
+### Test 3.5: /st-validate Command
 
 **Goal**: Verify validate command uses allowed tools only.
 
 **Steps**:
 1. Create test Tonel file
-2. Run `/st:validate /path/to/file.st`
+2. Run `/st-validate /path/to/file.st`
 
 **Expected Results**:
 - ✅ Uses `mcp__smalltalk-validator__validate_tonel_smalltalk_from_file`
@@ -329,9 +329,9 @@ TestPackage removeFromSystem
 **Steps**:
 1. "Create a Person class in Pharo Smalltalk with firstName and lastName instance variables"
 2. Observe Tonel file creation
-3. Accept `/st:import` suggestion
+3. Accept `/st-import` suggestion
 4. "Add a test for Person class"
-5. Run `/st:test PersonTest`
+5. Run `/st-test PersonTest`
 
 **Expected Results**:
 - ✅ Person.st created in Tonel format
@@ -369,17 +369,17 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
        self assert: person fullName equals: 'John Doe'
    ]
    ```
-3. Import and run test: `/st:test PersonTest`
+3. Import and run test: `/st-test PersonTest`
 4. Test fails
 5. "Debug this test failure"
-6. Claude uses `/st:eval` to investigate
+6. Claude uses `/st-eval` to investigate
 7. Fix identified
 8. Re-import
 9. Re-test
 
 **Expected Results**:
 - ✅ `smalltalk-debugger` skill activates
-- ✅ Uses `/st:eval` for investigation
+- ✅ Uses `/st-eval` for investigation
 - ✅ Identifies missing space
 - ✅ Suggests fix
 - ✅ Re-import workflow clear
@@ -443,7 +443,7 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
    ```
    📝 Tonel file modified: /path/to/file.st
    💡 Suggested commands:
-      /st:import PackageName /path/to/src
+      /st-import PackageName /path/to/src
    ```
 - ✅ Test suggestion also appears
 
@@ -476,9 +476,9 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
       Expected port: 8086
    💡 Quick Start:
       1. Edit .st files
-      2. Run: /st:import
-      3. Run: /st:test
-   📚 Available commands: /st:init, /st:import, /st:test, ...
+      2. Run: /st-import
+      3. Run: /st-test
+   📚 Available commands: /st-init, /st-import, /st-test, ...
    ```
 
 **Verification**:
@@ -533,7 +533,7 @@ mcp__smalltalk-interop__search_references
 ```
 
 **Verification**:
-Run `/st:eval 1 + 1` - Should use eval tool successfully.
+Run `/st-eval 1 + 1` - Should use eval tool successfully.
 
 ---
 
@@ -549,7 +549,7 @@ mcp__smalltalk-validator__validate_smalltalk_method_body
 ```
 
 **Verification**:
-Run `/st:validate test.st` - Should validate successfully.
+Run `/st-validate test.st` - Should validate successfully.
 
 ---
 
@@ -625,12 +625,12 @@ chmod +x scripts/*.sh
 Quick checklist for complete validation:
 
 ### Commands (6)
-- [ ] `/st:init` - Entry point working
-- [ ] `/st:eval` - Execution working
-- [ ] `/st:import` - Import working
-- [ ] `/st:test` - Testing working
-- [ ] `/st:export` - Export working
-- [ ] `/st:validate` - Validation working
+- [ ] `/st-init` - Entry point working
+- [ ] `/st-eval` - Execution working
+- [ ] `/st-import` - Import working
+- [ ] `/st-test` - Testing working
+- [ ] `/st-export` - Export working
+- [ ] `/st-validate` - Validation working
 
 ### Skills (4)
 - [ ] `smalltalk-developer` - Triggers on development tasks

@@ -258,7 +258,7 @@ Recommended TDD workflow:
 
 1. **Read error message carefully**: Understand what failed
 2. **Don't immediately re-import**: Fix the code first
-3. **Use `/st:eval` for debugging**: Test snippets before full import
+3. **Use `/st-eval` for debugging**: Test snippets before full import
 4. **Fix in Tonel file**: Never fix in Pharo directly
 5. **Re-import**: After fixing the `.st` file
 6. **Re-test**: Verify the fix worked
@@ -379,7 +379,7 @@ Add JSON serialization support to RediStick
 
 ### Pitfall 7: Ignoring Error Messages
 **Problem**: Repeated failures without understanding root cause
-**Solution**: Read error messages carefully, use `/st:eval` to debug
+**Solution**: Read error messages carefully, use `/st-eval` to debug
 
 ### Pitfall 8: Forgetting .project File When Creating Project Structure
 **Problem**: Creating `src/` directories and `package.st` files but forgetting the `.project` file in the project root
@@ -389,7 +389,7 @@ Add JSON serialization support to RediStick
 	'srcDirectory' : 'src'
 }
 ```
-**Tip**: Use `/st:setup-project` command which handles all required files automatically.
+**Tip**: Use `/st-setup-project` command which handles all required files automatically.
 
 ## Summary Checklist
 

@@ -1,5 +1,5 @@
 ---
-name: st:setup-project
+name: st-setup-project
 description: Set up Pharo project boilerplate structure from scratch
 allowed-tools:
   - Bash
@@ -15,10 +15,10 @@ Create a complete Pharo project structure with BaselineOf, core package, and tes
 
 ```bash
 # With project name argument
-/st:setup-project MyProject
+/st-setup-project MyProject
 
 # Interactive mode (prompts for project name)
-/st:setup-project
+/st-setup-project
 ```
 
 ## Implementation Steps
@@ -192,7 +192,7 @@ echo "    ${PROJECT_NAME}-Tests/"
 echo "      package.st"
 echo ""
 echo "Next steps:"
-echo "  1. Use /st:import to load the baseline into Pharo"
+echo "  1. Use /st-import to load the baseline into Pharo"
 echo "  2. Start adding classes to ${PROJECT_NAME}-Core"
 echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 ```
@@ -304,7 +304,7 @@ echo "Project structure:"
 tree -L 2 src/ 2>/dev/null || find src -type f | sed 's|[^/]*/| |g'
 echo ""
 echo "Next steps:"
-echo "  1. Use /st:import ${PROJECT_NAME} to load into Pharo"
+echo "  1. Use /st-import ${PROJECT_NAME} to load into Pharo"
 echo "  2. Start adding classes to ${PROJECT_NAME}-Core"
 echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 ```
@@ -328,19 +328,19 @@ echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 
 ```bash
 # Create project named MyRedisClient
-/st:setup-project MyRedisClient
+/st-setup-project MyRedisClient
 
 # Interactive mode
-/st:setup-project
+/st-setup-project
 # (Claude will ask: "What is your project name?")
 # User enters: JSONParser
 
 # Invalid name (will fail)
-/st:setup-project my-project
+/st-setup-project my-project
 # Error: Project name must be in PascalCase
 
 # Already exists (will fail)
-/st:setup-project ExistingProject
+/st-setup-project ExistingProject
 # Error: Project already exists
 ```
 
@@ -359,6 +359,6 @@ This command is designed for **beginners starting from zero**, so clear error me
 
 ## Related Commands
 
-- `/st:init` - Start Smalltalk development session with skill loading
-- `/st:import` - Import created packages into Pharo image
-- `/st:export` - Export packages from Pharo to filesystem
+- `/st-init` - Start Smalltalk development session with skill loading
+- `/st-import` - Import created packages into Pharo image
+- `/st-export` - Export packages from Pharo to filesystem

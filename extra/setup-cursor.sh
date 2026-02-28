@@ -109,10 +109,6 @@ copy_directory "$PROJECT_ROOT/skills" "$CURSOR_DIR/skills" "skills"
 # Copy agents
 copy_directory "$PROJECT_ROOT/agents" "$CURSOR_DIR/agents" "agents"
 
-# Global refactor of command references (/st:name -> /st-name)
-echo "Refactoring command references globally (/st:name -> /st-name)..."
-find "$CURSOR_DIR" -type f -name "*.md" -exec sed -i 's/\/st:\([a-zA-Z0-9_-]\+\)/\/st-\1/g' {} +
-
 # Copy .mcp.json
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
     echo "⚠️  Warning: .mcp.json not found in plugin repository, skipping..."
@@ -195,5 +191,4 @@ if [ -d "$CURSOR_DIR/scripts" ]; then
     echo "  - scripts/suggest-class-comment.sh (hook script)"
 fi
 echo ""
-echo "Note: Command references have been converted from /st:name to /st-name format."
 echo "Cursor may require restart to recognize the new configuration."

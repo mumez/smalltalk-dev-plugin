@@ -1,5 +1,5 @@
 ---
-name: st:init
+name: st-init
 description: Start Smalltalk development session - loads smalltalk-developer skill and explains the development workflow
 allowed-tools:
   - Skill
@@ -15,20 +15,20 @@ Start a new Pharo Smalltalk development session by loading the `smalltalk-develo
 1. **Loads smalltalk-developer skill** - Activates AI-driven Smalltalk development assistance
 2. **Explains Edit → Import → Test workflow** - Shows the standard development cycle
 3. **Verifies Pharo connection** - Checks if PharoSmalltalkInteropServer is running
-4. **Introduces available commands** - Lists all `/st:*` commands
+4. **Introduces available commands** - Lists all `/st-*` commands
 5. **Provides quick start guidance** - Helps you begin development immediately
 
 ## Usage
 
 ```bash
-/st:init
+/st-init
 ```
 
 ## Implementation
 
 This command:
 1. **Checks for existing project structure** - Verifies if `.project` file or `src/` directory exists
-2. **Prompts for setup if needed** - If no project structure found, suggests running `/st:setup-project` first
+2. **Prompts for setup if needed** - If no project structure found, suggests running `/st-setup-project` first
 3. Uses the `Skill` tool to load `smalltalk-developer` skill
 4. Runs a connection test using `eval` to verify Pharo is ready
 5. Presents the development workflow overview
@@ -45,7 +45,7 @@ if [ ! -f ".project" ] && [ ! -d "src" ]; then
   echo ""
   echo "It looks like you're starting fresh. I recommend setting up a project structure first:"
   echo ""
-  echo "  /st:setup-project MyProjectName"
+  echo "  /st-setup-project MyProjectName"
   echo ""
   echo "This will create:"
   echo "  • .project configuration file"
@@ -53,7 +53,7 @@ if [ ! -f ".project" ] && [ ! -d "src" ]; then
   echo "  • BaselineOf class for dependency management"
   echo "  • Core and Tests packages"
   echo ""
-  echo "Would you like to run /st:setup-project now, or continue with initialization?"
+  echo "Would you like to run /st-setup-project now, or continue with initialization?"
   exit 0
 fi
 ```
@@ -73,7 +73,7 @@ fi
 
 It looks like you're starting fresh. I recommend setting up a project structure first:
 
-  /st:setup-project MyProjectName
+  /st-setup-project MyProjectName
 
 This will create:
   • .project configuration file
@@ -81,12 +81,12 @@ This will create:
   • BaselineOf class for dependency management
   • Core and Tests packages
 
-Would you like to run /st:setup-project now, or continue with initialization?
+Would you like to run /st-setup-project now, or continue with initialization?
 ```
 
 ### If Project Structure Exists
 
-After running `/st:init` in a directory with an existing project, you'll see:
+After running `/st-init` in a directory with an existing project, you'll see:
 
 - ✅ Smalltalk developer skill loaded
 - ✅ Pharo connection verified (or error message if not connected)
@@ -105,22 +105,22 @@ The standard Pharo Smalltalk development cycle:
 
 ### 2. Lint Code
 ```bash
-/st:lint PackageName  # Check Smalltalk best practices
+/st-lint PackageName  # Check Smalltalk best practices
 ```
 
 ### 3. Import to Pharo
 ```bash
-/st:import PackageName /absolute/path/to/src
+/st-import PackageName /absolute/path/to/src
 ```
 
 ### 4. Run Tests
 ```bash
-/st:test PackageNameTest
+/st-test PackageNameTest
 ```
 
 ### 5. Debug (if needed)
 ```bash
-/st:eval YourClass new someMethod
+/st-eval YourClass new someMethod
 ```
 
 ### 6. Iterate
@@ -132,11 +132,11 @@ The standard Pharo Smalltalk development cycle:
 
 Once initialized, you can use:
 
-- **`/st:import`** - Import Tonel package to Pharo
-- **`/st:test`** - Run SUnit tests
-- **`/st:eval`** - Execute Smalltalk code for debugging
-- **`/st:export`** - Export package from Pharo (when needed)
-- **`/st:validate`** - Validate Tonel syntax (optional)
+- **`/st-import`** - Import Tonel package to Pharo
+- **`/st-test`** - Run SUnit tests
+- **`/st-eval`** - Execute Smalltalk code for debugging
+- **`/st-export`** - Export package from Pharo (when needed)
+- **`/st-validate`** - Validate Tonel syntax (optional)
 
 ## Quick Start Examples
 
@@ -146,9 +146,9 @@ Once initialized, you can use:
 You: Create a Person class with name and age in Pharo Smalltalk
 
 AI: [Creates Person.st file in Tonel format]
-    Suggested: /st:import MyPackage /home/user/project/src
+    Suggested: /st-import MyPackage /home/user/project/src
 
-You: /st:import MyPackage /home/user/project/src
+You: /st-import MyPackage /home/user/project/src
 
 AI: ✅ Package imported successfully
     Suggested: Create tests or add methods
@@ -157,7 +157,7 @@ AI: ✅ Package imported successfully
 ### Example 2: Debug a Test Failure
 
 ```
-You: /st:test PersonTest
+You: /st-test PersonTest
 
 AI: ❌ Test failed: testFullName
     Error: MessageNotUnderstood: #fullName
@@ -165,7 +165,7 @@ AI: ❌ Test failed: testFullName
 You: Debug this error
 
 AI: [smalltalk-debugger skill activates]
-    Let me investigate using /st:eval...
+    Let me investigate using /st-eval...
 
     [Finds the issue, suggests fix]
     The Person class is missing the #fullName method.
@@ -173,7 +173,7 @@ AI: [smalltalk-debugger skill activates]
 You: Add the fullName method
 
 AI: [Adds method to Person.st]
-    Suggested: /st:import MyPackage /home/user/project/src
+    Suggested: /st-import MyPackage /home/user/project/src
 ```
 
 ## Connection Verification
@@ -190,7 +190,7 @@ If this fails, you'll see instructions to:
 
 ## When to Use
 
-Use `/st:init` when:
+Use `/st-init` when:
 - Starting a new development session
 - Beginning work on a Pharo project
 - Unsure how to proceed with Smalltalk development
@@ -212,7 +212,7 @@ Other skills available:
 
 ## Notes
 
-- You don't need to run `/st:init` every time - the skill will activate automatically when you work with Smalltalk
+- You don't need to run `/st-init` every time - the skill will activate automatically when you work with Smalltalk
 - This command is primarily for getting started or refreshing your understanding
 - The development workflow applies to all Pharo/Smalltalk projects using Tonel format
 

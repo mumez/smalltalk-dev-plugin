@@ -20,7 +20,7 @@ From error message, confirm:
 
 ### 2. Verify with Partial Execution
 
-Use `/st:eval` tool to execute relevant code incrementally.
+Use `/st-eval` tool to execute relevant code incrementally.
 
 **Basic error capture pattern:**
 ```smalltalk
@@ -171,7 +171,7 @@ count = 0 ifTrue: [0] ifFalse: [sum / count]
 
 ### AssertionFailure (in tests)
 **Cause**: Test expectation doesn't match actual
-**Debug**: Execute test code with `/st:eval`, check if package imported
+**Debug**: Execute test code with `/st-eval`, check if package imported
 
 For complete error patterns and solutions, see [Error Patterns Reference](references/error-patterns.md).
 
@@ -265,7 +265,7 @@ Always capture errors with `on:do:`:
 
 ## Debugging Tools
 
-### Primary Tool: `/st:eval`
+### Primary Tool: `/st-eval`
 
 Execute any Smalltalk code for testing and verification:
 
@@ -291,7 +291,7 @@ mcp__smalltalk-interop__search_references: 'methodName'
 **Error**: `Expected 'John Doe' but got 'John nil'`
 
 **Debug process**:
-1. Execute test code with `/st:eval`
+1. Execute test code with `/st-eval`
 2. Check if lastName was set
 3. Inspect method implementation
 4. Identify missing `^ self` in setter
@@ -315,7 +315,7 @@ For complete debugging scenarios with step-by-step solutions, see [Debug Scenari
 When debugging, systematically check:
 
 - [ ] Read complete error message
-- [ ] Use `/st:eval` to test incrementally
+- [ ] Use `/st-eval` to test incrementally
 - [ ] Inspect all intermediate values
 - [ ] Check method implementation
 - [ ] Verify package was imported
@@ -340,7 +340,7 @@ Error occurs
     ↓
 Identify error type
     ↓
-Use /st:eval to test incrementally
+Use /st-eval to test incrementally
     ↓
 Inspect intermediate values
     ↓

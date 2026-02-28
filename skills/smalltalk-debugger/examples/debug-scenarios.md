@@ -32,7 +32,7 @@ PersonTest >> testFullName [
 ]
 ```
 
-**Step 2: Execute Partial Code with `/st:eval`**
+**Step 2: Execute Partial Code with `/st-eval`**
 
 Test object creation and method calls incrementally:
 
@@ -115,7 +115,7 @@ run_class_test: 'PersonTest'
 **Result**: ✅ Test passes
 
 ### Key Takeaways
-- Use `/st:eval` to execute code incrementally
+- Use `/st-eval` to execute code incrementally
 - Test intermediate values, don't assume
 - Check implementation when behavior is unexpected
 - Always re-import after fixing Tonel files
@@ -671,7 +671,7 @@ For any debugging scenario, follow this systematic approach:
 - Note stack trace
 
 ### 2. Reproduce Minimally
-- Use `/st:eval` to reproduce issue
+- Use `/st-eval` to reproduce issue
 - Isolate to smallest failing code
 - Verify it's reproducible
 
@@ -686,7 +686,7 @@ For any debugging scenario, follow this systematic approach:
 - Think about what should happen
 
 ### 5. Test Hypothesis
-- Use `/st:eval` to test assumption
+- Use `/st-eval` to test assumption
 - Check implementation with `get_method_source`
 - Search for similar patterns with `search_implementors`
 
@@ -712,7 +712,7 @@ For any debugging scenario, follow this systematic approach:
 When stuck debugging:
 
 - [ ] Have you read the complete error message?
-- [ ] Have you used `/st:eval` to test incrementally?
+- [ ] Have you used `/st-eval` to test incrementally?
 - [ ] Have you inspected all intermediate values?
 - [ ] Have you checked the method implementation?
 - [ ] Have you verified the package was imported?
@@ -733,7 +733,7 @@ Key debugging principles demonstrated:
 1. **Systematic approach** - Follow steps, don't jump to conclusions
 2. **Incremental testing** - Test one thing at a time
 3. **Inspect everything** - Don't assume, verify
-4. **Use `/st:eval`** - Most powerful debugging tool
+4. **Use `/st-eval`** - Most powerful debugging tool
 5. **Fix in Tonel** - Never edit Pharo directly
 6. **Re-import always** - Changes don't apply automatically
 7. **Test thoroughly** - Verify fix and check for regression
