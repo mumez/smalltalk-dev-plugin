@@ -49,6 +49,7 @@ Most Smalltalk projects follow these conventions:
    MyProject/
    ├── .project           # Contains srcDirectory configuration
    ├── src/              # Source directory (or 'repositories')
+   │   ├── .properties        # Contains format: tonel
    │   ├── MyPackage/
    │   │   ├── MyClass.st
    │   │   └── package.st
@@ -381,14 +382,24 @@ Add JSON serialization support to RediStick
 **Problem**: Repeated failures without understanding root cause
 **Solution**: Read error messages carefully, use `/st-eval` to debug
 
-### Pitfall 8: Forgetting .project File When Creating Project Structure
-**Problem**: Creating `src/` directories and `package.st` files but forgetting the `.project` file in the project root
-**Solution**: When creating a new project structure from scratch, **always** create the `.project` file first. Use Pharo's format with single quotes:
+### Pitfall 8: Missing Required Config Files When Creating Project Structure
+**Problem**: Creating `src/` directories and `package.st` files but forgetting required config files
+**Solution**: A complete project structure requires **two** config files:
+
+`.project` (project root) — tells Pharo where the source directory is:
 ```
 {
 	'srcDirectory' : 'src'
 }
 ```
+
+`src/.properties` (inside `src/`) — tells Pharo the source format:
+```
+{
+	#format : #tonel
+}
+```
+
 **Tip**: Use `/st-setup-project` command which handles all required files automatically.
 
 ## Summary Checklist
