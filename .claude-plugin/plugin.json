@@ -21,7 +21,8 @@
     "./skills/smalltalk-debugger",
     "./skills/smalltalk-developer",
     "./skills/smalltalk-implementation-finder",
-    "./skills/smalltalk-usage-finder"
+    "./skills/smalltalk-usage-finder",
+    "./skills/smalltalk-commenter"
   ],
   "mcpServers": [
     "./.mcp.json"

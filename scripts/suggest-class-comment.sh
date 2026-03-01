@@ -30,7 +30,7 @@ cat <<EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "additionalContext": "💡 Tip: Modified Tonel file detected. Consider running @smalltalk-commenter to add or improve class comments for better documentation."
+    "additionalContext": "💡 Tip: Modified Tonel file detected. Consider running /smalltalk-commenter to add or improve class comments for better documentation."
   }
 }
 EOF
