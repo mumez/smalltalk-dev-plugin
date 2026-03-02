@@ -57,7 +57,6 @@ echo ""
 mkdir -p "$ANTIGRAVITY_DIR/$SKILLS_DIR_NAME"
 mkdir -p "$ANTIGRAVITY_DIR/$WORKFLOWS_DIR_NAME"
 mkdir -p "$ANTIGRAVITY_DIR/prompts"
-mkdir -p "$ANTIGRAVITY_DIR/agents"
 
 # Function to copy directory with confirmation
 copy_directory() {
@@ -93,9 +92,6 @@ copy_directory() {
 # Copy skills
 copy_directory "$PROJECT_ROOT/skills" "$ANTIGRAVITY_DIR/$SKILLS_DIR_NAME" "$SKILLS_DIR_NAME"
 
-# Copy agents (raw files)
-copy_directory "$PROJECT_ROOT/agents" "$ANTIGRAVITY_DIR/agents" "agents"
-
 # Copy commands to prompts (raw files)
 copy_directory "$PROJECT_ROOT/commands" "$ANTIGRAVITY_DIR/prompts" "prompts"
 
@@ -126,36 +122,6 @@ description: Run /$name command
 
 1. Read the command instructions at \`$ANTIGRAVITY_DIR_NAME/prompts/$filename\`
 2. Execute the user's request following those instructions.
-EOL
-done
-
-# Generate Workflows for Agents
-echo "Generating workflows for agents..."
-for agent_file in "$PROJECT_ROOT/agents"/*.md; do
-    filename=$(basename -- "$agent_file")
-    name="${filename%.*}"
-    workflow_name="agent-${name}"
-    target_file="$ANTIGRAVITY_DIR/$WORKFLOWS_DIR_NAME/$workflow_name.md"
-    
-    # Check if workflow already exists
-    if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-        echo "⚠️  Warning: Workflow $workflow_name.md already exists."
-        read -p "Overwrite? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            echo "Skipping $workflow_name..."
-            continue
-        fi
-    fi
-    
-    echo "Generating $workflow_name.md..."
-    cat > "$target_file" <<EOL
----
-description: Run $name agent
----
-
-1. Read the agent definition at \`$ANTIGRAVITY_DIR_NAME/agents/$filename\`
-2. Adopt the persona and follow the instructions in that file.
 EOL
 done
 
