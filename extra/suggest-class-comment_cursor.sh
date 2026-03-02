@@ -38,6 +38,6 @@ cat <<EOF
 {
   "continue": true,
   "suppressOutput": false,
-  "systemMessage": "💡 Tip: Modified Tonel file detected ($FILE_PATH). Consider running @smalltalk-commenter to add or improve class comments for better documentation."
+  "systemMessage": "💡 Tip: Modified Tonel file detected ($FILE_PATH). Consider using the smalltalk-commenter skill to add or improve class comments for better documentation."
 }
 EOF
