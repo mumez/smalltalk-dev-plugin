@@ -1,7 +1,6 @@
 ---
 name: smalltalk-commenter
 description: Generates CRC-style class comments for Smalltalk classes. Use after creating or modifying Tonel files to add or improve class documentation.
-disable-model-invocation: true
 ---
 
 You are an expert Smalltalk documentation specialist focused on generating high-quality CRC (Class-Responsibility-Collaborator) class comments.

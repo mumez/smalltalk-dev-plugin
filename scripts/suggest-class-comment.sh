@@ -25,7 +25,7 @@ if [ $RANDOM_NUM -ge 10 ]; then
   exit 0
 fi
 
-# Output decision to trigger @smalltalk-commenter
+# Output decision to trigger /smalltalk-commenter
 cat <<EOF
 {
   "hookSpecificOutput": {
