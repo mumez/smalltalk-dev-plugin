@@ -6,13 +6,12 @@
 
 ## Overview
 
-This plugin provides a minimal, practical toolkit for Smalltalk development using AI agents. It focuses on the essential workflow of editing Tonel files, importing them into Pharo, and running tests.
+This plugin provides a minimal, practical toolkit for Smalltalk development using AI skills. It focuses on the essential workflow of editing Tonel files, importing them into Pharo, and running tests.
 
 ## Features
 
 - **Commands**: Essential slash commands for import, test, eval, and validation
-- **Skills**: AI-powered development workflow and debugging expertise
-- **Agents**: Autonomous assistants for guidance and documentation
+- **Skills**: AI-powered development workflow, debugging expertise, and documentation
 - **MCP Integration**: Seamless connection to Pharo and validation servers
 - **Hooks**: Automatic suggestions after file changes
 
@@ -125,18 +124,17 @@ The plugin includes specialized AI skills that activate automatically based on y
 - **smalltalk-debugger** - Error handling and debugging procedures
 - **smalltalk-usage-finder** - Code usage exploration and analysis
 - **smalltalk-implementation-finder** - Implementation discovery and patterns
+- **smalltalk-commenter** - CRC-style class documentation generation
 
 **These skills work behind the scenes** when you use /st-buddy, providing specialized knowledge for each task.
 
-### Agents
-
-#### @smalltalk-commenter (Documentation Assistant)
+#### /smalltalk-commenter (Documentation Skill)
 
 Automatically suggests class documentation improvements:
 
 - Detects undocumented classes after file changes (occasionally, not every time)
 - Generates CRC-style class comments
-- Can be invoked directly: "document my classes"
+- Can be invoked directly: `/smalltalk-commenter`
 
 **Works quietly in the background** - you'll get occasional suggestions to improve documentation.
 
@@ -288,8 +286,6 @@ smalltalk-dev-plugin/
 │   ├── plugin.json          # Plugin metadata
 │   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
-├── agents/
-│   └── smalltalk-commenter.md # Documentation specialist agent
 ├── commands/
 │   ├── st-buddy.md          # /st-buddy - Friendly development assistant
 │   ├── st-init.md           # /st-init - Start development session
@@ -301,6 +297,8 @@ smalltalk-dev-plugin/
 │   ├── st-lint.md           # /st-lint - Check code quality
 │   └── st-validate.md       # /st-validate - Validate Tonel syntax
 ├── skills/
+│   ├── smalltalk-commenter/
+│   │   └── SKILL.md         # Documentation specialist skill
 │   ├── smalltalk-developer/
 │   │   ├── SKILL.md         # Development workflow
 │   │   ├── examples/        # Development sessions

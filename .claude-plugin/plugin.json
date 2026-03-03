@@ -1,6 +1,6 @@
 {
   "name": "smalltalk-dev",
-  "version": "1.6.9",
+  "version": "1.7.0",
   "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
   "author": {
     "name": "Masashi Umezawa"
@@ -21,7 +21,8 @@
     "./skills/smalltalk-debugger",
     "./skills/smalltalk-developer",
     "./skills/smalltalk-implementation-finder",
-    "./skills/smalltalk-usage-finder"
+    "./skills/smalltalk-usage-finder",
+    "./skills/smalltalk-commenter"
   ],
   "mcpServers": [
     "./.mcp.json"
