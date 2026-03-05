@@ -106,9 +106,6 @@ done
 # Copy skills
 copy_directory "$PROJECT_ROOT/skills" "$CURSOR_DIR/skills" "skills"
 
-# Copy agents
-copy_directory "$PROJECT_ROOT/agents" "$CURSOR_DIR/agents" "agents"
-
 # Copy .mcp.json
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
     echo "⚠️  Warning: .mcp.json not found in plugin repository, skipping..."
@@ -182,7 +179,6 @@ echo ""
 echo "The following have been copied to .cursor/:"
 echo "  - commands/ (custom slash commands)"
 echo "  - skills/ (AI skills)"
-echo "  - agents/ (AI agents)"
 echo "  - mcp.json (MCP server configuration)"
 if [ -f "$CURSOR_DIR/hooks.json" ]; then
     echo "  - hooks.json (afterFileEdit hooks)"
