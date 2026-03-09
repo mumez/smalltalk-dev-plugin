@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup script to copy Smalltalk development plugin files for GitHub Copilot
 # Skills are copied to .github/skills/ in the target directory (project scope).
-# Commands are copied to .github/prompts/ as xxx.prompt.md (Copilot prompt naming).
+# Commands are copied to .github/skills/<command-name>/SKILL.md (one subdir per command).
 # MCP config is copied to ~/.copilot/mcp-config.json (user scope).
 #
 # Usage:
@@ -46,13 +46,11 @@ echo "Setting up Smalltalk development plugin for GitHub Copilot..."
 echo "Plugin repository: $PROJECT_ROOT"
 echo "Target directory: $TARGET_DIR"
 echo "Skills directory: $SKILLS_DIR"
-echo "Prompts directory: $GITHUB_DIR/prompts"
+echo "Commands → .github/skills/<name>/SKILL.md"
 echo ""
 
-# Create .github/skills and .github/prompts directories if they don't exist
+# Create .github/skills directory if it doesn't exist
 mkdir -p "$SKILLS_DIR"
-PROMPTS_DIR="$GITHUB_DIR/prompts"
-mkdir -p "$PROMPTS_DIR"
 
 # Function to copy a skill directory with confirmation
 copy_skill() {
@@ -93,9 +91,9 @@ else
     done
 fi
 
-# Copy commands to .github/prompts/ as xxx.prompt.md (Copilot prompt file naming)
+# Copy each command to .github/skills/<command-name>/SKILL.md
 echo ""
-echo "Copying commands to .github/prompts/ (as *.prompt.md)..."
+echo "Copying commands to .github/skills/<name>/SKILL.md..."
 if [ ! -d "$PROJECT_ROOT/commands" ]; then
     echo "⚠️  Warning: commands/ directory not found in plugin repository, skipping..."
 else
@@ -103,26 +101,28 @@ else
         if [ -f "$cmd_file" ]; then
             filename=$(basename -- "$cmd_file")
             name="${filename%.*}"
-            target_file="$PROMPTS_DIR/${name}.prompt.md"
+            cmd_dir="$SKILLS_DIR/$name"
+            target_file="$cmd_dir/SKILL.md"
 
+            mkdir -p "$cmd_dir"
             if [ -f "$target_file" ]; then
                 if [ "$FORCE_YES" = true ]; then
-                    echo "  Overwriting ${name}.prompt.md..."
+                    echo "  Overwriting $name/SKILL.md..."
                     cp "$cmd_file" "$target_file"
                 else
-                    echo "⚠️  Warning: ${name}.prompt.md already exists in .github/prompts/"
+                    echo "⚠️  Warning: $name/SKILL.md already exists in .github/skills/"
                     read -p "Overwrite? (y/N): " -n 1 -r
                     echo
                     if [[ $REPLY =~ ^[Yy]$ ]]; then
                         cp "$cmd_file" "$target_file"
-                        echo "  Copied ${name}.prompt.md"
+                        echo "  Copied $name/SKILL.md"
                     else
-                        echo "  Skipping ${name}.prompt.md..."
+                        echo "  Skipping $name..."
                     fi
                 fi
             else
                 cp "$cmd_file" "$target_file"
-                echo "  Copied ${name}.prompt.md"
+                echo "  Copied $name/SKILL.md"
             fi
         fi
     done
@@ -163,7 +163,7 @@ echo "✅ GitHub Copilot setup complete!"
 echo ""
 echo "The following have been set up:"
 echo "  - .github/skills/ (AI skills for GitHub Copilot)"
-echo "  - .github/prompts/ (command prompts as *.prompt.md)"
+echo "  - .github/skills/<name>/SKILL.md (each command from commands/)"
 echo "  - MCP config: ${target_mcp:-~/.copilot/mcp-config.json}"
 echo ""
 echo "GitHub Copilot may require VS Code restart to recognize the new configuration."
