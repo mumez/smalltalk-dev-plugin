@@ -5,6 +5,7 @@ This plugin is designed for Claude Code, but can also be used with other AI agen
 - [Cursor](https://cursor.com/)
 - [Windsurf](https://windsurf.com/)
 - [Antigravity](https://antigravity.google/)
+- [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 
 ## Prerequisites
 
@@ -97,6 +98,33 @@ Non-interactive mode:
 ### Notes
 
 - Workflows are generated as entry points that reference the prompt/agent files
+
+## GitHub Copilot CLI
+
+### Setup
+
+```bash
+./extra/setup-copilot.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.github/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-copilot.sh -y [target-directory]
+```
+
+### What the script does
+
+- Creates `.github/skills/` directory structure
+- Copies skills directly into `.github/skills/`
+- Copies each command as `.github/skills/<command-name>/SKILL.md`
+- Copies MCP config to `~/.copilot/mcp-config.json`
+
+### Notes
+
+- This setup targets the GitHub Copilot CLI, not the VS Code extension
 
 ## Limitations
 
