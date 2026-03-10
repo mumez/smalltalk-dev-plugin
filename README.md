@@ -2,7 +2,7 @@
 
 [Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
 
-> Also available for [Cursor, Windsurf, and Antigravity](doc/setup-other-agents.md).
+> Also available for [Cursor, Windsurf, Antigravity, and GitHub Copilot CLI](doc/setup-other-agents.md).
 
 ## Overview
 
@@ -64,7 +64,7 @@ Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInt
 
 Install [Claude Code](https://github.com/anthropics/claude-code).
 
-> **Other AI agents**: If you use Cursor, Windsurf, or Antigravity instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
+> **Other AI agents**: If you use Cursor, Windsurf, Antigravity, or GitHub Copilot CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
 
 ## Installation
 
@@ -323,6 +323,7 @@ smalltalk-dev-plugin/
 │   ├── setup-cursor.sh              # Setup script for Cursor
 │   ├── setup-windsurf.sh            # Setup script for Windsurf
 │   ├── setup-antigravity.sh         # Setup script for Antigravity
+│   ├── setup-copilot.sh             # Setup script for GitHub Copilot CLI
 │   └── suggest-class-comment_cursor.sh # Hook script for Cursor
 ├── doc/
 │   ├── Commands.md                  # Commands quick reference
