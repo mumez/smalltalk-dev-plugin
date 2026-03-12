@@ -66,6 +66,10 @@ Install [Claude Code](https://github.com/anthropics/claude-code).
 
 > **Other AI agents**: If you use Cursor, Windsurf, Antigravity, or GitHub Copilot CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
 
+### 3. uv
+
+Install [uv](https://docs.astral.sh/uv/), which is used in MCP.
+
 ## Installation
 
 ### Option 1: Install from GitHub (Recommended)
