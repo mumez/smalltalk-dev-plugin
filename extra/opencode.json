@@ -1,0 +1,26 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "smalltalk-interop": {
+            "type": "local",
+            "command": [
+                "uvx",
+                "--from",
+                "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git",
+                "pharo-smalltalk-interop-mcp-server"
+            ],
+            "environment": {
+                "PHARO_SIS_PORT": "8086"
+            }
+        },
+        "smalltalk-validator": {
+            "type": "local",
+            "command": [
+                "uvx",
+                "--from",
+                "git+https://github.com/mumez/smalltalk-validator-mcp-server.git@main",
+                "smalltalk-validator-mcp-server"
+            ]
+        }
+    }
+}
