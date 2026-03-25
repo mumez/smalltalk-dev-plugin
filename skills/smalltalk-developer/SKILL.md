@@ -1,6 +1,6 @@
 ---
 name: smalltalk-developer
-description: Comprehensive Pharo Smalltalk development workflow guide with AI-driven Tonel editing. Provides expertise in Tonel file format syntax (class definitions with name, superclass, instVars, category, method categories, class comment placement), package structure (package.st placement, directory organization, BaselineOf dependencies), development workflow (Edit → Import → Test cycle with absolute paths, re-import timing, test execution), and Pharo best practices (CRC format documentation, method categorization conventions). Use when working with Pharo Smalltalk projects, creating or editing Tonel .st files, organizing packages and dependencies, resolving import order issues, writing class comments, implementing standard Pharo development patterns, or troubleshooting Tonel syntax.
+description: Comprehensive Pharo Smalltalk development workflow guide with AI-driven Tonel editing. Provides expertise in Tonel file format syntax (class definitions with name, superclass, instVars, category, method categories, class comment placement), package structure (package.st placement, directory organization, BaselineOf dependencies), development workflow (Edit → Import → Test cycle with absolute paths, re-import timing, test execution), and Pharo best practices (CRC format documentation, method categorization conventions). Use when working with Pharo Smalltalk projects, creating or editing Tonel .st files, organizing packages and dependencies, resolving import order issues, writing class comments, implementing standard Pharo development patterns (Singleton, Settings, etc.), or troubleshooting Tonel syntax.
 ---
 
 # Smalltalk Developer Workflow
@@ -25,6 +25,8 @@ Edit Tonel files directly in the AI editor. The AI editor is the **single source
 For detailed Tonel syntax and examples, see [Tonel Format Reference](references/tonel-format.md).
 
 Follow the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
+
+Refer to [Implementation Patterns](references/patterns.md) for common patterns (Singleton, Settings, etc.).
 
 ### 2. Import to Pharo
 
@@ -226,6 +228,7 @@ This skill provides focused guidance for the core workflow. For comprehensive in
 - **[Style Guide](references/style-guide.md)** - Idiomatic Smalltalk patterns and concise coding practices
 - **[Best Practices](references/best-practices.md)** - Detailed practices and patterns
 - **[Development Examples](examples/development-sessions.md)** - Real-world session workflows
+- **[Implementation Patterns](references/patterns.md)** - Common patterns (Singleton, etc.)
 
 ## Summary Workflow
 
