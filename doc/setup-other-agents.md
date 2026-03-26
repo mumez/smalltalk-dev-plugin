@@ -6,6 +6,7 @@ This plugin is designed for Claude Code, but can also be used with other AI agen
 - [Windsurf](https://windsurf.com/)
 - [Antigravity](https://antigravity.google/)
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
+- [OpenCode](https://opencode.ai/)
 
 ## Prerequisites
 
@@ -125,6 +126,36 @@ Non-interactive mode (overwrites without confirmation):
 ### Notes
 
 - This setup targets the GitHub Copilot CLI, not the VS Code extension
+
+## OpenCode
+
+### Setup
+
+```bash
+./extra/setup-opencode.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/`, `.opencode/`, and `opencode.json` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-opencode.sh -y [target-directory]
+```
+
+### What the script does
+
+- Creates `.agents/skills/` and copies skills
+- Creates `.opencode/commands/` and copies commands
+- Copies MCP config to `opencode.json` in the target directory
+  - If `opencode.json` already exists and `jq` is available, merges the `mcp` section automatically (backup created as `opencode.json.bak`)
+  - If `jq` is not available, prints the `mcp` section for manual merging
+
+### Notes
+
+- OpenCode MCP format differs from Claude Code: `command` is an array combining command and args, `environment` instead of `env`, and `type: "local"` is required
+- The pre-converted MCP config is available at `extra/opencode.json`
+- Restart OpenCode after setup to recognize the new configuration
 
 ## Limitations
 

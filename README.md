@@ -2,7 +2,7 @@
 
 [Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
 
-> Also available for [Cursor, Windsurf, Antigravity, and GitHub Copilot CLI](doc/setup-other-agents.md).
+> Also available for [Cursor, Windsurf, Antigravity, GitHub Copilot CLI, and OpenCode](doc/setup-other-agents.md).
 
 ## Overview
 
@@ -64,7 +64,11 @@ Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInt
 
 Install [Claude Code](https://github.com/anthropics/claude-code).
 
-> **Other AI agents**: If you use Cursor, Windsurf, Antigravity, or GitHub Copilot CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
+> **Other AI agents**: If you use Cursor, Windsurf, Antigravity, GitHub Copilot CLI, or OpenCode instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
+
+### 3. uv
+
+Install [uv](https://docs.astral.sh/uv/), which is used in MCP.
 
 ## Installation
 
@@ -324,6 +328,8 @@ smalltalk-dev-plugin/
 │   ├── setup-windsurf.sh            # Setup script for Windsurf
 │   ├── setup-antigravity.sh         # Setup script for Antigravity
 │   ├── setup-copilot.sh             # Setup script for GitHub Copilot CLI
+│   ├── setup-opencode.sh            # Setup script for OpenCode
+│   ├── opencode.json                # MCP config for OpenCode
 │   └── suggest-class-comment_cursor.sh # Hook script for Cursor
 ├── doc/
 │   ├── Commands.md                  # Commands quick reference
