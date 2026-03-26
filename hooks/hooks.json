@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-class-comment.sh\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-class-comment.sh\"",
             "timeout": 30
           }
         ]
