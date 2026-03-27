@@ -224,7 +224,7 @@ mcp__smalltalk-validator__validate_tonel_smalltalk_from_file: '/path/to/file.st'
 ### Import Fails
 
 **"Package not found":**
-- Verify absolute path is correct
+- Verify absolute path is correct (in Docker, use container-side path: typically `/root/repos` — check `compose.yml` for volume mounts)
 - Check `package.st` exists
 - Ensure package name matches directory
 

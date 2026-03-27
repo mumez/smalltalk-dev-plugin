@@ -78,6 +78,35 @@ import_package: 'MyPackage' path: '/home/user/MyProject/src'
 import_package: 'MyPackage' path: '/home/user/MyProject/repositories'
 ```
 
+### Docker Environment: Use Guest-Side Paths
+
+When Pharo runs inside a Docker container, **all paths passed to MCP tools must be container-internal (guest) paths**, not host paths.
+
+**Discovery steps:**
+
+1. Read `compose.yml` (or `docker-compose.yml`) in the project root to find volume mounts:
+   ```yaml
+   volumes:
+     - ./myproject:/root/repos/myproject
+   ```
+2. Translate: host `./myproject` → guest `/root/repos/myproject`
+3. Use the guest path in `import_package` and other MCP calls:
+   ```
+   import_package: 'MyPackage' path: '/root/repos/myproject/src'
+   ```
+
+✅ **Correct (Docker):**
+```
+import_package: 'MyPackage' path: '/root/repos/myproject/src'
+```
+
+❌ **Incorrect (host path leaked into Docker context):**
+```
+import_package: 'MyPackage' path: '/home/user/myproject/src'
+```
+
+**Always check `compose.yml` first** when a Docker setup is in use, to confirm which host directory maps to which container path before constructing any absolute path.
+
 ### Import Multiple Packages Individually
 
 When working with multiple packages, import each one separately:
