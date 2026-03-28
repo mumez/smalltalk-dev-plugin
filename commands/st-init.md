@@ -3,6 +3,7 @@ name: st-init
 description: Start Smalltalk development session - loads smalltalk-developer skill and explains the development workflow
 allowed-tools:
   - Skill
+  - Bash
   - mcp__smalltalk-interop__eval
 ---
 
@@ -184,7 +185,45 @@ The command will test your Pharo connection by running:
 Smalltalk version
 ```
 
-If this fails, you'll see instructions to:
+If this fails, check if Docker is available and offer to start the Pharo environment via Docker:
+
+```bash
+docker --version
+```
+
+### Docker Fallback Flow
+
+If the connection fails AND Docker is available:
+
+1. **Generate `compose.yml`** in the current directory with the following content:
+
+```yaml
+services:
+  sis-pharo:
+    image: mumez/smalltalk-interop-docker
+    ports:
+      - "5900:5900"
+      - "6901:6901"
+      - "8086:8086"
+    environment:
+      PHARO_SIS_PORT: 8086
+    volumes:
+      - sis-screenshots:/root/screenshots
+      - .:/root/repos
+
+volumes:
+  sis-screenshots:
+```
+
+2. **Instruct the user to start the container:**
+
+```bash
+docker compose up -d
+```
+
+3. **Wait a few seconds, then re-run the connection test.**
+
+If Docker is NOT available, you'll see instructions to:
 1. Start PharoSmalltalkInteropServer in your Pharo image
 2. Verify the port configuration (default: 8086)
 
@@ -220,10 +259,13 @@ Other skills available:
 
 If initialization fails:
 
-1. **Pharo not running**: Start your Pharo image
-2. **Server not started**: Execute in Pharo:
+1. **Use Docker** (recommended if Docker is available):
+   Generate `compose.yml` in the current directory.
+   Then start the container. For details: [Docker Fallback Flow](#Docker-Fallback-Flow)
+2. **Pharo not running**: Start your Pharo image
+3. **Server not started**: Execute in Pharo:
    ```smalltalk
    SisServer current start
    ```
-3. **Port mismatch**: Check `PHARO_SIS_PORT` environment variable (default: 8086)
-4. **MCP server issues**: Verify `pharo-smalltalk-interop-mcp-server` is installed
+4. **Port mismatch**: Check `PHARO_SIS_PORT` environment variable (default: 8086)
+5. **MCP server issues**: Verify `pharo-smalltalk-interop-mcp-server` is installed
