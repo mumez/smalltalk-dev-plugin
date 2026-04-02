@@ -65,7 +65,7 @@ Choose one of the following options:
 Run a pre-configured Pharo image using [smalltalk-interop-docker](https://github.com/mumez/smalltalk-interop-docker):
 
 ```bash
-docker compose up
+docker compose up -d
 ```
 
 #### Option B: Local Pharo Setup
