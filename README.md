@@ -58,6 +58,18 @@ For experienced users who prefer direct commands, see [Commands.md](doc/Commands
 
 ### 1. Pharo with PharoSmalltalkInteropServer
 
+Choose one of the following options:
+
+#### Option A: Use Docker (Easy)
+
+Run a pre-configured Pharo image using [smalltalk-interop-docker](https://github.com/mumez/smalltalk-interop-docker):
+
+```bash
+docker compose up
+```
+
+#### Option B: Local Pharo Setup
+
 Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) in your Pharo image.
 
 ### 2. Claude Code
