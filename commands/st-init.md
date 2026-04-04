@@ -208,11 +208,9 @@ services:
     environment:
       PHARO_SIS_PORT: 8086
     volumes:
-      - sis-screenshots:/root/screenshots
+      - /tmp:/root/screenshots
       - .:/root/repos
 
-volumes:
-  sis-screenshots:
 ```
 
 2. **Instruct the user to start the container:**
