@@ -6,7 +6,7 @@
 
 ## Overview
 
-This plugin provides a minimal, practical toolkit for Smalltalk development using AI skills. It focuses on the essential workflow of editing Tonel files, importing them into Pharo, and running tests.
+This plugin provides a comprehensive AI-powered toolkit for Pharo Smalltalk development. It covers the full development lifecycle — from project setup and Tonel file editing, to importing, testing, debugging, and documentation generation.
 
 ## Features
 
