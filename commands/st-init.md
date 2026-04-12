@@ -103,9 +103,33 @@ services:
 
 Then instruct the user to run `docker compose up -d` and re-test the connection.
 
-If Docker is NOT available, instruct the user to:
-1. Start PharoSmalltalkInteropServer in their Pharo image
-2. Verify the port configuration (default: 8086)
+If Docker is NOT available or not preferred, use the local Pharo installation flow below.
+
+### Local Pharo Installation Flow
+
+Install Pharo locally and load PharoSmalltalkInteropServer into the image.
+
+**1. Install Pharo:**
+
+```bash
+mkdir pharo-stable
+cd pharo-stable
+curl https://get.pharo.org | bash
+```
+
+**2. Load PharoSmalltalkInteropServer:**
+
+```bash
+./pharo Pharo.image metacello install github://mumez/PharoSmalltalkInteropServer:main/src BaselineOfPharoSmalltalkInteropServer
+```
+
+**3. Start Pharo in GUI mode** (SisServer starts automatically):
+
+```bash
+./pharo-ui
+```
+
+Re-test the connection after Pharo is running.
 
 ## Related Skills
 
