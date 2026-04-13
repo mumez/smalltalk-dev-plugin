@@ -129,3 +129,53 @@ MySettings >> initFrom: otherSettings [
 		self settingsDict at: k put: v ]
 ]
 ```
+
+
+## Options builder
+
+Use when a method accepts a parameter object (e.g., `RsSearchOptions`) and you want to avoid forcing the caller to instantiate that class directly. A builder block keeps call sites concise and decouples them from the options class name.
+
+Suppose we have a method:
+`RsSearcher >> search: indexName query: query options: options`
+where `options` is an `RsSearchOptions` instance.
+
+Without the pattern, the caller must know and instantiate `RsSearchOptions` explicitly:
+
+```smalltalk
+| options |
+options := RsSearchOptions new.
+options offset: 10; limit: 20; returnFields: #('score' 'values').
+searcher search: 'idx' query: 'st*' options: options
+```
+
+Add a companion method that accepts a builder block instead:
+
+```smalltalk
+searcher search: 'idx' query: 'st*' optionBy: [ :opts |
+	opts offset: 10; limit: 20; returnFields: #('score' 'values') ]
+```
+
+`RsSearcher` delegates to the original method after building the options:
+
+```smalltalk
+{ #category : 'actions' }
+RsSearcher >> search: indexName query: query optionBy: aBlock [
+	| options |
+	options := RsSearchOptions in: aBlock.
+	^ self search: indexName query: query options: options
+]
+```
+
+`RsSearchOptions` provides an `in:` class-side factory that evaluates the block:
+
+```smalltalk
+{ #category : 'instance creation' }
+RsSearchOptions class >> in: aBuilderBlock [
+	| instance |
+	instance := self new.
+	aBuilderBlock value: instance.
+	^ instance
+]
+```
+
+The caller no longer needs to reference `RsSearchOptions` directly. The interface is more fluent and type-safe — passing an unrelated options object becomes impossible.
