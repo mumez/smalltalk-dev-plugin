@@ -179,17 +179,55 @@ initialize
 
 This is a traditional Smalltalk practice that provides flexibility for future requirements.
 
-## Common Idioms Summary
+## Avoid Referring to Class Name Directly in Method Definitions
 
-| Pattern | Verbose | Concise |
-|---------|---------|---------|
-| First element | `array at: 1` | `array first` |
-| Last element | `array at: array size` | `array last` |
-| Nil check | `x isNil ifTrue: [...]` | `x ifNil: [...]` |
-| Not-nil check | `x notNil ifTrue: [...]` | `x ifNotNil: [...]` |
-| Boolean comparison | `flag = true` | `flag` |
-| Negation | `flag = false` | `flag not` |
-| Instance variable access | `count := count + 1` | `self count: self count + 1` |
+Within a method body, refer to the class via `self class` (instance methods) or `self` (class methods) rather than naming the class explicitly.
+
+### Instance Method Example
+
+```smalltalk
+❌ Direct class reference:
+MyClass >> otherWithSameAmount [
+	| newInstance |
+	newInstance := MyClass new.  "MyClass referred inside its own method"
+	newInstance amount: self amount.
+	^ newInstance
+]
+
+✅ Use self class:
+MyClass >> otherWithSameAmount [
+	| newInstance |
+	newInstance := self class new.
+	newInstance amount: self amount.
+	^ newInstance
+]
+```
+
+### Class Method Example
+
+```smalltalk
+❌ Direct class reference:
+MyClass class >> newForApi [
+	| newInstance |
+	newInstance := MyClass new.
+	newInstance apiKey: (ApiKeys for: MyClass name).
+	^ newInstance
+]
+
+✅ Use self:
+MyClass class >> newForApi [
+	| newInstance |
+	newInstance := self new.
+	newInstance apiKey: (ApiKeys for: self name).
+	^ newInstance
+]
+```
+
+### Why Avoid Direct Class References?
+
+1. **Rename-safe**: Renaming the class does not require updating method bodies
+2. **Inheritance-friendly**: Subclasses benefit from polymorphic `self` / `self class` without overriding
+3. **Consistency**: Aligns with Smalltalk's message-passing philosophy — always send messages, never hardcode names
 
 ## When to Use These Patterns
 
