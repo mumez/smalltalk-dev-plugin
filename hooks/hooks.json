@@ -2,11 +2,23 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Write",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-class-comment.sh\"",
+            "if": "Write(*.st)",
+            "command": "uv run python \"${CLAUDE_PLUGIN_ROOT}/hooks/suggest-class-comment.py\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(*.st)",
+            "command": "uv run python \"${CLAUDE_PLUGIN_ROOT}/hooks/suggest-class-comment.py\"",
             "timeout": 30
           }
         ]
@@ -14,3 +26,4 @@
     ]
   }
 }
+

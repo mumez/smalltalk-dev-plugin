@@ -332,9 +332,8 @@ smalltalk-dev-plugin/
 │       ├── examples/        # Implementation scenarios
 │       └── references/      # Implementation analysis
 ├── hooks/
-│   └── hooks.json           # PostToolUse hook configuration
-├── scripts/
-│   └── suggest-class-comment.sh     # PostToolUse hook for documentation suggestions
+│   ├── hooks.json                   # PostToolUse hook configuration
+│   └── suggest-class-comment.py    # Hook script for documentation suggestions
 ├── extra/
 │   ├── setup-cursor.sh              # Setup script for Cursor
 │   ├── setup-windsurf.sh            # Setup script for Windsurf

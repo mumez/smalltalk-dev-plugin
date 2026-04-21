@@ -3,8 +3,8 @@
 # This makes the plugin available in Antigravity
 #
 # Usage:
-#   ./scripts/setup-antigravity.sh [target-directory]
-#   ./scripts/setup-antigravity.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-antigravity.sh [target-directory]
+#   ./extra/setup-antigravity.sh -y [target-directory]  # Non-interactive mode
 #
 # If target-directory is not specified, uses the repository root (project scope).
 # MCP config is always copied to ~/.gemini/antigravity/mcp_config.json

@@ -428,65 +428,31 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
 
 ## Test Suite 5: Hooks Verification
 
-### Test 5.1: FileChange Hook (suggest-import.sh)
+### Test 5.1: PostToolUse Hook (suggest-class-comment.py)
 
-**Goal**: Verify hook suggests import after .st file changes.
+**Goal**: Verify hook occasionally suggests class documentation after editing .st files.
 
 **Steps**:
 1. Ensure hook is enabled (check `hooks/hooks.json`)
-2. Edit a .st file in the project
-3. Save the file
+2. Edit or create a `.st` file
+3. Repeat several times (hook triggers with ~10% probability)
 
 **Expected Results**:
-- ✅ Hook script executes
-- ✅ Suggestion message appears:
+- ✅ Hook script executes on Write/Edit of `.st` files
+- ✅ Occasionally displays suggestion:
    ```
-   📝 Tonel file modified: /path/to/file.st
-   💡 Suggested commands:
-      /st-import PackageName /path/to/src
+   💡 Tip: Modified Tonel file detected. Consider running /smalltalk-commenter
+      to add or improve class comments for better documentation.
    ```
-- ✅ Test suggestion also appears
+- ✅ Non-.st files do NOT trigger the hook
 
 **Verification**:
 ```bash
 # Manually test hook script
-./scripts/suggest-import.sh test-package/src/TestPackage/TestClass.st
+echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
+  uv run python hooks/suggest-class-comment.py
 
-# Should output import suggestion
-```
-
----
-
-### Test 5.2: SessionStart Hook (check-pharo-connection.sh)
-
-**Goal**: Verify hook displays environment info on session start.
-
-**Steps**:
-1. Start new Claude Code session in project with plugin
-
-**Expected Results**:
-- ✅ Hook executes automatically
-- ✅ Displays:
-   ```
-   🔧 Smalltalk Development Environment
-   📦 MCP Servers:
-      • pharo-interop
-      • smalltalk-validator
-   🌐 Pharo Connection:
-      Expected port: 8086
-   💡 Quick Start:
-      1. Edit .st files
-      2. Run: /st-import
-      3. Run: /st-test
-   📚 Available commands: /st-init, /st-import, /st-test, ...
-   ```
-
-**Verification**:
-```bash
-# Manually test hook
-./scripts/check-pharo-connection.sh
-
-# Should display welcome message
+# May output documentation suggestion JSON (10% chance)
 ```
 
 ---
@@ -599,24 +565,18 @@ SisServer current  "Should show running server"
 
 ### Issue: Hooks Not Executing
 
-**Symptoms**: No suggestions after file changes.
+**Symptoms**: No suggestions after editing .st files.
 
 **Checks**:
 1. Verify hooks.json exists: `cat hooks/hooks.json`
-2. Check script permissions:
+2. Verify `uv` is installed: `uv --version`
+3. Test hook script manually:
    ```bash
-   ls -la scripts/*.sh
-   # Should be executable (x permission)
-   ```
-3. Test hooks manually:
-   ```bash
-   ./scripts/suggest-import.sh test.st
+   echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
+     uv run python hooks/suggest-class-comment.py
    ```
 
-**Fix**:
-```bash
-chmod +x scripts/*.sh
-```
+**Note**: Hook triggers with ~10% probability by design. Try several times if no suggestion appears.
 
 ---
 
@@ -638,9 +598,8 @@ Quick checklist for complete validation:
 - [ ] `smalltalk-usage-finder` - Triggers on "how to use"
 - [ ] `smalltalk-implementation-finder` - Triggers on "who implements"
 
-### Hooks (2)
-- [ ] FileChange hook - Suggests import
-- [ ] SessionStart hook - Shows environment info
+### Hooks (1)
+- [ ] PostToolUse hook - Occasionally suggests /smalltalk-commenter on .st file edits
 
 ### MCP Servers (2)
 - [ ] pharo-interop - Connection working
