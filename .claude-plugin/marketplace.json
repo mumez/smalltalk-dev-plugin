@@ -3,6 +3,9 @@
   "owner": {
     "name": "Masashi Umezawa"
   },
+  "metadata": {
+    "description": "Smalltalk development toolkit marketplace"
+  },
   "plugins": [
     {
       "name": "smalltalk-dev",
