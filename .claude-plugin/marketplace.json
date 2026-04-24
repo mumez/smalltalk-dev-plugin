@@ -1,27 +1,25 @@
 {
-  "name": "smalltalk-dev-marketplace",
-  "owner": {
-    "name": "Masashi Umezawa"
-  },
-  "plugins": [
-    {
-      "name": "smalltalk-dev",
-      "source": "./",
-      "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
-      "version": "1.7.8",
-      "author": {
+    "name": "smalltalk-dev-marketplace",
+    "owner": {
         "name": "Masashi Umezawa"
-      },
-      "repository": "https://github.com/mumez/smalltalk-dev-plugin",
-      "homepage": "https://github.com/mumez/smalltalk-dev-plugin",
-      "license": "MIT",
-      "keywords": [
-        "smalltalk",
-        "pharo",
-        "development",
-        "tonel"
-      ],
-      "category": "development"
-    }
-  ]
+    },
+    "metadata": {
+        "description": "Smalltalk development toolkit marketplace"
+    },
+    "plugins": [
+        {
+            "name": "smalltalk-dev",
+            "source": "./",
+            "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
+            "version": "1.7.9",
+            "author": {
+                "name": "Masashi Umezawa"
+            },
+            "repository": "https://github.com/mumez/smalltalk-dev-plugin",
+            "homepage": "https://github.com/mumez/smalltalk-dev-plugin",
+            "license": "MIT",
+            "keywords": ["smalltalk", "pharo", "development", "tonel"],
+            "category": "development"
+        }
+    ]
 }
