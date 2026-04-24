@@ -1,9 +1,9 @@
 {
-  "name": "smalltalk-dev",
-  "version": "1.7.8",
-  "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
-  "author": {
-    "name": "Masashi Umezawa"
-  },
-  "repository": "https://github.com/mumez/smalltalk-dev-plugin"
+    "name": "smalltalk-dev",
+    "version": "1.7.9",
+    "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
+    "author": {
+        "name": "Masashi Umezawa"
+    },
+    "repository": "https://github.com/mumez/smalltalk-dev-plugin"
 }
