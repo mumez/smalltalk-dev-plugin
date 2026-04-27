@@ -206,6 +206,28 @@ Work in Pharo → Export → Review .st file → Commit to git
 4. **Test** to verify changes work
 5. **Repeat** as needed
 
+## Class Renaming
+
+### Rename in Pharo Before Importing
+
+When renaming a class, a Tonel-only rename is **not safe**. If you rename the class in the `.st` file and import without touching Pharo first, the old class remains in the image alongside the newly-created class under the new name.
+
+**Safe rename procedure:**
+
+1. **Rename in Pharo via eval** — run this before any file change:
+   ```smalltalk
+   (OldClassName rename: 'NewClassName') printString
+   ```
+
+2. **Update the Tonel file** — rename the `.st` file and update the class name inside it.
+
+3. **Import the package**:
+   ```
+   import_package: 'MyPackage' path: '/absolute/path/src'
+   ```
+
+This sequence ensures the class is renamed in-place rather than a new class being created alongside the old one.
+
 ## Import Timing
 
 ### Re-import After Every Change
@@ -410,6 +432,26 @@ Add JSON serialization support to RediStick
 ### Pitfall 7: Ignoring Error Messages
 **Problem**: Repeated failures without understanding root cause
 **Solution**: Read error messages carefully, use `/st-eval` to debug
+
+### Pitfall 9: Renaming a Class Without Pharo-Side Rename First
+
+**Problem**: Renaming the class only in the Tonel file and importing leaves the old class still present in the Pharo image. Both the old and new class end up coexisting, and references to the old name break silently.
+
+**Solution**: Rename the class in Pharo *before* importing the renamed Tonel file.
+
+Step 1 — rename in Pharo via eval:
+```smalltalk
+(OldClassName rename: 'NewClassName') printString
+```
+
+Step 2 — rename the `.st` file to match the new class name.
+
+Step 3 — import the package:
+```
+import_package: 'MyPackage' path: '/absolute/path/src'
+```
+
+**This order is mandatory.** Swapping step 1 and step 3 will leave a ghost class under the old name in the image.
 
 ### Pitfall 8: Missing Required Config Files When Creating Project Structure
 **Problem**: Creating `src/` directories and `package.st` files but forgetting required config files
