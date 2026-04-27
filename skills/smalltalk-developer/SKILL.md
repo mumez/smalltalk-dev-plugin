@@ -152,6 +152,22 @@ See [Best Practices: File Editing](references/best-practices.md#file-editing-phi
 4. Run comprehensive tests
 ```
 
+### Pattern 5: Renaming a Class
+
+Renaming a class only in the Tonel file and importing leaves the old class in the Pharo image. Always rename in Pharo first, then import.
+
+```
+1. Rename the class in Pharo via eval:
+   (OldClassName rename: 'NewClassName') printString
+
+2. Update the Tonel filename and class name in the .st file
+
+3. Import the package
+   import_package: 'MyPackage' path: '/absolute/path/src'
+```
+
+**Why?** Tonel import creates or updates classes by name. If the old name still exists in the image and the new name is introduced as a new class, both will coexist — and any references to the old class remain broken.
+
 ### Pattern 4: Installing External Packages from GitHub
 
 When a required package is **not present locally**, use `install_project` — never use Metacello directly via `eval`:
