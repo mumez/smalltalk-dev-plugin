@@ -26,9 +26,18 @@ Lint Tonel `.st` files for Smalltalk best practices using the smalltalk-validato
 Before linting, check the target directory for required Tonel meta files:
 
 - `.project` — Tonel project descriptor (required at repo root or package root)
+- `src/.properties` — Tonel format descriptor (required in the `src/` directory)
 - `package.st` — package descriptor (required in each package directory)
 
-If either is missing, show a warning. See `/st-setup-project` for the expected structure.
+If any of these is missing, show a warning. See `/st-setup-project` for the expected structure.
+
+The expected format for `src/.properties` is:
+
+```
+{
+	#format : #tonel
+}
+```
 
 ### 2. Collect `.st` files
 
