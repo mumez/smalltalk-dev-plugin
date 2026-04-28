@@ -60,7 +60,9 @@ step2 := step1 select: [:each | each isValid].
 
 ## When Operations Stop Responding
 
-If MCP tool calls hang or timeout with no response, a **debugger window may have opened in the Pharo image**. Since the debugger is invisible from the AI editor, operations will appear stuck.
+If MCP tool calls hang or timeout with no response, first check whether Pharo itself is running and connected. If the connection was never established, use the `smalltalk-dev:st-init` skill to verify and restore the Pharo connection.
+
+If Pharo is running but a **debugger window may have opened in the Pharo image**, operations will appear stuck because the debugger is invisible from the AI editor.
 
 ### Detecting Hidden Debuggers
 

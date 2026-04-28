@@ -7,6 +7,13 @@ description: Comprehensive Pharo Smalltalk development workflow guide with AI-dr
 
 Implement the standard workflow for Pharo Smalltalk development using AI editors and the Tonel file format.
 
+## Prerequisites
+
+Before starting development, ensure the environment is ready:
+
+- **No project structure** (no `src/` or `.project`): Use `smalltalk-dev:st-setup-project` skill to create boilerplate
+- **Pharo not connected** or session not initialized: Use `smalltalk-dev:st-init` skill to verify connection and set up environment
+
 ## Core Development Cycle
 
 The fundamental workflow for Smalltalk development consists of three steps that repeat:
