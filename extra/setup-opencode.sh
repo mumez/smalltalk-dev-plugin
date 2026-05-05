@@ -130,6 +130,40 @@ else
     done
 fi
 
+# Copy st-* skills to .opencode/commands/
+echo ""
+echo "Copying st-* skills to .opencode/commands/..."
+for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
+    if [ -d "$skill_dir" ]; then
+        skill_name=$(basename "$skill_dir")
+        skill_file="$skill_dir/SKILL.md"
+        if [ ! -f "$skill_file" ]; then
+            continue
+        fi
+        target_file="$OPENCODE_COMMANDS_DIR/$skill_name.md"
+
+        if [ -f "$target_file" ]; then
+            if [ "$FORCE_YES" = true ]; then
+                echo "  Overwriting $skill_name.md (non-interactive mode)..."
+                cp "$skill_file" "$target_file"
+            else
+                echo "⚠️  Warning: $skill_name.md already exists in .opencode/commands/"
+                read -p "  Overwrite? (y/N): " -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    cp "$skill_file" "$target_file"
+                    echo "  Copied $skill_name.md"
+                else
+                    echo "  Skipping $skill_name..."
+                fi
+            fi
+        else
+            cp "$skill_file" "$target_file"
+            echo "  Copied $skill_name.md"
+        fi
+    fi
+done
+
 # Copy MCP config to opencode.json
 echo ""
 echo "Configuring MCP servers in opencode.json..."
