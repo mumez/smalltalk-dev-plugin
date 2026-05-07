@@ -46,113 +46,76 @@ echo "Target directory: $TARGET_DIR"
 echo "Cursor directory: $CURSOR_DIR"
 echo ""
 
-# Create .cursor directory if it doesn't exist
-mkdir -p "$CURSOR_DIR"
-mkdir -p "$CURSOR_DIR/commands"
+mkdir -p "$CURSOR_DIR/commands" "$CURSOR_DIR/skills"
 
-# Function to copy directory with confirmation
+# Returns 0 (proceed) or 1 (skip) based on FORCE_YES or user input
+confirm_overwrite() {
+    local name="$1"
+    if [ "$FORCE_YES" = true ]; then
+        echo "Overwriting existing $name (non-interactive mode)..."
+        return 0
+    fi
+    echo "⚠️  Warning: $name already exists"
+    read -p "Overwrite? (y/N): " -n 1 -r
+    echo
+    [[ $REPLY =~ ^[Yy]$ ]] || { echo "Skipping $name..."; return 1; }
+}
+
+copy_file() {
+    local src="$1" dst="$2" name="$3"
+    if [ ! -f "$src" ]; then
+        echo "⚠️  Warning: $src not found, skipping $name..."
+        return
+    fi
+    if [ -f "$dst" ]; then
+        confirm_overwrite "$name" || return
+    fi
+    echo "  Copying $name..."
+    cp "$src" "$dst"
+}
+
 copy_directory() {
-    local src="$1"
-    local dst="$2"
-    local name="$3"
-    
+    local src="$1" dst="$2" name="$3"
     if [ ! -d "$src" ]; then
         echo "⚠️  Warning: Source directory $src does not exist, skipping $name..."
         return
     fi
-    
     if [ -d "$dst" ]; then
-        if [ "$FORCE_YES" = true ]; then
-            echo "Overwriting existing $name (non-interactive mode)..."
-            rm -rf "$dst"
-        else
-            echo "⚠️  Warning: $name already exists in .cursor/"
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping $name..."
-                return
-            fi
-            rm -rf "$dst"
-        fi
+        confirm_overwrite "$name" || return
+        rm -rf "$dst"
     fi
-    
-    echo "Copying $name..."
+    echo "  Copying $name..."
     cp -r "$src" "$dst"
 }
 
-# Copy st-* skills to commands
-echo ""
-echo "Copying st-* skills to commands..."
-for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
-    if [ -d "$skill_dir" ]; then
-        skill_name=$(basename "$skill_dir")
-        skill_file="$skill_dir/SKILL.md"
-        if [ ! -f "$skill_file" ]; then
-            continue
-        fi
-        target_file="$CURSOR_DIR/commands/$skill_name.md"
-
-        if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-            echo "⚠️  Warning: $skill_name.md already exists in .cursor/commands/"
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping $skill_name..."
-                continue
-            fi
-        fi
-
-        cp "$skill_file" "$target_file"
-        echo "  Copied $skill_name.md"
+# Copy skills: st-* go to commands/ as SKILL.md, others go to skills/ as directories
+echo "Copying skills..."
+for skill_dir in "$PROJECT_ROOT/skills"/*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    if [[ "$skill_name" == st-* ]]; then
+        copy_file "$skill_dir/SKILL.md" "$CURSOR_DIR/commands/$skill_name.md" "$skill_name.md"
+    else
+        copy_directory "$skill_dir" "$CURSOR_DIR/skills/$skill_name" "$skill_name"
     fi
 done
 
-# Copy skills
-copy_directory "$PROJECT_ROOT/skills" "$CURSOR_DIR/skills" "skills"
-
 # Copy .mcp.json
+echo ""
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
     echo "⚠️  Warning: .mcp.json not found in plugin repository, skipping..."
-elif [ -f "$CURSOR_DIR/mcp.json" ]; then
-    if [ "$FORCE_YES" = true ]; then
-        echo "Overwriting existing mcp.json (non-interactive mode)..."
-        cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
-    else
-        echo "⚠️  Warning: mcp.json already exists in .cursor/"
-        read -p "Overwrite? (y/N): " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            echo "Copying .mcp.json..."
-            cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
-        else
-            echo "Skipping mcp.json..."
-            echo "Note: You may need to manually merge MCP server configurations."
-        fi
-    fi
+elif [ -f "$CURSOR_DIR/mcp.json" ] && ! confirm_overwrite "mcp.json"; then
+    echo "Note: You may need to manually merge MCP server configurations."
 else
-    echo "Copying .mcp.json..."
+    echo "  Copying mcp.json..."
     cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
 fi
 
-# Create hooks.json for Cursor (different format and location than Claude Code)
+# Create hooks.json for Cursor
+echo ""
 HOOKS_FILE="$CURSOR_DIR/hooks.json"
-if [ -f "$HOOKS_FILE" ]; then
-    if [ "$FORCE_YES" = true ]; then
-        echo "Overwriting existing hooks.json (non-interactive mode)..."
-    else
-        echo "⚠️  Warning: hooks.json already exists in .cursor/"
-        read -p "Overwrite? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            echo "Skipping hooks.json..."
-            HOOKS_FILE=""
-        fi
-    fi
-fi
-
-if [ -n "$HOOKS_FILE" ]; then
-    echo "Creating hooks.json for Cursor..."
+if [ ! -f "$HOOKS_FILE" ] || confirm_overwrite "hooks.json"; then
+    echo "  Creating hooks.json..."
     cat > "$HOOKS_FILE" <<'EOF'
 {
   "version": 1,
@@ -168,11 +131,11 @@ EOF
 fi
 
 # Copy Cursor-specific hook script
+echo ""
 CURSOR_HOOK_SCRIPT="$PROJECT_ROOT/extra/suggest-class-comment_cursor.sh"
 if [ -f "$CURSOR_HOOK_SCRIPT" ]; then
-    echo "Copying Cursor hook script..."
     mkdir -p "$CURSOR_DIR/scripts"
-    cp "$CURSOR_HOOK_SCRIPT" "$CURSOR_DIR/scripts/suggest-class-comment.sh"
+    copy_file "$CURSOR_HOOK_SCRIPT" "$CURSOR_DIR/scripts/suggest-class-comment.sh" "suggest-class-comment.sh"
     chmod +x "$CURSOR_DIR/scripts/suggest-class-comment.sh"
 else
     echo "⚠️  Warning: Cursor hook script not found at $CURSOR_HOOK_SCRIPT"
@@ -185,11 +148,7 @@ echo "The following have been copied to .cursor/:"
 echo "  - commands/ (custom slash commands)"
 echo "  - skills/ (AI skills)"
 echo "  - mcp.json (MCP server configuration)"
-if [ -f "$CURSOR_DIR/hooks.json" ]; then
-    echo "  - hooks.json (afterFileEdit hooks)"
-fi
-if [ -d "$CURSOR_DIR/scripts" ]; then
-    echo "  - scripts/suggest-class-comment.sh (hook script)"
-fi
+[ -f "$CURSOR_DIR/hooks.json" ] && echo "  - hooks.json (afterFileEdit hooks)"
+[ -d "$CURSOR_DIR/scripts" ] && echo "  - scripts/suggest-class-comment.sh (hook script)"
 echo ""
 echo "Cursor may require restart to recognize the new configuration."
