@@ -36,6 +36,7 @@ Non-interactive mode (overwrites without confirmation):
 
 - Creates `.cursor/` directory structure
 - Copies commands (filenames already have `st-` prefix)
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files
 - Copies skills and agents
 - Copies `.mcp.json` as `.cursor/mcp.json`
 - Creates `hooks.json` for `afterFileEdit` event
@@ -64,8 +65,8 @@ Non-interactive mode:
 
 - Creates `.windsurf/` directory structure (skills, workflows, prompts, agents)
 - Copies skills and agents
-- Copies commands as prompt files
-- Generates workflow files for each command and agent
+- Copies commands as prompt files and generates workflow files for each
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
 - Copies MCP config to `~/.codeium/windsurf/mcp_config.json`
   - On WSL2, uses the Windows-side path (`%USERPROFILE%\.codeium\windsurf\`)
 
@@ -92,8 +93,8 @@ Non-interactive mode:
 
 - Creates `.agent/` directory structure (skills, workflows, prompts, agents)
 - Copies skills and agents
-- Copies commands as prompt files
-- Generates workflow files for each command and agent
+- Copies commands as prompt files and generates workflow files for each
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
 - Copies MCP config to `~/.gemini/antigravity/mcp_config.json`
   - On WSL2, uses the Windows-side path (`%USERPROFILE%\.gemini\antigravity\`)
 
@@ -148,6 +149,7 @@ Non-interactive mode (overwrites without confirmation):
 
 - Creates `.agents/skills/` and copies skills
 - Creates `.opencode/commands/` and copies commands
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files to `.opencode/commands/`
 - Copies MCP config to `opencode.json` in the target directory
   - If `opencode.json` already exists and `jq` is available, merges the `mcp` section automatically (backup created as `opencode.json.bak`)
   - If `jq` is not available, prints the `mcp` section for manual merging

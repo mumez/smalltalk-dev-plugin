@@ -103,6 +103,33 @@ for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
     fi
 done
 
+# Copy st-* skills to commands
+echo ""
+echo "Copying st-* skills to commands..."
+for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
+    if [ -d "$skill_dir" ]; then
+        skill_name=$(basename "$skill_dir")
+        skill_file="$skill_dir/SKILL.md"
+        if [ ! -f "$skill_file" ]; then
+            continue
+        fi
+        target_file="$CURSOR_DIR/commands/$skill_name.md"
+
+        if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
+            echo "⚠️  Warning: $skill_name.md already exists in .cursor/commands/"
+            read -p "Overwrite? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                echo "Skipping $skill_name..."
+                continue
+            fi
+        fi
+
+        cp "$skill_file" "$target_file"
+        echo "  Copied $skill_name.md"
+    fi
+done
+
 # Copy skills
 copy_directory "$PROJECT_ROOT/skills" "$CURSOR_DIR/skills" "skills"
 

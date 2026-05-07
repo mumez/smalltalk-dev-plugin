@@ -35,14 +35,14 @@ Most Smalltalk projects follow these conventions:
    - `repositories/` (older projects, pre-Tonel format)
    - `pharo-local/iceberg/...` (Iceberg working copies)
 
-2. **Project metadata**: Check `.project` file in project root:
-   **If `.project` does not exist**, create it using Pharo's format (single quotes, tab indentation):
+2. **Project metadata**: Check `.project` file in project root.
+   The `.project` file is **required** for Pharo to locate the source directory.
+   **If `.project` does not exist**, use the `smalltalk-dev:st-setup-project` skill to create the full project structure, or manually create it using Pharo's STON format (single quotes, tab indentation):
    ```
    {
    	'srcDirectory' : 'src'
    }
    ```
-   The `.project` file is **required** for Pharo to locate the source directory. Always create it when setting up a new project structure.
 
 3. **Typical project layout**:
    ```

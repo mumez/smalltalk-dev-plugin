@@ -125,6 +125,41 @@ description: Run /$name command
 EOL
 done
 
+# Generate Workflows and prompts for st-* skills
+echo "Generating workflows for st-* skills..."
+for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
+    if [ -d "$skill_dir" ]; then
+        skill_name=$(basename "$skill_dir")
+        skill_file="$skill_dir/SKILL.md"
+        if [ ! -f "$skill_file" ]; then
+            continue
+        fi
+        prompt_target="$WINDSURF_DIR/prompts/$skill_name.md"
+        workflow_target="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
+
+        if { [ -f "$prompt_target" ] || [ -f "$workflow_target" ]; } && [ "$FORCE_YES" != true ]; then
+            echo "⚠️  Warning: $skill_name already exists in prompts/ or workflows/."
+            read -p "Overwrite? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                echo "Skipping $skill_name..."
+                continue
+            fi
+        fi
+
+        echo "Generating $skill_name prompt and workflow..."
+        cp "$skill_file" "$prompt_target"
+        cat > "$workflow_target" <<EOL
+---
+description: Run /$skill_name skill
+---
+
+1. Read the skill instructions at \`$WINDSURF_DIR_NAME/prompts/$skill_name.md\`
+2. Execute the user's request following those instructions.
+EOL
+    fi
+done
+
 # Copy MCP config to user scope
 # Windsurf uses ~/.codeium/windsurf/mcp_config.json
 # On WSL2, use Windows side %USERPROFILE%\.codeium\windsurf
