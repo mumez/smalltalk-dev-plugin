@@ -8,6 +8,7 @@ This plugin is designed for Claude Code, but can also be used with other AI agen
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
 - [Codex CLI](https://github.com/openai/codex)
+- [Gemini CLI](https://geminicli.com/)
 
 ## Prerequisites
 
@@ -187,6 +188,34 @@ Non-interactive mode (overwrites without confirmation):
 
 - Codex CLI does not support custom commands; commands are placed as skills instead
 - Skills are invoked with `$<skill-name>` (e.g., `$st-init`)
+
+## Gemini CLI
+
+### Setup
+
+```bash
+./extra/setup-gemini.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-gemini.sh -y [target-directory]
+```
+
+### What the script does
+
+- Creates `.agents/skills/` directory structure
+- Copies skills directly into `.agents/skills/`
+- Copies each command as `.agents/skills/<command-name>/SKILL.md`
+- Merges MCP config into `~/.gemini/settings.json`
+
+### Notes
+
+- Gemini CLI does not support custom commands; commands are placed as skills instead
+- MCP config uses the same `mcpServers` JSON format as `.mcp.json`
 
 ## Limitations
 
