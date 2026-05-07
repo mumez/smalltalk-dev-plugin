@@ -1,6 +1,6 @@
 ---
 name: st-eval
-description: Smalltalk code evaluator for Pharo via MCP. Use when: executing Smalltalk expressions, verifying object state or intermediate values, debugging code incrementally, checking Pharo connection, or running quick experiments. Key patterns: always use printString on return values, wrap risky code in on:do: for error capture, use fork for blocking operations that would hang the MCP call.
+description: Smalltalk code evaluator for Pharo via MCP. Use when executing Smalltalk expressions, verifying object state or intermediate values, debugging code incrementally, checking Pharo connection, or running quick experiments.
 allowed-tools:
   - mcp__smalltalk-interop__eval
 ---
