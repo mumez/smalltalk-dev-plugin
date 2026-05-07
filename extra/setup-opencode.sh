@@ -104,40 +104,6 @@ else
     done
 fi
 
-# Copy commands to .opencode/commands/
-echo ""
-echo "Copying commands to .opencode/commands/..."
-if [ ! -d "$PROJECT_ROOT/commands" ]; then
-    echo "⚠️  Warning: commands/ directory not found in plugin repository, skipping..."
-else
-    for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-        if [ -f "$cmd_file" ]; then
-            filename=$(basename -- "$cmd_file")
-            target_file="$OPENCODE_COMMANDS_DIR/$filename"
-
-            if [ -f "$target_file" ]; then
-                if [ "$FORCE_YES" = true ]; then
-                    echo "  Overwriting $filename (non-interactive mode)..."
-                    cp "$cmd_file" "$target_file"
-                else
-                    echo "⚠️  Warning: $filename already exists in .opencode/commands/"
-                    read -p "  Overwrite? (y/N): " -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        cp "$cmd_file" "$target_file"
-                        echo "  Copied $filename"
-                    else
-                        echo "  Skipping $filename..."
-                    fi
-                fi
-            else
-                cp "$cmd_file" "$target_file"
-                echo "  Copied $filename"
-            fi
-        fi
-    done
-fi
-
 # Copy st-* skills to .opencode/commands/
 echo ""
 echo "Copying st-* skills to .opencode/commands/..."

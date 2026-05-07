@@ -92,39 +92,6 @@ copy_directory() {
 # Copy skills (Windsurf uses SKILL.md with frontmatter - same as plugin format)
 copy_directory "$PROJECT_ROOT/skills" "$WINDSURF_DIR/$SKILLS_DIR_NAME" "$SKILLS_DIR_NAME"
 
-# Copy commands to prompts (raw files)
-copy_directory "$PROJECT_ROOT/commands" "$WINDSURF_DIR/prompts" "prompts"
-
-# Generate Workflows for Commands
-echo "Generating workflows for commands..."
-for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-    filename=$(basename -- "$cmd_file")
-    name="${filename%.*}"
-    workflow_name="${name}"
-    target_file="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$workflow_name.md"
-
-    # Check if workflow already exists
-    if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-        echo "⚠️  Warning: Workflow $workflow_name.md already exists."
-        read -p "Overwrite? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            echo "Skipping $workflow_name..."
-            continue
-        fi
-    fi
-
-    echo "Generating $workflow_name.md..."
-    cat > "$target_file" <<EOL
----
-description: Run /$name command
----
-
-1. Read the command instructions at \`$WINDSURF_DIR_NAME/prompts/$filename\`
-2. Execute the user's request following those instructions.
-EOL
-done
-
 # Generate Workflows and prompts for st-* skills
 echo "Generating workflows for st-* skills..."
 for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do

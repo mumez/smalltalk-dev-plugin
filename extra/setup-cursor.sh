@@ -81,28 +81,6 @@ copy_directory() {
     cp -r "$src" "$dst"
 }
 
-# Copy commands (filenames already have st- prefix)
-echo "Copying commands..."
-for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-    if [ -f "$cmd_file" ]; then
-        filename=$(basename -- "$cmd_file")
-        target_file="$CURSOR_DIR/commands/$filename"
-
-        if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-            echo "⚠️  Warning: $filename already exists."
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping $filename..."
-                continue
-            fi
-        fi
-
-        cp "$cmd_file" "$target_file"
-        echo "  Copied $filename"
-    fi
-done
-
 # Copy st-* skills to commands
 echo ""
 echo "Copying st-* skills to commands..."
