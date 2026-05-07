@@ -10,8 +10,7 @@ This plugin provides a comprehensive AI-powered toolkit for Pharo Smalltalk deve
 
 ## Features
 
-- **Commands**: Essential slash commands for import, test, eval, and validation
-- **Skills**: AI-powered development workflow, debugging expertise, and documentation
+- **Skills**: All capabilities are implemented as skills — `st-*` skills are user-invoked commands; other skills provide AI-powered development workflow, debugging expertise, and documentation
 - **MCP Integration**: Seamless connection to Pharo and validation servers
 - **Hooks**: Automatic suggestions after file changes
 
@@ -114,11 +113,11 @@ claude plugin install smalltalk-dev
 
 After installation, you should see the custom commands starting with `/st-`.
 
-### Commands
+### Commands (User-invoked Skills)
 
-The plugin provides essential commands for Smalltalk development:
+All commands are implemented as `st-*` skills. **Most users should start with `/st-buddy`** — it guides you and invokes other commands as needed.
 
-- `/st-buddy` - Start your friendly Smalltalk development assistant (recommended starting point)
+- `/st-buddy` - Friendly development assistant (recommended starting point)
 - `/st-init` - Load smalltalk-developer skill and explain workflow
 - `/st-setup-project` - Set up Pharo project structure
 - `/st-eval` - Execute Smalltalk code snippets
@@ -128,13 +127,11 @@ The plugin provides essential commands for Smalltalk development:
 - `/st-test` - Run SUnit tests
 - `/st-validate` - Validate Tonel syntax
 
-**Most users should start with /st-buddy** - it will guide you and use the other commands as needed.
-
 For command details and advanced usage, see [Commands.md](doc/Commands.md).
 
-### Skills
+### Background Skills
 
-The plugin includes specialized AI skills that activate automatically based on your needs:
+Specialized skills that activate automatically based on context (also usable directly):
 
 - **smalltalk-developer** - Development workflow and best practices
 - **smalltalk-debugger** - Error handling and debugging procedures
@@ -302,17 +299,22 @@ smalltalk-dev-plugin/
 │   ├── plugin.json          # Plugin metadata
 │   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
-├── commands/
+├── commands/                # Claude Code slash command entry points (st-* subset)
 │   ├── st-buddy.md          # /st-buddy - Friendly development assistant
 │   ├── st-init.md           # /st-init - Start development session
 │   ├── st-setup-project.md  # /st-setup-project - Project boilerplate
 │   ├── st-eval.md           # /st-eval - Execute Smalltalk code
-│   ├── st-import.md         # /st-import - Import Tonel packages
-│   ├── st-export.md         # /st-export - Export packages
-│   ├── st-test.md           # /st-test - Run SUnit tests
-│   ├── st-lint.md           # /st-lint - Check code quality
-│   └── st-validate.md       # /st-validate - Validate Tonel syntax
+│   └── st-lint.md           # /st-lint - Check code quality
 ├── skills/
+│   ├── st-buddy/            # /st-buddy skill (also a command)
+│   ├── st-init/             # /st-init skill (also a command)
+│   ├── st-setup-project/    # /st-setup-project skill (also a command)
+│   ├── st-eval/             # /st-eval skill (also a command)
+│   ├── st-lint/             # /st-lint skill (also a command)
+│   ├── st-import/           # /st-import - Import Tonel packages
+│   ├── st-export/           # /st-export - Export packages
+│   ├── st-test/             # /st-test - Run SUnit tests
+│   ├── st-validate/         # /st-validate - Validate Tonel syntax
 │   ├── smalltalk-commenter/
 │   │   └── SKILL.md         # Documentation specialist skill
 │   ├── smalltalk-developer/

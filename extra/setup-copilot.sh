@@ -99,43 +99,6 @@ else
     done
 fi
 
-# Copy each command to .github/skills/<command-name>/SKILL.md
-echo ""
-echo "Copying commands to .github/skills/<name>/SKILL.md..."
-if [ ! -d "$PROJECT_ROOT/commands" ]; then
-    echo "⚠️  Warning: commands/ directory not found in plugin repository, skipping..."
-else
-    for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-        if [ -f "$cmd_file" ]; then
-            filename=$(basename -- "$cmd_file")
-            name="${filename%.*}"
-            cmd_dir="$SKILLS_DIR/$name"
-            target_file="$cmd_dir/SKILL.md"
-
-            mkdir -p "$cmd_dir"
-            if [ -f "$target_file" ]; then
-                if [ "$FORCE_YES" = true ]; then
-                    echo "  Overwriting $name/SKILL.md..."
-                    cp "$cmd_file" "$target_file"
-                else
-                    echo "⚠️  Warning: $name/SKILL.md already exists in .github/skills/"
-                    read -p "Overwrite? (y/N): " -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        cp "$cmd_file" "$target_file"
-                        echo "  Copied $name/SKILL.md"
-                    else
-                        echo "  Skipping $name..."
-                    fi
-                fi
-            else
-                cp "$cmd_file" "$target_file"
-                echo "  Copied $name/SKILL.md"
-            fi
-        fi
-    done
-fi
-
 # Copy MCP config to ~/.copilot/mcp-config.json (user scope)
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
     MCP_TARGET_DIR="$HOME/.copilot"
@@ -171,7 +134,7 @@ echo "✅ GitHub Copilot setup complete!"
 echo ""
 echo "The following have been set up:"
 echo "  - .github/skills/ (AI skills for GitHub Copilot)"
-echo "  - .github/skills/<name>/SKILL.md (each command from commands/)"
+echo "  - .github/skills/ (AI skills including st-* user commands)"
 echo "  - MCP config: ${target_mcp:-~/.copilot/mcp-config.json}"
 echo ""
 echo "GitHub Copilot may require VS Code restart to recognize the new configuration."

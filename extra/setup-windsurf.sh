@@ -40,10 +40,8 @@ fi
 # Convert to absolute path
 TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
 WINDSURF_DIR="$TARGET_DIR/.windsurf"
-
 WINDSURF_DIR_NAME=$(basename "$WINDSURF_DIR")
 
-# Windsurf directory names
 SKILLS_DIR_NAME="skills"
 WORKFLOWS_DIR_NAME="workflows"
 
@@ -53,103 +51,76 @@ echo "Target directory: $TARGET_DIR"
 echo "Windsurf directory: $WINDSURF_DIR ($WINDSURF_DIR_NAME)"
 echo ""
 
-# Create directories
-mkdir -p "$WINDSURF_DIR/$SKILLS_DIR_NAME"
-mkdir -p "$WINDSURF_DIR/$WORKFLOWS_DIR_NAME"
-mkdir -p "$WINDSURF_DIR/prompts"
+mkdir -p "$WINDSURF_DIR/$SKILLS_DIR_NAME" "$WINDSURF_DIR/$WORKFLOWS_DIR_NAME" "$WINDSURF_DIR/prompts"
 
-# Function to copy directory with confirmation
+# Returns 0 (proceed) or 1 (skip) based on FORCE_YES or user input
+confirm_overwrite() {
+    local name="$1"
+    if [ "$FORCE_YES" = true ]; then
+        echo "Overwriting existing $name (non-interactive mode)..."
+        return 0
+    fi
+    echo "⚠️  Warning: $name already exists"
+    read -p "Overwrite? (y/N): " -n 1 -r
+    echo
+    [[ $REPLY =~ ^[Yy]$ ]] || { echo "Skipping $name..."; return 1; }
+}
+
+copy_file() {
+    local src="$1" dst="$2" name="$3"
+    if [ ! -f "$src" ]; then
+        echo "⚠️  Warning: $src not found, skipping $name..."
+        return
+    fi
+    if [ -f "$dst" ]; then
+        confirm_overwrite "$name" || return
+    fi
+    echo "  Copying $name..."
+    cp "$src" "$dst"
+}
+
 copy_directory() {
-    local src="$1"
-    local dst="$2"
-    local name="$3"
-
+    local src="$1" dst="$2" name="$3"
     if [ ! -d "$src" ]; then
         echo "⚠️  Warning: Source directory $src does not exist, skipping $name..."
         return
     fi
-
     if [ -d "$dst" ]; then
-        if [ "$FORCE_YES" = true ]; then
-            echo "Overwriting existing $name (non-interactive mode)..."
-            rm -rf "$dst"
-        else
-            echo "⚠️  Warning: $name already exists in $WINDSURF_DIR_NAME/"
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping $name..."
-                return
-            fi
-            rm -rf "$dst"
-        fi
+        confirm_overwrite "$name" || return
+        rm -rf "$dst"
     fi
-
-    echo "Copying $name..."
+    echo "  Copying $name..."
     cp -r "$src" "$dst"
 }
 
-# Copy skills (Windsurf uses SKILL.md with frontmatter - same as plugin format)
-copy_directory "$PROJECT_ROOT/skills" "$WINDSURF_DIR/$SKILLS_DIR_NAME" "$SKILLS_DIR_NAME"
-
-# Copy commands to prompts (raw files)
-copy_directory "$PROJECT_ROOT/commands" "$WINDSURF_DIR/prompts" "prompts"
-
-# Generate Workflows for Commands
-echo "Generating workflows for commands..."
-for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-    filename=$(basename -- "$cmd_file")
-    name="${filename%.*}"
-    workflow_name="${name}"
-    target_file="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$workflow_name.md"
-
-    # Check if workflow already exists
-    if [ -f "$target_file" ] && [ "$FORCE_YES" != true ]; then
-        echo "⚠️  Warning: Workflow $workflow_name.md already exists."
-        read -p "Overwrite? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            echo "Skipping $workflow_name..."
-            continue
-        fi
-    fi
-
-    echo "Generating $workflow_name.md..."
-    cat > "$target_file" <<EOL
----
-description: Run /$name command
----
-
-1. Read the command instructions at \`$WINDSURF_DIR_NAME/prompts/$filename\`
-2. Execute the user's request following those instructions.
-EOL
+# Copy non-st-* skills to skills/ (st-* go to workflows/ and prompts/ below)
+echo "Copying skills..."
+for skill_dir in "$PROJECT_ROOT/skills"/*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    [[ "$skill_name" == st-* ]] && continue
+    copy_directory "$skill_dir" "$WINDSURF_DIR/$SKILLS_DIR_NAME/$skill_name" "$skill_name"
 done
 
-# Generate Workflows and prompts for st-* skills
+# Generate workflows and prompts for st-* skills
+echo ""
 echo "Generating workflows for st-* skills..."
 for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
-    if [ -d "$skill_dir" ]; then
-        skill_name=$(basename "$skill_dir")
-        skill_file="$skill_dir/SKILL.md"
-        if [ ! -f "$skill_file" ]; then
-            continue
-        fi
-        prompt_target="$WINDSURF_DIR/prompts/$skill_name.md"
-        workflow_target="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    skill_file="$skill_dir/SKILL.md"
+    [ -f "$skill_file" ] || continue
 
-        if { [ -f "$prompt_target" ] || [ -f "$workflow_target" ]; } && [ "$FORCE_YES" != true ]; then
-            echo "⚠️  Warning: $skill_name already exists in prompts/ or workflows/."
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Skipping $skill_name..."
-                continue
-            fi
-        fi
+    prompt_target="$WINDSURF_DIR/prompts/$skill_name.md"
+    workflow_target="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
 
-        echo "Generating $skill_name prompt and workflow..."
-        cp "$skill_file" "$prompt_target"
-        cat > "$workflow_target" <<EOL
+    if { [ -f "$prompt_target" ] || [ -f "$workflow_target" ]; }; then
+        confirm_overwrite "$skill_name" || continue
+    fi
+
+    echo "  Generating $skill_name prompt and workflow..."
+    cp "$skill_file" "$prompt_target"
+    cat > "$workflow_target" <<EOL
 ---
 description: Run /$skill_name skill
 ---
@@ -157,14 +128,13 @@ description: Run /$skill_name skill
 1. Read the skill instructions at \`$WINDSURF_DIR_NAME/prompts/$skill_name.md\`
 2. Execute the user's request following those instructions.
 EOL
-    fi
 done
 
 # Copy MCP config to user scope
 # Windsurf uses ~/.codeium/windsurf/mcp_config.json
 # On WSL2, use Windows side %USERPROFILE%\.codeium\windsurf
+echo ""
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
-    # Detect WSL2 and use Windows user profile path
     if grep -qi microsoft /proc/version 2>/dev/null; then
         WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
         MCP_TARGET_DIR="$(wslpath "$WIN_USERPROFILE")/.codeium/windsurf"
@@ -174,21 +144,8 @@ if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
     fi
     mkdir -p "$MCP_TARGET_DIR"
     target_mcp="$MCP_TARGET_DIR/mcp_config.json"
-    if [ -f "$target_mcp" ]; then
-        if [ "$FORCE_YES" = true ]; then
-            echo "Overwriting $target_mcp..."
-            cp "$PROJECT_ROOT/.mcp.json" "$target_mcp"
-        else
-            echo "⚠️  Warning: $target_mcp already exists"
-            read -p "Overwrite? (y/N): " -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                echo "Copying .mcp.json to $target_mcp..."
-                cp "$PROJECT_ROOT/.mcp.json" "$target_mcp"
-            fi
-        fi
-    else
-        echo "Copying .mcp.json to $target_mcp..."
+    if [ ! -f "$target_mcp" ] || confirm_overwrite "mcp_config.json"; then
+        echo "  Copying .mcp.json to $target_mcp..."
         cp "$PROJECT_ROOT/.mcp.json" "$target_mcp"
     fi
 fi
