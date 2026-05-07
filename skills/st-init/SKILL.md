@@ -1,6 +1,6 @@
 ---
 name: st-init
-description: Pharo Smalltalk development session initializer. Use when: (1) starting a new Smalltalk development session, (2) Pharo connection needs to be established or verified, (3) user asks about the development workflow or available commands, (4) development environment setup is needed, (5) Docker or local Pharo installation is required. Checks project structure, verifies Pharo MCP connection, explains Edit→Lint→Import→Test workflow, and provides Docker/local Pharo setup if not connected.
+description: Pharo Smalltalk development session initializer. Use when starting a new Smalltalk development session, when Pharo connection needs to be established or verified, when the user asks about the development workflow or available commands, when development environment setup is needed, or when Docker or local Pharo installation is required.
 allowed-tools:
   - Skill
   - Bash

@@ -1,6 +1,6 @@
 ---
 name: st-buddy
-description: Friendly Smalltalk development assistant and skill router. Use when: user asks any Pharo/Smalltalk development question, needs help getting started, asks about the workflow, wants to implement/debug/understand code, needs project setup guidance, or is unsure where to begin. Routes to the right specialized skill (smalltalk-developer, smalltalk-debugger, smalltalk-usage-finder, smalltalk-implementation-finder, st-init, st-setup-project, st-eval, st-lint) based on user intent. Also handles ambiguous questions, multiple concerns, and first-time initialization.
+description: Friendly Smalltalk development assistant and skill router. Use when the user asks any Pharo/Smalltalk development question, needs help getting started, asks about the workflow, wants to implement/debug/understand code, needs project setup guidance, or is unsure where to begin.
 allowed-tools:
   - Skill
   - Task
