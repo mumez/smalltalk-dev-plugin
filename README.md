@@ -299,18 +299,12 @@ smalltalk-dev-plugin/
 │   ├── plugin.json          # Plugin metadata
 │   └── marketplace.json     # Marketplace configuration
 ├── .mcp.json                # MCP server configuration
-├── commands/                # Claude Code slash command entry points (st-* subset)
-│   ├── st-buddy.md          # /st-buddy - Friendly development assistant
-│   ├── st-init.md           # /st-init - Start development session
-│   ├── st-setup-project.md  # /st-setup-project - Project boilerplate
-│   ├── st-eval.md           # /st-eval - Execute Smalltalk code
-│   └── st-lint.md           # /st-lint - Check code quality
 ├── skills/
-│   ├── st-buddy/            # /st-buddy skill (also a command)
-│   ├── st-init/             # /st-init skill (also a command)
-│   ├── st-setup-project/    # /st-setup-project skill (also a command)
-│   ├── st-eval/             # /st-eval skill (also a command)
-│   ├── st-lint/             # /st-lint skill (also a command)
+│   ├── st-buddy/            # /st-buddy - Friendly development assistant
+│   ├── st-init/             # /st-init - Start development session
+│   ├── st-setup-project/    # /st-setup-project - Project boilerplate
+│   ├── st-eval/             # /st-eval - Execute Smalltalk code
+│   ├── st-lint/             # /st-lint - Check code quality
 │   ├── st-import/           # /st-import - Import Tonel packages
 │   ├── st-export/           # /st-export - Export packages
 │   ├── st-test/             # /st-test - Run SUnit tests
