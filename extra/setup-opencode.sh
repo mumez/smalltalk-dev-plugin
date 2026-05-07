@@ -52,8 +52,13 @@ fi
 TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
 
 AGENTS_SKILLS_DIR="$TARGET_DIR/.agents/skills"
-OPENCODE_COMMANDS_DIR="$TARGET_DIR/.opencode/commands"
-OPENCODE_CONFIG="$TARGET_DIR/opencode.json"
+if [ "$USER_SCOPE" = true ]; then
+    OPENCODE_COMMANDS_DIR="$HOME/.config/opencode/commands"
+    OPENCODE_CONFIG="$HOME/.config/opencode/opencode.json"
+else
+    OPENCODE_COMMANDS_DIR="$TARGET_DIR/.opencode/commands"
+    OPENCODE_CONFIG="$TARGET_DIR/opencode.json"
+fi
 SOURCE_MCP="$PROJECT_ROOT/extra/opencode.json"
 
 echo "Setting up Smalltalk development plugin for OpenCode..."
@@ -123,10 +128,12 @@ fi
 echo ""
 echo "Configuring MCP servers in opencode.json..."
 
+mkdir -p "$(dirname "$OPENCODE_CONFIG")"
+
 if [ ! -f "$SOURCE_MCP" ]; then
     echo "⚠️  Warning: $SOURCE_MCP not found, skipping MCP config..."
 elif [ ! -f "$OPENCODE_CONFIG" ]; then
-    echo "  Copying opencode.json..."
+    echo "  Copying opencode.json to $OPENCODE_CONFIG..."
     cp "$SOURCE_MCP" "$OPENCODE_CONFIG"
 else
     echo "opencode.json already exists in target directory."
