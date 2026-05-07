@@ -1,6 +1,6 @@
 # Commands Reference
 
-Quick reference for all available slash commands. For detailed AI-driven usage, see the command files in [`commands/`](commands/) directory.
+Quick reference for all available slash commands. All commands are implemented as user-invokable skills in the [`skills/`](../skills/) directory — the `st-*` prefix distinguishes user-invoked commands from background AI skills.
 
 ## Available Commands
 
