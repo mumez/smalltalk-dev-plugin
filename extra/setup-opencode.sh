@@ -7,6 +7,7 @@
 # Usage:
 #   ./extra/setup-opencode.sh [target-directory]
 #   ./extra/setup-opencode.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-opencode.sh --user                 # Install to $HOME (user scope)
 #
 # If target-directory is not specified, uses the repository root.
 # If opencode.json already exists, the mcp section is merged automatically
@@ -17,11 +18,16 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+USER_SCOPE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --user)
+            USER_SCOPE=true
             shift
             ;;
         *)
@@ -36,7 +42,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Determine target directory
-if [ -z "$TARGET_DIR" ]; then
+if [ "$USER_SCOPE" = true ]; then
+    TARGET_DIR="$HOME"
+elif [ -z "$TARGET_DIR" ]; then
     TARGET_DIR="$PROJECT_ROOT"
 fi
 

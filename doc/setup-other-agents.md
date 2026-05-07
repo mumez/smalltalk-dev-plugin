@@ -119,6 +119,12 @@ Non-interactive mode (overwrites without confirmation):
 ./extra/setup-copilot.sh -y [target-directory]
 ```
 
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-copilot.sh --user
+```
+
 ### What the script does
 
 - Creates `.github/skills/` directory structure
@@ -144,6 +150,12 @@ Non-interactive mode (overwrites without confirmation):
 
 ```bash
 ./extra/setup-opencode.sh -y [target-directory]
+```
+
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-opencode.sh --user
 ```
 
 ### What the script does
@@ -177,6 +189,12 @@ Non-interactive mode (overwrites without confirmation):
 ./extra/setup-codex.sh -y [target-directory]
 ```
 
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-codex.sh --user
+```
+
 ### What the script does
 
 - Creates `.agents/skills/` directory structure
@@ -203,6 +221,12 @@ Non-interactive mode (overwrites without confirmation):
 
 ```bash
 ./extra/setup-gemini.sh -y [target-directory]
+```
+
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-gemini.sh --user
 ```
 
 ### What the script does

@@ -7,6 +7,7 @@
 # Usage:
 #   ./extra/setup-codex.sh [target-directory]
 #   ./extra/setup-codex.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-codex.sh --user                 # Install to $HOME (user scope)
 #
 # If target-directory is not specified, uses the repository root.
 # Skills are invoked with $<skill-name> (e.g., $st-init).
@@ -16,11 +17,16 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+USER_SCOPE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --user)
+            USER_SCOPE=true
             shift
             ;;
         *)
@@ -35,7 +41,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Determine target directory
-if [ -z "$TARGET_DIR" ]; then
+if [ "$USER_SCOPE" = true ]; then
+    TARGET_DIR="$HOME"
+elif [ -z "$TARGET_DIR" ]; then
     TARGET_DIR="$PROJECT_ROOT"
 fi
 # Convert to absolute path
