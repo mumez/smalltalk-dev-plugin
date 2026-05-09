@@ -7,6 +7,7 @@
 # Usage:
 #   ./extra/setup-codex.sh [target-directory]
 #   ./extra/setup-codex.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-codex.sh --user                 # Install to $HOME (user scope)
 #
 # If target-directory is not specified, uses the repository root.
 # Skills are invoked with $<skill-name> (e.g., $st-init).
@@ -16,11 +17,16 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+USER_SCOPE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --user)
+            USER_SCOPE=true
             shift
             ;;
         *)
@@ -35,7 +41,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Determine target directory
-if [ -z "$TARGET_DIR" ]; then
+if [ "$USER_SCOPE" = true ]; then
+    TARGET_DIR="$HOME"
+elif [ -z "$TARGET_DIR" ]; then
     TARGET_DIR="$PROJECT_ROOT"
 fi
 # Convert to absolute path
@@ -88,43 +96,6 @@ else
         if [ -d "$skill_dir" ]; then
             skill_name=$(basename "$skill_dir")
             copy_skill "$skill_dir" "$SKILLS_DIR/$skill_name" "$skill_name"
-        fi
-    done
-fi
-
-# Copy each command to .agents/skills/<command-name>/SKILL.md
-echo ""
-echo "Copying commands to .agents/skills/<name>/SKILL.md..."
-if [ ! -d "$PROJECT_ROOT/commands" ]; then
-    echo "⚠️  Warning: commands/ directory not found in plugin repository, skipping..."
-else
-    for cmd_file in "$PROJECT_ROOT/commands"/*.md; do
-        if [ -f "$cmd_file" ]; then
-            filename=$(basename -- "$cmd_file")
-            name="${filename%.*}"
-            cmd_dir="$SKILLS_DIR/$name"
-            target_file="$cmd_dir/SKILL.md"
-
-            mkdir -p "$cmd_dir"
-            if [ -f "$target_file" ]; then
-                if [ "$FORCE_YES" = true ]; then
-                    echo "  Overwriting $name/SKILL.md..."
-                    cp "$cmd_file" "$target_file"
-                else
-                    echo "⚠️  Warning: $name/SKILL.md already exists in .agents/skills/"
-                    read -p "Overwrite? (y/N): " -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        cp "$cmd_file" "$target_file"
-                        echo "  Copied $name/SKILL.md"
-                    else
-                        echo "  Skipping $name..."
-                    fi
-                fi
-            else
-                cp "$cmd_file" "$target_file"
-                echo "  Copied $name/SKILL.md"
-            fi
         fi
     done
 fi

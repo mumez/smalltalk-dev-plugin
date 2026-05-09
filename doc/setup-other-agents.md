@@ -8,6 +8,7 @@ This plugin is designed for Claude Code, but can also be used with other AI agen
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
 - [Codex CLI](https://github.com/openai/codex)
+- [Gemini CLI](https://geminicli.com/)
 
 ## Prerequisites
 
@@ -36,6 +37,7 @@ Non-interactive mode (overwrites without confirmation):
 
 - Creates `.cursor/` directory structure
 - Copies commands (filenames already have `st-` prefix)
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files
 - Copies skills and agents
 - Copies `.mcp.json` as `.cursor/mcp.json`
 - Creates `hooks.json` for `afterFileEdit` event
@@ -64,8 +66,8 @@ Non-interactive mode:
 
 - Creates `.windsurf/` directory structure (skills, workflows, prompts, agents)
 - Copies skills and agents
-- Copies commands as prompt files
-- Generates workflow files for each command and agent
+- Copies commands as prompt files and generates workflow files for each
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
 - Copies MCP config to `~/.codeium/windsurf/mcp_config.json`
   - On WSL2, uses the Windows-side path (`%USERPROFILE%\.codeium\windsurf\`)
 
@@ -92,8 +94,8 @@ Non-interactive mode:
 
 - Creates `.agent/` directory structure (skills, workflows, prompts, agents)
 - Copies skills and agents
-- Copies commands as prompt files
-- Generates workflow files for each command and agent
+- Copies commands as prompt files and generates workflow files for each
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
 - Copies MCP config to `~/.gemini/antigravity/mcp_config.json`
   - On WSL2, uses the Windows-side path (`%USERPROFILE%\.gemini\antigravity\`)
 
@@ -115,6 +117,12 @@ Non-interactive mode (overwrites without confirmation):
 
 ```bash
 ./extra/setup-copilot.sh -y [target-directory]
+```
+
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-copilot.sh --user
 ```
 
 ### What the script does
@@ -144,10 +152,17 @@ Non-interactive mode (overwrites without confirmation):
 ./extra/setup-opencode.sh -y [target-directory]
 ```
 
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-opencode.sh --user
+```
+
 ### What the script does
 
 - Creates `.agents/skills/` and copies skills
 - Creates `.opencode/commands/` and copies commands
+- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files to `.opencode/commands/`
 - Copies MCP config to `opencode.json` in the target directory
   - If `opencode.json` already exists and `jq` is available, merges the `mcp` section automatically (backup created as `opencode.json.bak`)
   - If `jq` is not available, prints the `mcp` section for manual merging
@@ -174,6 +189,12 @@ Non-interactive mode (overwrites without confirmation):
 ./extra/setup-codex.sh -y [target-directory]
 ```
 
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-codex.sh --user
+```
+
 ### What the script does
 
 - Creates `.agents/skills/` directory structure
@@ -185,6 +206,40 @@ Non-interactive mode (overwrites without confirmation):
 
 - Codex CLI does not support custom commands; commands are placed as skills instead
 - Skills are invoked with `$<skill-name>` (e.g., `$st-init`)
+
+## Gemini CLI
+
+### Setup
+
+```bash
+./extra/setup-gemini.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-gemini.sh -y [target-directory]
+```
+
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-gemini.sh --user
+```
+
+### What the script does
+
+- Creates `.agents/skills/` directory structure
+- Copies skills directly into `.agents/skills/`
+- Copies each command as `.agents/skills/<command-name>/SKILL.md`
+- Merges MCP config into `~/.gemini/settings.json`
+
+### Notes
+
+- Gemini CLI does not support custom commands; commands are placed as skills instead
+- MCP config uses the same `mcpServers` JSON format as `.mcp.json`
 
 ## Limitations
 
