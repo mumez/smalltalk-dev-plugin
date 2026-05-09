@@ -1,9 +1,7 @@
 ---
 name: st-test
 description: Run SUnit tests in the running Pharo image. Use when verifying changes after import, or when checking results for a specific test class or package.
-allowed-tools:
-  - mcp__smalltalk-interop__run_class_test
-  - mcp__smalltalk-interop__run_package_test
+allowed-tools: mcp__smalltalk-interop__run_class_test mcp__smalltalk-interop__run_package_test
 ---
 
 # Run SUnit Tests

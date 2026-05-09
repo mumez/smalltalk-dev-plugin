@@ -1,9 +1,7 @@
 ---
 name: st-import
 description: Import Tonel package into running Pharo image. Use when loading edited .st files into Pharo after code changes.
-allowed-tools:
-  - mcp__smalltalk-interop__import_package
-  - mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
+allowed-tools: mcp__smalltalk-interop__import_package mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
 ---
 
 # Import Tonel Package

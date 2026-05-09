@@ -1,8 +1,7 @@
 ---
 name: st-export
 description: Export package from Pharo image to Tonel files. Use when code was changed directly in Pharo (debugger, browser, or code generation) and needs to be synced back to Tonel files.
-allowed-tools:
-  - mcp__smalltalk-interop__export_package
+allowed-tools: mcp__smalltalk-interop__export_package
 ---
 
 # Export Package from Pharo
