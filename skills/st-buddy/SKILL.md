@@ -1,18 +1,7 @@
 ---
 name: st-buddy
 description: Friendly Smalltalk development assistant and skill router. Use when the user asks any Pharo/Smalltalk development question, needs help getting started, asks about the workflow, wants to implement/debug/understand code, needs project setup guidance, or is unsure where to begin.
-allowed-tools:
-  - Skill
-  - Task
-  - Read
-  - Grep
-  - Glob
-  - mcp__smalltalk-interop__eval
-  - mcp__smalltalk-interop__get_class_source
-  - mcp__smalltalk-interop__get_method_source
-  - mcp__smalltalk-interop__search_implementors
-  - mcp__smalltalk-interop__search_references
-  - mcp__smalltalk-interop__list_methods
+allowed-tools: Skill Task Read Grep Glob mcp__smalltalk-interop__eval mcp__smalltalk-interop__get_class_source mcp__smalltalk-interop__get_method_source mcp__smalltalk-interop__search_implementors mcp__smalltalk-interop__search_references mcp__smalltalk-interop__list_methods
 ---
 
 # Smalltalk Buddy — Friendly Development Partner

@@ -1,10 +1,7 @@
 ---
 name: st-setup-project
 description: Pharo project boilerplate creator. Use when the user asks to create a new Pharo/Smalltalk project from scratch, when project structure is missing (no src/ directory or .project file), when the user wants to start a new Smalltalk development project, or when setting up BaselineOf, Core, and Tests package structure.
-allowed-tools:
-  - Bash
-  - AskUserQuestion
-  - Read
+allowed-tools: Bash AskUserQuestion Read
 ---
 
 # Set Up Pharo Project Boilerplate
