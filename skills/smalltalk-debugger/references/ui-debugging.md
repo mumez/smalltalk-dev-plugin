@@ -42,7 +42,7 @@ The `read_screen` tool captures screenshots and extracts UI structure from the r
 - `false`: Returns only UI structure data (faster execution)
 - For debugger detection, screenshots are optional but can be helpful
 
-> **Docker note**: When Pharo runs inside Docker, screenshot files are saved to `/root/screenshots` inside the container, not to `/tmp` on the host. Check `compose.yml` `volumes:` to find where `/root/screenshots` is mounted on the host side before looking for screenshot files.
+> **Docker note**: When Pharo runs inside Docker (check by `docker ps`), screenshot files are saved to `/root/screenshots` inside the container, not to `/tmp` on the host. Check `compose.yml` `volumes:` to find where `/root/screenshots` is mounted on the host side before looking for screenshot files.
 
 ### Return Structure
 
