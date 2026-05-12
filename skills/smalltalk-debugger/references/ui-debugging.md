@@ -300,6 +300,54 @@ Help users avoid debuggers by:
 - Validating inputs before operations
 - Running tests regularly to catch issues early
 
+## UI Debugging of Spec2
+
+Use `read_screen` to verify Spec2 presenter UIs during development.
+
+### Basic Workflow
+
+**Open a presenter and inspect:**
+```smalltalk
+" Open the presenter "
+xxxPresenter := XxxPresenter new open.
+```
+Then call:
+```
+mcp__smalltalk-interop__read_screen: target_type='spec'
+```
+
+**Close after inspection:**
+```smalltalk
+xxxPresenter window close.
+```
+
+**Close all instances at once:**
+```smalltalk
+XxxPresenter allInstances do: [:e | e window close].
+```
+
+### Navigating Presenter Hierarchy
+
+Presenters are view models, so you can traverse child presenters and send messages to change state before calling `read_screen`:
+
+```smalltalk
+" Access a child presenter "
+xxxPresenter yyyPresenter.
+
+" Change state, then inspect the result via read_screen "
+xxxPresenter yyyPresenter updateWith: someData.
+```
+
+After sending state-changing messages, call `read_screen` again to verify the UI reflects the new state.
+
+### Typical Debugging Cycle
+
+1. `XxxPresenter new open` — open the UI
+2. `read_screen target_type='spec'` — capture current state
+3. Send messages to the presenter to change state
+4. `read_screen` again — verify the display updated correctly
+5. `xxxPresenter window close` — close when done
+
 ## Summary
 
 The `read_screen` tool is essential for diagnosing invisible blocking states in Pharo development through MCP. When operations hang:
