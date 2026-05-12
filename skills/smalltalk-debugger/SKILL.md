@@ -60,9 +60,36 @@ step2 := step1 select: [:each | each isValid].
 
 ## When Operations Stop Responding
 
-If MCP tool calls hang or timeout with no response, first check whether Pharo itself is running and connected. If the connection was never established, use the `smalltalk-dev:st-init` skill to verify and restore the Pharo connection.
+When an MCP call times out, follow this escalation sequence:
 
-If Pharo is running but a **debugger window may have opened in the Pharo image**, operations will appear stuck because the debugger is invisible from the AI editor.
+### Step 1: Health Check
+
+Run a quick eval to verify Pharo is still responsive:
+
+```
+mcp__smalltalk-interop__eval: 'Smalltalk version'
+```
+
+If this succeeds, Pharo is alive — a **debugger window may have opened** (see below).
+
+### Step 2: Try `read_screen`
+
+If eval also times out, check the UI state:
+
+```
+mcp__smalltalk-interop__read_screen: target_type='world'
+```
+
+If `read_screen` responds, inspect the output for debugger windows (see "Detecting Hidden Debuggers" below).
+
+### Step 3: Process Hang — Ask User to Restart
+
+If `read_screen` itself times out, **Pharo has hung at the process level**. MCP tools cannot recover from this state.
+
+Ask the user to:
+1. Kill the Pharo process (or Docker container) and restart it
+2. After restart, re-import all packages before continuing
+3. Re-run tests to confirm state before making further claims
 
 ### Detecting Hidden Debuggers
 
@@ -90,54 +117,6 @@ This captures all morphs including debugger windows. Look for:
 **Note**: The Pharo debugger cannot be controlled remotely through MCP tools. User intervention in the Pharo image is required.
 
 For complete UI debugging guidance, see [UI Debugging Reference](references/ui-debugging.md).
-
-## Essential Debugging Patterns
-
-### Pattern 1: Execute with Error Handling
-
-Safely test code that might fail:
-
-```smalltalk
-| result |
-result := Array new: 2.
-[
-    | obj |
-    obj := MyClass new name: 'Test'.
-    result at: 1 put: obj process printString.
-] on: Error do: [:ex |
-    result at: 2 put: ex description
-].
-^ result
-```
-
-### Pattern 2: Inspect Object State
-
-Check what object contains:
-
-```smalltalk
-{
-    'class' -> obj class name.
-    'value' -> obj printString.
-    'size' -> obj size.
-    'isEmpty' -> obj isEmpty
-} asDictionary printString
-```
-
-### Pattern 3: Debug Collection Operations
-
-Track data flow through transformations:
-
-```smalltalk
-| items filtered mapped |
-items := self getItems.
-filtered := items select: [:each | each isValid].
-mapped := filtered collect: [:each | each name].
-{
-    'items size' -> items size.
-    'filtered size' -> filtered size.
-    'mapped' -> mapped printString
-} asDictionary printString
-```
 
 ## Common Error Types Quick Reference
 
@@ -216,52 +195,47 @@ For comprehensive inspection techniques, see [Inspection Techniques Reference](r
 ## Debugging Best Practices
 
 ### 1. Divide into Small Steps
-Break problems into incremental steps and verify each:
+Break problems into incremental steps and verify each with `/st-eval`:
 
 ```smalltalk
-" Step 1: Verify object creation "
 obj := MyClass new.
-obj printString
+obj printString  " Step 1: verify creation "
 
-" Step 2: Verify method call "
 result := obj doSomething.
-result printString
+result printString  " Step 2: verify method call "
 ```
 
-### 2. Always Use printString
+### 2. Check Intermediate Values
+Never assume - verify at each step:
+
+```smalltalk
+intermediate := obj step1.
+" Check here before proceeding "
+result := intermediate step2.
+```
+
+### 4. Always Use printString
 When returning objects via JSON/MCP:
 
 ```smalltalk
 ✅ obj printString
 ✅ collection printString
-✅ dict printString
 
 ❌ obj  " Don't return raw objects "
 ```
 
-### 3. Check Intermediate Values
-Never assume - verify at each step:
-
-```smalltalk
-intermediate := obj step1.
-" Check here "
-result := intermediate step2.
-" Check here too "
-```
-
-### 4. Use Error Handling
+### 5. Use Error Handling
 Always capture errors with `on:do:`:
 
 ```smalltalk
 [
     risky operation
 ] on: Error do: [:ex |
-    " Handle or log error "
     ex description
 ]
 ```
 
-### 5. Fix in Tonel, Not Pharo
+### 6. Fix in Tonel, Not Pharo
 - ✅ Edit `.st` file → Import → Test
 - ❌ Edit in Pharo → Export → Commit
 
@@ -269,11 +243,8 @@ Always capture errors with `on:do:`:
 
 ### Primary Tool: `/st-eval`
 
-Execute any Smalltalk code for testing and verification:
-
 ```
 mcp__smalltalk-interop__eval: 'Smalltalk version'
-mcp__smalltalk-interop__eval: '1 + 1'
 mcp__smalltalk-interop__eval: 'MyClass new doSomething printString'
 ```
 
@@ -286,31 +257,18 @@ mcp__smalltalk-interop__search_implementors: 'methodName'
 mcp__smalltalk-interop__search_references: 'methodName'
 ```
 
-## Practical Examples
+## Practical Example
 
-### Example 1: Test Failure
+### Test Failure: AssertionFailure
 
 **Error**: `Expected 'John Doe' but got 'John nil'`
 
-**Debug process**:
-1. Execute test code with `/st-eval`
-2. Check if lastName was set
-3. Inspect method implementation
-4. Identify missing `^ self` in setter
-5. Fix in Tonel file
-6. Re-import and re-test
+1. Execute test code with `/st-eval` to reproduce
+2. Inspect intermediate values (was lastName set?)
+3. Check setter implementation: was `^ self` missing?
+4. Fix in Tonel file, re-import, re-test
 
-### Example 2: KeyNotFound
-
-**Error**: `KeyNotFound: key #age not found`
-
-**Debug process**:
-1. List dictionary keys: `dict keys`
-2. Check if age key exists: `dict includesKey: #age`
-3. Use safe access: `dict at: #age ifAbsent: [0]`
-4. Fix initialization to include age key
-
-For complete debugging scenarios with step-by-step solutions, see [Debug Scenarios Examples](examples/debug-scenarios.md).
+For complete debugging scenarios, see [Debug Scenarios Examples](examples/debug-scenarios.md).
 
 ## Troubleshooting Checklist
 
@@ -338,21 +296,9 @@ This skill provides focused debugging guidance. For comprehensive information:
 **Core debugging cycle:**
 
 ```
-Error occurs
-    ↓
-Identify error type
-    ↓
-Use /st-eval to test incrementally
-    ↓
-Inspect intermediate values
-    ↓
-Identify root cause
-    ↓
-Fix in Tonel file
-    ↓
-Re-import
-    ↓
-Re-test → Success or repeat
+Error occurs → Identify error type → /st-eval incrementally
+    → Inspect intermediate values → Identify root cause
+    → Fix in Tonel → Re-import → Re-test → Success or repeat
 ```
 
 **Remember**: Systematic approach, incremental testing, fix in Tonel, always re-import.
