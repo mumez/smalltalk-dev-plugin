@@ -229,6 +229,37 @@ MyClass class >> newForApi [
 2. **Inheritance-friendly**: Subclasses benefit from polymorphic `self` / `self class` without overriding
 3. **Consistency**: Aligns with Smalltalk's message-passing philosophy — always send messages, never hardcode names
 
+## Avoid String Concatenation with `,`
+
+Chaining `,` for string building is hard to read and slow. Use `format:` instead.
+
+### String Formatting Patterns
+
+**Positional placeholders:**
+
+```smalltalk
+sort := 'desc'.
+limit := 100.
+
+❌ Verbose and slow:
+paramsStr := 'sort=', sort, '&limit=', limit asString.
+
+✅ Concise:
+paramsStr := 'sort={1}&limit={2}' format: {sort. limit}.
+```
+
+**Named placeholders:**
+
+```smalltalk
+✅ Named (more readable for many arguments):
+paramsStr := 'sort={sort}&limit={limit}'
+    format: {'sort' -> sort. 'limit' -> limit} asDictionary.
+```
+
+**Why**: `format:` is more readable, eliminates manual `asString` calls, and avoids creating intermediate String objects for each `,`.
+
+**Exception**: Simple one-off concatenation of two strings is fine with `,`.
+
 ## When to Use These Patterns
 
 ✅ **Use concise patterns when:**
