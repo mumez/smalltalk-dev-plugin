@@ -22,6 +22,7 @@ Import edited Tonel files into the running Pharo image.
 ## Notes
 
 - Always use absolute paths
+- Use the **package parent directory** as the path — do not include the package name in the path
 - Import main package before test package
 - Re-import after every change
 
