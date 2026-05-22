@@ -109,6 +109,16 @@ claude plugin marketplace add ./
 claude plugin install smalltalk-dev
 ```
 
+### Option 3: Universal Install with apm
+
+For users working with multiple AI agents, [apm](https://microsoft.github.io/apm/) provides a unified install across agents:
+
+```bash
+apm install -g mumez/smalltalk-dev-plugin --target claude,copilot
+```
+
+> **Note**: Requires [apm](https://microsoft.github.io/apm/) to be installed. If you only use Claude Code, Option 1 is simpler.
+
 ### Verify Installation
 
 After installation, you should see the custom commands starting with `/st-`.
