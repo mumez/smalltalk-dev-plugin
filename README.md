@@ -109,6 +109,16 @@ claude plugin marketplace add ./
 claude plugin install smalltalk-dev
 ```
 
+### Option 3: Universal Install with APM
+
+For users working with multiple AI agents, [APM](https://microsoft.github.io/apm/) provides a unified install across agents:
+
+```bash
+apm install -g mumez/smalltalk-dev-plugin --target claude,copilot
+```
+
+> **Note**: Requires [APM](https://microsoft.github.io/apm/) to be installed. If you only use Claude Code, Option 1 is simpler.
+
 ### Verify Installation
 
 After installation, you should see the custom commands starting with `/st-`.
@@ -220,45 +230,6 @@ claude plugin marketplace add ./
 claude plugin install smalltalk-dev
 ```
 
-## Best Practices
-
-### Development Workflow
-1. **Edit** Tonel files (AI editor is the source of truth)
-2. **Lint** code with `/st-lint` to check quality
-3. **Import** to Pharo with absolute paths
-4. **Test** after every import
-
-### Code Quality
-- Use `/st-lint` before importing to catch issues early
-- Add class prefixes to avoid name collisions
-- Keep methods focused (15 lines standard, 40 for UI/tests)
-- Limit instance variables (max 10 per class)
-- Access instance variables through methods, not directly
-
-### Path Management
-- Always use absolute paths for imports
-- Import multiple packages individually
-
-### File Editing
-- **AI editor is the source of truth** (Tonel files)
-- Avoid editing in Pharo directly
-- Use `export_package` only when necessary
-
-### Import Timing
-- Re-import after every change
-- Import main package before test package
-- Don't forget to import test packages
-
-### Testing
-- Run tests after every import
-- Use `run_class_test` for specific classes
-- Use `run_package_test` for full packages
-
-### Debugging
-- Use `/st-eval` for quick partial execution
-- Capture both results and errors in Array
-- Use `printString` for object serialization
-- Debug step-by-step
 
 ## Troubleshooting
 

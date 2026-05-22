@@ -65,6 +65,11 @@ Class {
 
 ```smalltalk
 { #category : 'actions-dictionary' }
+MySettings >> at: key ifAbsent: aBlock [
+	^ self settingsDict at: key ifAbsent: aBlock
+]
+
+{ #category : 'actions-dictionary' }
 MySettings >> at: key ifAbsentPut: aBlock [
 	^ self settingsDict at: key ifAbsentPut: aBlock
 ]
@@ -80,12 +85,12 @@ MySettings >> keys [
 ]
 ```
 
-- Define typed accessors for each setting. The getter uses lazy initialization via `ifAbsentPut:`.
+- Define typed accessors for each setting. 
 
 ```smalltalk
 { #category : 'accessing' }
 MySettings >> port [
-	^ self at: #port ifAbsentPut: [ self defaultPort ]
+	^ self at: #port ifAbsent: [ self defaultPort ]
 ]
 
 { #category : 'accessing' }
@@ -94,7 +99,7 @@ MySettings >> port: aNumber [
 ]
 ```
 
-- Define default values in a separate `defaults` category.
+- Define default value accessor
 
 ```smalltalk
 { #category : 'defaults' }
@@ -103,11 +108,41 @@ MySettings >> defaultPort [
 ]
 ```
 
+- Getter may use lazy initialization via `ifAbsentPut:` for caching computationally heavy values.
+
+```smalltalk
+{ #category : 'accessing' }
+MySettings >> serverKey [
+	^ self at: #serverKey ifAbsentPut: [ self computeServerKey ]
+]
+```
+
+
 - Define `asDictionary` for interoperability (legacy interfaces, JSON serialization, etc.).
 
 ```smalltalk
 { #category : 'converting' }
+MySettings >> allKeys [
+	^ (self class selectorsInProtocol: 'accessing') select: [ :each | each isUnary ].
+]
+```
+
+- This will export all setting values as a dictionary 
+
+```smalltalk
+{ #category : 'converting' }
 MySettings >> asDictionary [
+	^ self allKeys inject: Dictionary new into: [ :dict :key |
+		dict at: key put: (self perform: key);
+		yourself ]
+]
+```
+
+- If you would like to omit unset values, you can use #keys instead 
+
+```smalltalk
+{ #category : 'converting' }
+MySettings >> asRpcDictionary [
 	^ self keys inject: Dictionary new into: [ :dict :key |
 		dict at: key put: (self perform: key);
 		yourself ]

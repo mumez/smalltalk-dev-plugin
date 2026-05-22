@@ -1,6 +1,20 @@
 # Other AI Agents Setup Guide
 
-This plugin is designed for Claude Code, but can also be used with other AI agents via setup scripts provided in the `extra/` directory. Currently supported:
+This plugin is designed for Claude Code, but can also be used with other AI agents.
+
+## Quick Install with APM (Recommended)
+
+[APM](https://microsoft.github.io/apm/) provides a unified install across agents without running individual setup scripts:
+
+```bash
+apm install -g mumez/smalltalk-dev-plugin --target claude,copilot
+```
+
+Replace `claude,copilot` with the agents you use. See the [APM documentation](https://microsoft.github.io/apm/) for all supported targets.
+
+## Manual Setup with Scripts
+
+Alternatively, setup scripts are provided in the `extra/` directory. Currently supported:
 
 - [Cursor](https://cursor.com/)
 - [Windsurf](https://windsurf.com/)
