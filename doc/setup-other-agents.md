@@ -2,15 +2,15 @@
 
 This plugin is designed for Claude Code, but can also be used with other AI agents.
 
-## Quick Install with apm (Recommended)
+## Quick Install with APM (Recommended)
 
-[apm](https://microsoft.github.io/apm/) provides a unified install across agents without running individual setup scripts:
+[APM](https://microsoft.github.io/apm/) provides a unified install across agents without running individual setup scripts:
 
 ```bash
 apm install -g mumez/smalltalk-dev-plugin --target claude,copilot
 ```
 
-Replace `claude,copilot` with the agents you use. See the [apm documentation](https://microsoft.github.io/apm/) for all supported targets.
+Replace `claude,copilot` with the agents you use. See the [APM documentation](https://microsoft.github.io/apm/) for all supported targets.
 
 ## Manual Setup with Scripts
 
