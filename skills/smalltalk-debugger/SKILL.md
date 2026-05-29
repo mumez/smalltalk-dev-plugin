@@ -1,6 +1,6 @@
 ---
 name: smalltalk-debugger
-description: Systematic debugging guide for Pharo Smalltalk development. Provides expertise in error diagnosis (MessageNotUnderstood, KeyNotFound, SubscriptOutOfBounds, AssertionFailure), incremental code execution with eval tool, intermediate value inspection, error handling patterns (`on:do:` blocks), stack trace analysis, UI debugger window detection (read_screen for hung operations), and debug-fix-reimport workflow. Use when encountering Pharo test failures, Smalltalk exceptions, unexpected behavior, timeout or non-responsive operations, need to verify intermediate values, execute code incrementally for diagnosis, or troubleshoot Tonel import errors.
+description: Systematic debugging guide for Pharo Smalltalk development. Provides expertise in error diagnosis (MessageNotUnderstood, KeyNotFound, SubscriptOutOfBounds, AssertionFailure), incremental code execution with eval tool, intermediate value inspection, error handling patterns (`on:do:` blocks), stack trace analysis, UI debugger window detection (read_screen for hung operations), Transcript logging (crShow:, ##DEBUG## prefix, format strings, call-site tracing with thisContext, headless output via NonInteractiveTranscript), and debug-fix-reimport workflow. Use when encountering Pharo test failures, Smalltalk exceptions, unexpected behavior, timeout or non-responsive operations, need to verify intermediate values, execute code incrementally for diagnosis, troubleshoot Tonel import errors, add debug logging to trace variable values or call sites, or redirect Transcript output in headless/Docker images.
 ---
 
 # Smalltalk Debugger
@@ -214,7 +214,7 @@ intermediate := obj step1.
 result := intermediate step2.
 ```
 
-### 4. Always Use printString
+### 3. Always Use printString
 When returning objects via JSON/MCP:
 
 ```smalltalk
@@ -224,7 +224,7 @@ When returning objects via JSON/MCP:
 ❌ obj  " Don't return raw objects "
 ```
 
-### 5. Use Error Handling
+### 4. Use Error Handling
 Always capture errors with `on:do:`:
 
 ```smalltalk
@@ -235,9 +235,15 @@ Always capture errors with `on:do:`:
 ]
 ```
 
-### 6. Fix in Tonel, Not Pharo
+### 5. Fix in Tonel, Not Pharo
 - ✅ Edit `.st` file → Import → Test
 - ❌ Edit in Pharo → Export → Commit
+
+## Transcript Logging
+
+Use `Transcript crShow:` with `##DEBUG##`-prefixed format strings to log values. Read output via `read_screen target_type='transcript'`. For call-order tracing use `DateAndTime current`; for call-site tracing use `thisContext shortStack` or `printStackOfSize:`. Headless images: `NonInteractiveTranscript file install` (writes to `PharoTranscript.log`).
+
+See [Logging Techniques Reference](references/logging-techniques.md) for full examples.
 
 ## Debugging Tools
 
@@ -290,6 +296,7 @@ This skill provides focused debugging guidance. For comprehensive information:
 - **[Error Patterns Reference](references/error-patterns.md)** - All error types with solutions
 - **[Inspection Techniques](references/inspection-techniques.md)** - Complete object inspection guide
 - **[Debug Scenarios](examples/debug-scenarios.md)** - Real-world debugging examples
+- **[Logging Techniques](references/logging-techniques.md)** - Transcript logging patterns and tips
 
 ## Summary
 
