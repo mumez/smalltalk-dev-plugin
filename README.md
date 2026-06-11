@@ -2,7 +2,7 @@
 
 [Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
 
-> Also available for [Cursor, Windsurf, Antigravity, GitHub Copilot CLI, OpenCode, Codex CLI, and Gemini CLI](doc/setup-other-agents.md).
+> Also available for [Cursor, Windsurf, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, and Gemini CLI](doc/setup-other-agents.md).
 
 ## Overview
 
@@ -75,7 +75,7 @@ Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInt
 
 Install [Claude Code](https://github.com/anthropics/claude-code).
 
-> **Other AI agents**: If you use Cursor, Windsurf, Antigravity, GitHub Copilot CLI, OpenCode, Codex CLI, or Gemini CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
+> **Other AI agents**: If you use Cursor, Windsurf, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, or Gemini CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
 
 ### 3. uv
 
@@ -308,7 +308,8 @@ smalltalk-dev-plugin/
 │   ├── setup-copilot.sh             # Setup script for GitHub Copilot CLI
 │   ├── setup-opencode.sh            # Setup script for OpenCode
 │   ├── setup-codex.sh               # Setup script for Codex CLI
-│   ├── setup-gemini.sh              # Setup script for Gemini CLI
+│   ├── setup-antigravity-cli.sh     # Setup script for Antigravity CLI (successor to Gemini CLI)
+│   ├── setup-gemini.sh              # Setup script for Gemini CLI (obsolete)
 │   ├── opencode.json                # MCP config for OpenCode
 │   └── suggest-class-comment_cursor.sh # Hook script for Cursor
 ├── doc/

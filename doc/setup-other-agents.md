@@ -19,10 +19,11 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 - [Cursor](https://cursor.com/)
 - [Windsurf](https://windsurf.com/)
 - [Antigravity](https://antigravity.google/)
+- [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
 - [Codex CLI](https://github.com/openai/codex)
-- [Gemini CLI](https://geminicli.com/)
+- [Gemini CLI](https://geminicli.com/) *(obsolete — use Antigravity CLI)*
 
 ## Prerequisites
 
@@ -221,7 +222,45 @@ User scope (installs to `$HOME`, ignores target-directory):
 - Codex CLI does not support custom commands; commands are placed as skills instead
 - Skills are invoked with `$<skill-name>` (e.g., `$st-init`)
 
-## Gemini CLI
+## Antigravity CLI
+
+Antigravity CLI is the successor to Gemini CLI. See the [migration guide](https://antigravity.google/docs/gcli-migration).
+
+### Setup
+
+```bash
+./extra/setup-antigravity-cli.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-antigravity-cli.sh -y [target-directory]
+```
+
+User scope (installs to `~/.gemini/antigravity-cli/skills/`, ignores target-directory):
+
+```bash
+./extra/setup-antigravity-cli.sh --user
+```
+
+### What the script does
+
+- Creates `.agents/skills/` directory structure (project scope) or `~/.gemini/antigravity-cli/skills/` (user scope)
+- Copies skills directly into the skills directory
+- Skills double as slash commands; no separate commands handling is needed
+- Writes MCP config as a standalone `~/.gemini/config/mcp_config.json` (user scope) or `.agents/mcp_config.json` (project scope)
+
+### Notes
+
+- Skills are invoked as slash commands directly (e.g. `/st-init`)
+- MCP config is a standalone JSON file, not merged into `settings.json`
+
+## Gemini CLI *(obsolete)*
+
+> **Note:** Gemini CLI has been replaced by [Antigravity CLI](#antigravity-cli). Use `setup-antigravity-cli.sh` for new setups. `setup-gemini.sh` is kept for existing installations.
 
 ### Setup
 
