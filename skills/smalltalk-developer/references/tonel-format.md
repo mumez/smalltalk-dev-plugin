@@ -484,11 +484,11 @@ MyClass >> collection [
 ]
 ```
 
-### Fluent Interface (Returning Self)
+### Implicit Self Return (Fluent Interface)
 
-#### CRITICAL: Do NOT write `^ self` for fluent interface methods
+#### CRITICAL: Do NOT write `^ self` for mutating methods
 
-In Smalltalk, methods return `self` implicitly — you do **not** need `^ self` to enable method chaining (fluent interface).
+In Smalltalk, **every method returns `self` implicitly** unless an explicit `^` return is written. You never need `^ self` to enable method chaining.
 
 **❌ WRONG**: Adding `^ self` is redundant and misleading:
 
@@ -509,13 +509,15 @@ Sorter >> desc [
 ]
 ```
 
-This applies to any setter or mutating method where you want the caller to be able to chain:
+This applies to any setter or mutating method. Callers can chain by sending further messages to the returned receiver:
 
 ```smalltalk
-sorter desc limit: 10.   "works fine — desc returns self implicitly, enabling the chain"
+sorter desc limit: 10.   "unary desc binds first, returns self implicitly; then limit: is sent to it"
 ```
 
-**Why this matters**: Unlike languages where the last expression is the return value (Ruby) or where you must explicitly return `this` (Java/JavaScript), Smalltalk always returns `self` from a method unless a different value is explicitly returned with `^`. Writing `^ self` is not wrong, but it is unnecessary noise that can confuse readers into thinking something special is happening.
+> **Cascade vs chain**: cascade (`;`) re-sends messages to the same original receiver regardless of return values, so it does not rely on implicit self return. The above message-chain style (whitespace-separated sends) is what actually exercises it.
+
+**Why this matters**: In Ruby the last expression is the return value; in Java/JavaScript you must explicitly `return this`. Smalltalk is different — `self` is always the return value unless `^` says otherwise. `^ self` is therefore noise that falsely implies something special is happening.
 
 ### Builder Pattern
 
