@@ -11,19 +11,14 @@
             "name": "smalltalk-dev",
             "source": "./",
             "description": "Comprehensive Pharo Smalltalk development toolkit for AI-driven development",
-            "version": "1.9.4",
+            "version": "1.9.5",
             "author": {
                 "name": "Masashi Umezawa"
             },
             "repository": "https://github.com/mumez/smalltalk-dev-plugin",
             "homepage": "https://github.com/mumez/smalltalk-dev-plugin",
             "license": "MIT",
-            "keywords": [
-                "smalltalk",
-                "pharo",
-                "development",
-                "tonel"
-            ],
+            "keywords": ["smalltalk", "pharo", "development", "tonel"],
             "category": "development"
         }
     ]
