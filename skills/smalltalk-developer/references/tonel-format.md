@@ -484,6 +484,41 @@ MyClass >> collection [
 ]
 ```
 
+### Implicit Self Return (Fluent Interface)
+
+#### CRITICAL: Do NOT write `^ self` for mutating methods
+
+In Smalltalk, **every method returns `self` implicitly** unless an explicit `^` return is written. You never need `^ self` to enable method chaining.
+
+**❌ WRONG**: Adding `^ self` is redundant and misleading:
+
+```smalltalk
+{ #category : #accessing }
+Sorter >> desc [
+    self sortOrder: #desc.
+    ^ self   "<- unnecessary"
+]
+```
+
+**✅ CORRECT**: Omit `^ self` — the receiver is returned automatically:
+
+```smalltalk
+{ #category : #accessing }
+Sorter >> desc [
+    self sortOrder: #desc
+]
+```
+
+This applies to any setter or mutating method. Callers can chain by sending further messages to the returned receiver:
+
+```smalltalk
+sorter desc limit: 10.   "unary desc binds first, returns self implicitly; then limit: is sent to it"
+```
+
+> **Cascade vs chain**: cascade (`;`) re-sends messages to the same original receiver regardless of return values, so it does not rely on implicit self return. The above message-chain style (whitespace-separated sends) is what actually exercises it.
+
+**Why this matters**: In Smalltalk, a method that does not explicitly return a value with `^` simply hands the receiver back to the caller — this is not a special feature, it is the natural consequence of the receiver always being present. In contrast, Java/JavaScript methods return `void`/`undefined` by default, so you must explicitly `return this` to chain. Ruby returns the last evaluated expression. These differences cause developers from hybrid languages to write `^ self` out of habit, when Smalltalk never needed it.
+
 ### Builder Pattern
 
 ```smalltalk
@@ -491,8 +526,7 @@ MyClass >> collection [
 Person >> firstName: first lastName: last age: anInteger [
     firstName := first.
     lastName := last.
-    age := anInteger.
-    ^ self
+    age := anInteger
 ]
 ```
 
