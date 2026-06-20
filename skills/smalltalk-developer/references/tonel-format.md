@@ -484,6 +484,39 @@ MyClass >> collection [
 ]
 ```
 
+### Fluent Interface (Returning Self)
+
+#### CRITICAL: Do NOT write `^ self` for fluent interface methods
+
+In Smalltalk, methods return `self` implicitly — you do **not** need `^ self` to enable method chaining (fluent interface).
+
+**❌ WRONG**: Adding `^ self` is redundant and misleading:
+
+```smalltalk
+{ #category : #accessing }
+Sorter >> desc [
+    self sortOrder: #desc.
+    ^ self   "<- unnecessary"
+]
+```
+
+**✅ CORRECT**: Omit `^ self` — the receiver is returned automatically:
+
+```smalltalk
+{ #category : #accessing }
+Sorter >> desc [
+    self sortOrder: #desc
+]
+```
+
+This applies to any setter or mutating method where you want the caller to be able to chain:
+
+```smalltalk
+sorter desc limit: 10.   "works fine — desc returns self implicitly, enabling the chain"
+```
+
+**Why this matters**: Unlike languages where the last expression is the return value (Ruby) or where you must explicitly return `this` (Java/JavaScript), Smalltalk always returns `self` from a method unless a different value is explicitly returned with `^`. Writing `^ self` is not wrong, but it is unnecessary noise that can confuse readers into thinking something special is happening.
+
 ### Builder Pattern
 
 ```smalltalk
@@ -491,8 +524,7 @@ MyClass >> collection [
 Person >> firstName: first lastName: last age: anInteger [
     firstName := first.
     lastName := last.
-    age := anInteger.
-    ^ self
+    age := anInteger
 ]
 ```
 
