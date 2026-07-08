@@ -2,7 +2,7 @@
 
 [Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
 
-> Also available for [Cursor, Devin Desktop, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, and Gemini CLI](doc/setup-other-agents.md).
+> Also available for [Cursor, Devin Desktop, Devin CLI, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, and Gemini CLI](doc/setup-other-agents.md).
 
 ## Overview
 
@@ -75,7 +75,7 @@ Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInt
 
 Install [Claude Code](https://github.com/anthropics/claude-code).
 
-> **Other AI agents**: If you use Cursor, Devin Desktop, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, or Gemini CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
+> **Other AI agents**: If you use Cursor, Devin Desktop, Devin CLI, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Codex CLI, or Gemini CLI instead of Claude Code, see [Other AI Agents Setup Guide](doc/setup-other-agents.md).
 
 ### 3. uv
 
@@ -304,6 +304,7 @@ smalltalk-dev-plugin/
 ├── extra/
 │   ├── setup-cursor.sh              # Setup script for Cursor
 │   ├── setup-devin-desktop.sh       # Setup script for Devin Desktop
+│   ├── setup-devin-cli.sh           # Setup script for Devin CLI
 │   ├── setup-antigravity.sh         # Setup script for Antigravity
 │   ├── setup-copilot.sh             # Setup script for GitHub Copilot CLI
 │   ├── setup-opencode.sh            # Setup script for OpenCode

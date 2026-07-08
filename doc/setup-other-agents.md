@@ -24,6 +24,7 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 
 - [Cursor](https://cursor.com/)
 - [Devin Desktop](https://devin.ai/) *(formerly Windsurf)*
+- [Devin CLI](https://devin.ai/)
 - [Antigravity](https://antigravity.google/)
 - [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
@@ -97,6 +98,40 @@ Non-interactive mode:
 
 - Workflows are generated as entry points that reference the prompt/agent files
 - Restart Devin Desktop after setup
+
+## Devin CLI
+
+### Setup
+
+```bash
+./extra/setup-devin-cli.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` and `.devin/config.json` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-devin-cli.sh -y [target-directory]
+```
+
+User scope (installs to `~/.agents/skills/` and `~/.config/devin/config.json`, ignores target-directory):
+
+```bash
+./extra/setup-devin-cli.sh --user
+```
+
+### What the script does
+
+- Creates `.agents/skills/` directory structure (project scope) or `~/.agents/skills/` (user scope)
+- Copies skills directly into the skills directory
+- Skills double as slash commands; no separate commands handling is needed
+- Merges MCP config into `.devin/config.json` (project scope) or `~/.config/devin/config.json` (user scope)
+
+### Notes
+
+- Skills are invoked as slash commands directly (e.g. `/st-init`)
+- MCP config uses the same `mcpServers` JSON format as `.mcp.json`, merged alongside any other existing keys in `config.json`
 
 ## Antigravity
 
