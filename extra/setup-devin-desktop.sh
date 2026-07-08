@@ -1,13 +1,14 @@
 #!/bin/bash
-# Setup script to copy Smalltalk development plugin files to .windsurf/ directory
-# This makes the plugin available in Windsurf IDE
+# Setup script to copy Smalltalk development plugin files to .devin/ directory
+# This makes the plugin available in Devin Desktop (formerly Windsurf)
 #
 # Usage:
-#   ./extra/setup-windsurf.sh [target-directory]
-#   ./extra/setup-windsurf.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-devin-desktop.sh [target-directory]
+#   ./extra/setup-devin-desktop.sh -y [target-directory]  # Non-interactive mode
 #
 # If target-directory is not specified, uses the repository root (project scope).
 # MCP config is copied to ~/.codeium/windsurf/mcp_config.json
+# (Devin Desktop has not yet migrated this path from its Windsurf predecessor)
 # (On WSL2, uses Windows side %USERPROFILE%\.codeium\windsurf instead)
 
 set -e
@@ -39,19 +40,19 @@ if [ -z "$TARGET_DIR" ]; then
 fi
 # Convert to absolute path
 TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
-WINDSURF_DIR="$TARGET_DIR/.windsurf"
-WINDSURF_DIR_NAME=$(basename "$WINDSURF_DIR")
+DEVIN_DIR="$TARGET_DIR/.devin"
+DEVIN_DIR_NAME=$(basename "$DEVIN_DIR")
 
 SKILLS_DIR_NAME="skills"
 WORKFLOWS_DIR_NAME="workflows"
 
-echo "Setting up Smalltalk development plugin for Windsurf..."
+echo "Setting up Smalltalk development plugin for Devin Desktop..."
 echo "Plugin repository: $PROJECT_ROOT"
 echo "Target directory: $TARGET_DIR"
-echo "Windsurf directory: $WINDSURF_DIR ($WINDSURF_DIR_NAME)"
+echo "Devin directory: $DEVIN_DIR ($DEVIN_DIR_NAME)"
 echo ""
 
-mkdir -p "$WINDSURF_DIR/$SKILLS_DIR_NAME" "$WINDSURF_DIR/$WORKFLOWS_DIR_NAME" "$WINDSURF_DIR/prompts"
+mkdir -p "$DEVIN_DIR/$SKILLS_DIR_NAME" "$DEVIN_DIR/$WORKFLOWS_DIR_NAME" "$DEVIN_DIR/prompts"
 
 # Returns 0 (proceed) or 1 (skip) based on FORCE_YES or user input
 confirm_overwrite() {
@@ -99,7 +100,7 @@ for skill_dir in "$PROJECT_ROOT/skills"/*/; do
     [ -d "$skill_dir" ] || continue
     skill_name=$(basename "$skill_dir")
     [[ "$skill_name" == st-* ]] && continue
-    copy_directory "$skill_dir" "$WINDSURF_DIR/$SKILLS_DIR_NAME/$skill_name" "$skill_name"
+    copy_directory "$skill_dir" "$DEVIN_DIR/$SKILLS_DIR_NAME/$skill_name" "$skill_name"
 done
 
 # Generate workflows and prompts for st-* skills
@@ -111,8 +112,8 @@ for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
     skill_file="$skill_dir/SKILL.md"
     [ -f "$skill_file" ] || continue
 
-    prompt_target="$WINDSURF_DIR/prompts/$skill_name.md"
-    workflow_target="$WINDSURF_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
+    prompt_target="$DEVIN_DIR/prompts/$skill_name.md"
+    workflow_target="$DEVIN_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
 
     if { [ -f "$prompt_target" ] || [ -f "$workflow_target" ]; }; then
         confirm_overwrite "$skill_name" || continue
@@ -125,14 +126,14 @@ for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
 description: Run /$skill_name skill
 ---
 
-1. Read the skill instructions at \`$WINDSURF_DIR_NAME/prompts/$skill_name.md\`
+1. Read the skill instructions at \`$DEVIN_DIR_NAME/prompts/$skill_name.md\`
 2. Execute the user's request following those instructions.
 EOL
 done
 
 # Copy MCP config to user scope
-# Windsurf uses ~/.codeium/windsurf/mcp_config.json
-# On WSL2, use Windows side %USERPROFILE%\.codeium\windsurf
+# Devin Desktop still uses the legacy Windsurf path ~/.codeium/windsurf/mcp_config.json
+# (not yet officially migrated); on WSL2, use Windows side %USERPROFILE%\.codeium\windsurf
 echo ""
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
     if grep -qi microsoft /proc/version 2>/dev/null; then
@@ -151,12 +152,12 @@ if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
 fi
 
 echo ""
-echo "✅ Windsurf setup complete!"
+echo "✅ Devin Desktop setup complete!"
 echo ""
 echo "The following have been set up:"
-echo "  - $WINDSURF_DIR_NAME/skills/ (AI skills with SKILL.md)"
-echo "  - $WINDSURF_DIR_NAME/workflows/ (workflows for commands)"
-echo "  - $WINDSURF_DIR_NAME/prompts/ (command prompt files)"
+echo "  - $DEVIN_DIR_NAME/skills/ (AI skills with SKILL.md)"
+echo "  - $DEVIN_DIR_NAME/workflows/ (workflows for commands)"
+echo "  - $DEVIN_DIR_NAME/prompts/ (command prompt files)"
 echo "  - MCP config: ${target_mcp:-~/.codeium/windsurf/mcp_config.json}"
 echo ""
-echo "Windsurf may require restart to recognize the new configuration."
+echo "Devin Desktop may require restart to recognize the new configuration."

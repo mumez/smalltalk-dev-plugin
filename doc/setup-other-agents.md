@@ -23,7 +23,7 @@ See the [APM documentation](https://microsoft.github.io/apm/) for details.
 Alternatively, setup scripts are provided in the `extra/` directory. Currently supported:
 
 - [Cursor](https://cursor.com/)
-- [Windsurf](https://windsurf.com/)
+- [Devin Desktop](https://devin.ai/) *(formerly Windsurf)*
 - [Antigravity](https://antigravity.google/)
 - [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
@@ -69,33 +69,34 @@ Non-interactive mode (overwrites without confirmation):
 - Cursor uses the filename as the command name; command files already use the `st-` prefix
 - Restart Cursor after setup to recognize the new configuration
 
-## Windsurf
+## Devin Desktop
 
 ### Setup
 
 ```bash
-./extra/setup-windsurf.sh [target-directory]
+./extra/setup-devin-desktop.sh [target-directory]
 ```
 
 Non-interactive mode:
 
 ```bash
-./extra/setup-windsurf.sh -y [target-directory]
+./extra/setup-devin-desktop.sh -y [target-directory]
 ```
 
 ### What the script does
 
-- Creates `.windsurf/` directory structure (skills, workflows, prompts, agents)
+- Creates `.devin/` directory structure (skills, workflows, prompts, agents)
 - Copies skills and agents
 - Copies commands as prompt files and generates workflow files for each
 - Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
 - Copies MCP config to `~/.codeium/windsurf/mcp_config.json`
   - On WSL2, uses the Windows-side path (`%USERPROFILE%\.codeium\windsurf\`)
+  - This path is unchanged from Devin Desktop's Windsurf predecessor; it has not yet been officially migrated
 
 ### Notes
 
 - Workflows are generated as entry points that reference the prompt/agent files
-- Restart Windsurf after setup
+- Restart Devin Desktop after setup
 
 ## Antigravity
 
