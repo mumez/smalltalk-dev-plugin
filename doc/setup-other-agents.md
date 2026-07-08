@@ -23,8 +23,8 @@ See the [APM documentation](https://microsoft.github.io/apm/) for details.
 Alternatively, setup scripts are provided in the `extra/` directory. Currently supported:
 
 - [Cursor](https://cursor.com/)
-- [Devin Desktop](https://devin.ai/) *(formerly Windsurf)*
-- [Devin CLI](https://devin.ai/)
+- [Devin Desktop](https://devin.ai/desktop/) *(formerly Windsurf)*
+- [Devin CLI](https://devin.ai/cli)
 - [Antigravity](https://antigravity.google/)
 - [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
@@ -160,6 +160,42 @@ Non-interactive mode:
 
 - Workflows are generated as entry points that reference the prompt/agent files
 
+## Antigravity CLI
+
+Antigravity CLI is the successor to Gemini CLI. See the [migration guide](https://antigravity.google/docs/gcli-migration).
+
+### Setup
+
+```bash
+./extra/setup-antigravity-cli.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-antigravity-cli.sh -y [target-directory]
+```
+
+User scope (installs to `~/.gemini/antigravity-cli/skills/`, ignores target-directory):
+
+```bash
+./extra/setup-antigravity-cli.sh --user
+```
+
+### What the script does
+
+- Creates `.agents/skills/` directory structure (project scope) or `~/.gemini/antigravity-cli/skills/` (user scope)
+- Copies skills directly into the skills directory
+- Skills double as slash commands; no separate commands handling is needed
+- Writes MCP config as a standalone `~/.gemini/config/mcp_config.json` (user scope) or `.agents/mcp_config.json` (project scope)
+
+### Notes
+
+- Skills are invoked as slash commands directly (e.g. `/st-init`)
+- MCP config is a standalone JSON file, not merged into `settings.json`
+
 ## GitHub Copilot CLI
 
 ### Setup
@@ -263,42 +299,6 @@ User scope (installs to `$HOME`, ignores target-directory):
 
 - Codex CLI does not support custom commands; commands are placed as skills instead
 - Skills are invoked with `$<skill-name>` (e.g., `$st-init`)
-
-## Antigravity CLI
-
-Antigravity CLI is the successor to Gemini CLI. See the [migration guide](https://antigravity.google/docs/gcli-migration).
-
-### Setup
-
-```bash
-./extra/setup-antigravity-cli.sh [target-directory]
-```
-
-`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
-
-Non-interactive mode (overwrites without confirmation):
-
-```bash
-./extra/setup-antigravity-cli.sh -y [target-directory]
-```
-
-User scope (installs to `~/.gemini/antigravity-cli/skills/`, ignores target-directory):
-
-```bash
-./extra/setup-antigravity-cli.sh --user
-```
-
-### What the script does
-
-- Creates `.agents/skills/` directory structure (project scope) or `~/.gemini/antigravity-cli/skills/` (user scope)
-- Copies skills directly into the skills directory
-- Skills double as slash commands; no separate commands handling is needed
-- Writes MCP config as a standalone `~/.gemini/config/mcp_config.json` (user scope) or `.agents/mcp_config.json` (project scope)
-
-### Notes
-
-- Skills are invoked as slash commands directly (e.g. `/st-init`)
-- MCP config is a standalone JSON file, not merged into `settings.json`
 
 ## Gemini CLI *(obsolete)*
 
