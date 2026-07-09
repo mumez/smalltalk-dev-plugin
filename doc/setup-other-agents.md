@@ -29,6 +29,7 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 - [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
+- [Kilo Code](https://kilo.ai/)
 - [Codex CLI](https://github.com/openai/codex)
 - [Gemini CLI](https://geminicli.com/) *(obsolete — use Antigravity CLI)*
 
@@ -265,6 +266,42 @@ User scope (installs to `$HOME`, ignores target-directory):
 - OpenCode MCP format differs from Claude Code: `command` is an array combining command and args, `environment` instead of `env`, and `type: "local"` is required
 - The pre-converted MCP config is available at `extra/opencode.json`
 - Restart OpenCode after setup to recognize the new configuration
+
+## Kilo Code
+
+### Setup
+
+```bash
+./extra/setup-kilocode.sh [target-directory]
+```
+
+`target-directory` is the project directory where `.agents/skills/` will be created. If omitted, the plugin repository root is used.
+
+Non-interactive mode (overwrites without confirmation):
+
+```bash
+./extra/setup-kilocode.sh -y [target-directory]
+```
+
+User scope (installs to `$HOME`, ignores target-directory):
+
+```bash
+./extra/setup-kilocode.sh --user
+```
+
+### What the script does
+
+- Creates `.agents/skills/` and copies all skills (including `st-*` skills) directly into it — Kilo Code has no separate commands mechanism
+- Copies MCP config to `~/.config/kilo/kilo.json`
+  - If `kilo.json` already exists and `jq` is available, merges the `mcp` section automatically (backup created as `kilo.json.bak`)
+  - If `jq` is not available, prints the `mcp` section for manual merging
+
+### Notes
+
+- Kilo Code is OpenCode-derived; the MCP config format matches OpenCode's (`command` as an array, `environment` instead of `env`, `type: "local"` required) but with `$schema` set to `https://app.kilo.ai/config.json`
+- The MCP config is generated at setup time from `extra/opencode.json` (swapping only the `$schema` value), so the two configs don't need to be maintained separately
+- The `kilo.json` config file location (`~/.config/kilo/kilo.json`) is fixed regardless of project or user scope
+- Restart Kilo Code after setup to recognize the new configuration
 
 ## Codex CLI
 
