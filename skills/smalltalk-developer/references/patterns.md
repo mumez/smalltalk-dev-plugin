@@ -159,7 +159,6 @@ MySettings class >> defaultCopied [
 
 { #category : 'initialization' }
 MySettings >> initFrom: otherSettings [
-	self initialize.
 	otherSettings settingsDict keysAndValuesDo: [ :k :v |
 		self settingsDict at: k put: v ]
 ]
