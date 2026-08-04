@@ -334,6 +334,10 @@ Projects built with this plugin:
 - [smalltalk-dev-plugin-graph-example](https://github.com/mumez/smalltalk-dev-plugin-graph-example) - Directed weighted graph with Dijkstra's shortest-path algorithm
 - [smalltalk-dev-plugin-gui-example](https://github.com/mumez/smalltalk-dev-plugin-gui-example) - Interactive to-do list app built with the Spec2 framework
 
+## For GUI Users
+
+Prefer a GUI over the CLI? Check out [pharo-agentic-browser](https://github.com/mumez/pharo-agentic-browser) — it lets you use an agent with this plugin installed directly from Pharo's native UI.
+
 ## Contributing
 
 Contributions are welcome! Please:
