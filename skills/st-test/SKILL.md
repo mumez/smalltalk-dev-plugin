@@ -1,12 +1,12 @@
 ---
 name: st-test
-description: Run SUnit tests in the running Pharo image. Use when verifying changes after import, or when checking results for a specific test class or package.
+description: Run SUnit tests in the running Smalltalk image (Pharo or Squeak). Use when verifying changes after import, or when checking results for a specific test class or package.
 allowed-tools: mcp__smalltalk-interop__run_class_test mcp__smalltalk-interop__run_package_test mcp__smalltalk-interop__list_packages
 ---
 
 # Run SUnit Tests
 
-Execute SUnit tests after importing changes to Pharo.
+Execute SUnit tests after importing changes to the Smalltalk image.
 
 ## Usage
 
@@ -32,7 +32,7 @@ When no arguments are given, discover and run all test packages automatically:
 
 2. **Identify test packages** — find the `BaselineOf` package inside the source directory (a directory starting with `BaselineOf`) and read its `BaselineOfXXX.class.st`. Parse the `baseline: spec` method and collect all packages whose names end with `-Tests` (or follow the project's test-naming convention).
 
-3. **Check what is already imported** — call `list_packages` to get the list of packages currently loaded in the Pharo image.
+3. **Check what is already imported** — call `list_packages` to get the list of packages currently loaded in the Smalltalk image.
 
 4. **Run tests for imported packages** — for each test package that is present in the image, call `run_package_test` and report the pass/fail results.
 

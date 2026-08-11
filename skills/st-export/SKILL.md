@@ -1,12 +1,12 @@
 ---
 name: st-export
-description: Export package from Pharo image to Tonel files. Use when code was changed directly in Pharo (debugger, browser, or code generation) and needs to be synced back to Tonel files.
+description: Export package from the Smalltalk image (Pharo or Squeak) to Tonel files. Use when code was changed directly in the Smalltalk image (debugger, browser, or code generation) and needs to be synced back to Tonel files.
 allowed-tools: mcp__smalltalk-interop__export_package
 ---
 
-# Export Package from Pharo
+# Export Package from the Smalltalk Image
 
-Export a package from the running Pharo image back to Tonel files.
+Export a package from the running Smalltalk image back to Tonel files.
 
 ## Usage
 
@@ -21,11 +21,11 @@ Export a package from the running Pharo image back to Tonel files.
 
 ## When to Use
 
-Export is the exception, not the norm. Use only when Pharo has newer code than Tonel files:
+Export is the exception, not the norm. Use only when the Smalltalk image has newer code than Tonel files:
 
-- Fixed code in the Pharo debugger
-- Generated boilerplate using Pharo tools
-- Made changes directly in the Pharo browser
+- Fixed code in the debugger
+- Generated boilerplate using Smalltalk tools
+- Made changes directly in the class browser
 
 ## Notes
 

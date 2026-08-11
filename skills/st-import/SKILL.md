@@ -1,12 +1,12 @@
 ---
 name: st-import
-description: Import Tonel package into running Pharo image. Use when loading edited .st files into Pharo after code changes.
+description: Import Tonel package into the running Smalltalk image (Pharo or Squeak). Use when loading edited .st files into the Smalltalk image after code changes.
 allowed-tools: mcp__smalltalk-interop__import_package mcp__smalltalk-validator__validate_tonel_smalltalk_from_file
 ---
 
 # Import Tonel Package
 
-Import edited Tonel files into the running Pharo image.
+Import edited Tonel files into the running Smalltalk image.
 
 ## Usage
 
@@ -25,7 +25,7 @@ Import edited Tonel files into the running Pharo image.
 
 When no arguments are given, discover and import the full project automatically:
 
-1. **Locate the source directory** — read `.project` from the repository root. It contains JSON-like Pharo syntax with a `srcDirectory` key (e.g., `'srcDirectory' : 'src'`). Resolve the value relative to the repository root to get the absolute path to the source directory.
+1. **Locate the source directory** — read `.project` from the repository root. It contains JSON-like STON syntax with a `srcDirectory` key (e.g., `'srcDirectory' : 'src'`). Resolve the value relative to the repository root to get the absolute path to the source directory.
 
 2. **Determine import order** — find the `BaselineOf` package inside the source directory (a directory whose name starts with `BaselineOf`). Read the `BaselineOfXXX.class.st` file inside it and parse the `baseline: spec` method. Extract:
    - All `package: 'PkgName'` declarations → the full list of packages to import

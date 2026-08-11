@@ -1,12 +1,12 @@
 ---
 name: st-validate
-description: Validate Tonel file syntax before importing to Pharo. Use when suspecting syntax errors in .st files, or when a file was edited manually and correctness is uncertain.
+description: Validate Tonel file syntax before importing to the Smalltalk image (Pharo or Squeak). Use when suspecting syntax errors in .st files, or when a file was edited manually and correctness is uncertain.
 allowed-tools: mcp__smalltalk-validator__validate_tonel_smalltalk_from_file mcp__smalltalk-validator__validate_tonel_smalltalk mcp__smalltalk-validator__validate_smalltalk_method_body
 ---
 
 # Validate Tonel Syntax
 
-Validate Tonel `.st` files before importing to Pharo. Modern AI usually generates correct Tonel, so this is optional.
+Validate Tonel `.st` files before importing to the Smalltalk image. Modern AI usually generates correct Tonel, so this is optional.
 
 ## Usage
 

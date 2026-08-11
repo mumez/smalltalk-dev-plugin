@@ -1,12 +1,12 @@
 ---
 name: st-init
-description: Pharo Smalltalk development session initializer. Use when starting a new Smalltalk development session, when Pharo connection needs to be established or verified, when the user asks about the development workflow or available commands, when development environment setup is needed, or when Docker or local Pharo installation is required.
+description: Smalltalk (Pharo/Squeak) development session initializer. Use when starting a new Smalltalk development session, when the Smalltalk image connection needs to be established or verified, when the user asks about the development workflow or available commands, when development environment setup is needed, or when Docker or local Pharo/Squeak installation is required.
 allowed-tools: Skill Bash mcp__smalltalk-interop__eval
 ---
 
 # Initialize Smalltalk Development Session
 
-Start a Pharo Smalltalk development session: verify project structure, confirm Pharo connection, and orient to the development workflow.
+Start a Smalltalk (Pharo or Squeak) development session: verify project structure, confirm the Smalltalk image connection, and orient to the development workflow.
 
 ## Initialization Sequence
 
@@ -14,7 +14,7 @@ Start a Pharo Smalltalk development session: verify project structure, confirm P
 
 ```bash
 if [ ! -f ".project" ] && [ ! -d "src" ]; then
-  echo "No Pharo project structure detected"
+  echo "No Smalltalk project structure detected"
 fi
 ```
 
@@ -23,7 +23,7 @@ fi
 
 **If no project exists**, offer to create one:
 ```
-⚠️  No Pharo project structure detected in current directory.
+⚠️  No Smalltalk project structure detected in current directory.
 
 Use /st-setup-project MyProjectName to set up:
   • .project configuration file
@@ -40,7 +40,7 @@ Would you like to run /st-setup-project now?
 
 Use the `Skill` tool to load `smalltalk-dev:smalltalk-developer`. This activates the full development workflow guidance.
 
-### 3. Verify Pharo Connection
+### 3. Verify Smalltalk Image Connection
 
 Run `Smalltalk version` via eval:
 
@@ -55,20 +55,20 @@ mcp__smalltalk-interop__eval: 'Smalltalk version'
 
 Report status to user:
 ```
-✅ Pharo connected: Pharo X.Y (...)
+✅ Smalltalk image connected: Pharo X.Y (...) [or Squeak X.Y (...)]
 ✅ smalltalk-developer skill loaded
 📋 Development workflow: Edit → Lint → Import → Test
 ```
 
 ## Connection Setup
 
-If Pharo is not connected, check Docker availability first:
+If the Smalltalk image is not connected, check Docker availability first:
 
 ```bash
 docker --version
 ```
 
-### Docker Setup (Recommended)
+### Docker Setup (Recommended, Pharo only)
 
 Generate `compose.yml` in the project root:
 
@@ -94,9 +94,11 @@ docker compose up -d
 
 Re-verify connection after startup.
 
-### Local Pharo Installation
+### Local Installation
 
-If Docker is not available or not preferred:
+If Docker is not available or not preferred, ask the user which Smalltalk dialect they use:
+
+#### Pharo
 
 **1. Install Pharo:**
 ```bash
@@ -117,9 +119,19 @@ curl https://get.pharo.org | bash
 
 Re-verify connection after Pharo is running.
 
-### Manual Start (Pharo already installed)
+#### Squeak
 
-If Pharo is installed but server not running, ask user to execute in Pharo:
+**1. Install Squeak** from [squeak.org](https://squeak.org/downloads/).
+
+**2. Load SqueakSmalltalkInteropServer** — see [SqueakSmalltalkInteropServer](https://github.com/mumez/SqueakSmalltalkInteropServer) for installation instructions.
+
+**3. Start Squeak** (SisServer starts automatically, or start it manually as below).
+
+Re-verify connection after Squeak is running.
+
+### Manual Start (Smalltalk image already installed)
+
+If Pharo/Squeak is installed but the server is not running, ask the user to execute in the image:
 ```smalltalk
 SisServer current start
 ```
@@ -144,18 +156,18 @@ Pass? → Done  |  Fail? → Debug → Fix → Repeat
 
 | Command | Purpose |
 |---------|---------|
-| `/st-import PackageName /abs/path` | Import Tonel package to Pharo |
+| `/st-import PackageName /abs/path` | Import Tonel package to the Smalltalk image |
 | `/st-test TestClass` | Run SUnit tests |
 | `/st-eval code` | Execute Smalltalk snippet |
-| `/st-export PackageName` | Export package from Pharo |
+| `/st-export PackageName` | Export package from the Smalltalk image |
 | `/st-lint src/PackageName` | Validate Smalltalk best practices |
 
 ## Troubleshooting
 
 | Problem | Solution |
 |---------|---------|
-| Connection timeout | Check if Pharo image is running |
-| Server not started | Run `SisServer current start` in Pharo |
+| Connection timeout | Check if the Smalltalk image is running |
+| Server not started | Run `SisServer current start` in the Smalltalk image |
 | Port mismatch | Check `SIS_PORT` env var (default: 8086) |
 | MCP issues | Verify `smalltalk-interop-mcp-server` is installed |
 | Docker path issues | Check volume mounts in `compose.yml` |
