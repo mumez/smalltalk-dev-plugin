@@ -480,9 +480,9 @@ echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
 
 ## Test Suite 7: MCP Integration
 
-### Test 7.1: pharo-interop MCP Server
+### Test 7.1: smalltalk-interop MCP Server
 
-**Goal**: Verify all pharo-interop tools are accessible.
+**Goal**: Verify all smalltalk-interop tools are accessible.
 
 **Test Tools**:
 ```bash
@@ -602,7 +602,7 @@ Quick checklist for complete validation:
 - [ ] PostToolUse hook - Occasionally suggests /smalltalk-commenter on .st file edits
 
 ### MCP Servers (2)
-- [ ] pharo-interop - Connection working
+- [ ] smalltalk-interop - Connection working
 - [ ] smalltalk-validator - Validation working
 
 ### Workflows (4)
