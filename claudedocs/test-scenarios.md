@@ -551,7 +551,7 @@ claude plugin install smalltalk-dev
    ```
 3. Verify port (default 8086):
    ```bash
-   echo $PHARO_SIS_PORT
+   echo $SIS_PORT
    ```
 
 **Fix**:

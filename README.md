@@ -184,13 +184,13 @@ The plugin exposes all tools from both MCP servers:
 
 The plugin uses two MCP servers:
 
-1. **pharo-interop**: Communication with Pharo image
+1. **smalltalk-interop**: Communication with Smalltalk image (Pharo or Squeak)
 2. **smalltalk-validator**: Tonel syntax validation
 
-These are configured automatically via `.mcp.json`. You can customize the Pharo port:
+These are configured automatically via `.mcp.json`. You can customize Smalltalk (SisServer is running) port:
 
 ```bash
-export PHARO_SIS_PORT=8086  # default
+export SIS_PORT=8086  # default
 ```
 
 ## Uninstallation

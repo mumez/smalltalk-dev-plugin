@@ -81,7 +81,7 @@ services:
       - "6901:6901"
       - "8086:8086"
     environment:
-      PHARO_SIS_PORT: 8086
+      SIS_PORT: 8086
     volumes:
       - /tmp:/root/screenshots
       - .:/root/repos
@@ -156,7 +156,7 @@ Pass? → Done  |  Fail? → Debug → Fix → Repeat
 |---------|---------|
 | Connection timeout | Check if Pharo image is running |
 | Server not started | Run `SisServer current start` in Pharo |
-| Port mismatch | Check `PHARO_SIS_PORT` env var (default: 8086) |
+| Port mismatch | Check `SIS_PORT` env var (default: 8086) |
 | MCP issues | Verify `smalltalk-interop-mcp-server` is installed |
 | Docker path issues | Check volume mounts in `compose.yml` |
 

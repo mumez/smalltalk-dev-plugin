@@ -8,7 +8,7 @@
                 "smalltalk-interop-mcp-server"
             ],
             "env": {
-                "PHARO_SIS_PORT": "8086"
+                "SIS_PORT": "8086"
             }
         },
         "smalltalk-validator": {
