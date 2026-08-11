@@ -1,6 +1,6 @@
 # Smalltalk Style Guide
 
-This guide covers common coding patterns and idioms in Pharo Smalltalk to help write more idiomatic code.
+This guide covers common coding patterns and idioms in Smalltalk (Pharo/Squeak) to help write more idiomatic code.
 
 ## Concise Collection Access
 
@@ -265,7 +265,7 @@ paramsStr := 'sort={sort}&limit={limit}'
 ✅ **Use concise patterns when:**
 - Code intent is clearer
 - Reduced verbosity improves readability
-- Standard Pharo idioms exist
+- Standard Smalltalk idioms exist
 
 ❌ **Avoid when:**
 - Numeric index is semantically meaningful (e.g., `matrix at: row at: column`)

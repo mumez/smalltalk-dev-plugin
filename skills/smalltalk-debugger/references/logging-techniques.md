@@ -38,11 +38,11 @@ Transcript crShow: ('##DEBUG## stack:{1}' format: {thisContext shortStack})
 Transcript crShow: ('##DEBUG## stack:{1}' format: {thisContext printStackOfSize: 20})  "longer stack"
 ```
 
-### Headless images
+### Headless images (Pharo)
 
 Eval the following to redirect Transcript output to a file:
 ```smalltalk
 NonInteractiveTranscript file install
 ```
 
-Subsequent output is written to `PharoTranscript.log`.
+Subsequent output is written to `PharoTranscript.log`. This is Pharo-specific; check the equivalent headless Transcript redirection mechanism for Squeak separately.

@@ -1,6 +1,6 @@
 # Smalltalk Development Best Practices
 
-Essential practices for effective Smalltalk development using AI editors and Pharo.
+Essential practices for effective Smalltalk development using AI editors and a Smalltalk image (Pharo or Squeak).
 
 ## Path Management
 
@@ -36,8 +36,8 @@ Most Smalltalk projects follow these conventions:
    - `pharo-local/iceberg/...` (Iceberg working copies)
 
 2. **Project metadata**: Check `.project` file in project root.
-   The `.project` file is **required** for Pharo to locate the source directory.
-   **If `.project` does not exist**, use the `smalltalk-dev:st-setup-project` skill to create the full project structure, or manually create it using Pharo's STON format (single quotes, tab indentation):
+   The `.project` file is **required** for the tooling to locate the source directory.
+   **If `.project` does not exist**, use the `smalltalk-dev:st-setup-project` skill to create the full project structure, or manually create it using the STON format (single quotes, tab indentation):
    ```
    {
    	'srcDirectory' : 'src'
@@ -80,7 +80,7 @@ import_package: 'MyPackage' path: '/home/user/MyProject/repositories'
 
 ### Docker Environment: Use Guest-Side Paths
 
-When Pharo runs inside a Docker container, **all paths passed to MCP tools must be container-internal (guest) paths**, not host paths.
+When the Smalltalk image runs inside a Docker container, **all paths passed to MCP tools must be container-internal (guest) paths**, not host paths.
 
 **Discovery steps:**
 
@@ -176,16 +176,16 @@ import_package: 'MyPackage-Tests' path: '/path/to/src'
 
 **The AI editor is the source of truth for code.**
 
-- **Primary workflow**: Edit Tonel files in AI editor → Import to Pharo
-- **Avoid**: Editing code directly in Pharo image
-- **Reason**: Changes in Pharo won't persist in version control
+- **Primary workflow**: Edit Tonel files in AI editor → Import to the Smalltalk image
+- **Avoid**: Editing code directly in the Smalltalk image
+- **Reason**: Changes in the Smalltalk image won't persist in version control
 
-### When to Export from Pharo
+### When to Export from the Smalltalk Image
 
 Use `export_package` only in these rare cases:
 
-1. **Initial project setup**: Getting existing code from Pharo into Tonel
-2. **Emergency recovery**: Recovering work done accidentally in Pharo
+1. **Initial project setup**: Getting existing code from the Smalltalk image into Tonel
+2. **Emergency recovery**: Recovering work done accidentally in the Smalltalk image
 3. **Exploring existing code**: Extracting code from a loaded package
 
 **Standard workflow (99% of time):**
@@ -195,26 +195,26 @@ Edit .st file → Import → Test → Repeat
 
 **Rare export workflow:**
 ```
-Work in Pharo → Export → Review .st file → Commit to git
+Work in the Smalltalk image → Export → Review .st file → Commit to git
 ```
 
 ### File Modification Workflow
 
 1. **Read current file** to understand existing code
 2. **Edit in AI editor** using Edit tool
-3. **Import to Pharo** immediately after editing
+3. **Import to the Smalltalk image** immediately after editing
 4. **Test** to verify changes work
 5. **Repeat** as needed
 
 ## Class Renaming
 
-### Rename in Pharo Before Importing
+### Rename in the Smalltalk Image Before Importing
 
-When renaming a class, a Tonel-only rename is **not safe**. If you rename the class in the `.st` file and import without touching Pharo first, the old class remains in the image alongside the newly-created class under the new name.
+When renaming a class, a Tonel-only rename is **not safe**. If you rename the class in the `.st` file and import without renaming it in the Smalltalk image first, the old class remains in the image alongside the newly-created class under the new name.
 
 **Safe rename procedure:**
 
-1. **Rename in Pharo via eval** — run this before any file change:
+1. **Rename in the Smalltalk image via eval** — run this before any file change:
    ```smalltalk
    (OldClassName rename: 'NewClassName') printString
    ```
@@ -235,7 +235,7 @@ This sequence ensures the class is renamed in-place rather than a new class bein
 **Critical Rule**: Always re-import after editing Tonel files.
 
 **Why?**
-- Pharo image doesn't automatically reload files
+- The Smalltalk image doesn't automatically reload files
 - Changes in `.st` files are not reflected until imported
 - Testing without import means testing old code
 
@@ -258,11 +258,11 @@ This sequence ensures the class is renamed in-place rather than a new class bein
 
 If imported code doesn't seem to work:
 
-1. **Verify import succeeded**: Check Pharo Transcript for errors
+1. **Verify import succeeded**: Check the Smalltalk image's Transcript for errors
 2. **Check file saved**: Ensure .st file was written to disk
 3. **Verify correct path**: Double-check absolute path
 4. **Re-import**: Try importing again
-5. **Check Pharo**: Inspect class in Pharo to see if it updated
+5. **Check the Smalltalk image**: Inspect the class to see if it updated
 
 ## Test Execution
 
@@ -311,7 +311,7 @@ Recommended TDD workflow:
 1. **Read error message carefully**: Understand what failed
 2. **Don't immediately re-import**: Fix the code first
 3. **Use `/st-eval` for debugging**: Test snippets before full import
-4. **Fix in Tonel file**: Never fix in Pharo directly
+4. **Fix in Tonel file**: Never fix in the Smalltalk image directly
 5. **Re-import**: After fixing the `.st` file
 6. **Re-test**: Verify the fix worked
 
@@ -369,14 +369,14 @@ Organize methods into logical categories:
 - `BaselineOf` files
 
 **Never commit:**
-- Pharo image files (`.image`, `.changes`)
-- `pharo-local/` directory
+- Smalltalk image files (`.image`, `.changes`)
+- `pharo-local/` directory (Pharo's Iceberg working copy; use the equivalent local VCS directory for Squeak)
 - Build artifacts
 
 ### Git Workflow with Tonel
 
 1. **Edit Tonel files** in AI editor
-2. **Import and test** in Pharo
+2. **Import and test** in the Smalltalk image
 3. **Commit changes** to git
 4. **Push** to repository
 
@@ -421,9 +421,9 @@ Add JSON serialization support to RediStick
 **Problem**: Tests don't run or run old versions
 **Solution**: Import both main and test packages
 
-### Pitfall 5: Editing in Pharo
+### Pitfall 5: Editing in the Smalltalk Image
 **Problem**: Changes lost or not in version control
-**Solution**: Always edit Tonel files, never Pharo image
+**Solution**: Always edit Tonel files, never the Smalltalk image
 
 ### Pitfall 6: Skipping Tests
 **Problem**: Bugs discovered late in development
@@ -433,13 +433,13 @@ Add JSON serialization support to RediStick
 **Problem**: Repeated failures without understanding root cause
 **Solution**: Read error messages carefully, use `/st-eval` to debug
 
-### Pitfall 9: Renaming a Class Without Pharo-Side Rename First
+### Pitfall 9: Renaming a Class Without a Smalltalk-Image-Side Rename First
 
-**Problem**: Renaming the class only in the Tonel file and importing leaves the old class still present in the Pharo image. Both the old and new class end up coexisting, and references to the old name break silently.
+**Problem**: Renaming the class only in the Tonel file and importing leaves the old class still present in the Smalltalk image. Both the old and new class end up coexisting, and references to the old name break silently.
 
-**Solution**: Rename the class in Pharo *before* importing the renamed Tonel file.
+**Solution**: Rename the class in the Smalltalk image *before* importing the renamed Tonel file.
 
-Step 1 — rename in Pharo via eval:
+Step 1 — rename in the Smalltalk image via eval:
 ```smalltalk
 (OldClassName rename: 'NewClassName') printString
 ```
@@ -457,14 +457,14 @@ import_package: 'MyPackage' path: '/absolute/path/src'
 **Problem**: Creating `src/` directories and `package.st` files but forgetting required config files
 **Solution**: A complete project structure requires **two** config files:
 
-`.project` (project root) — tells Pharo where the source directory is:
+`.project` (project root) — tells the tooling where the source directory is:
 ```
 {
 	'srcDirectory' : 'src'
 }
 ```
 
-`src/.properties` (inside `src/`) — tells Pharo the source format:
+`src/.properties` (inside `src/`) — tells the tooling the source format:
 ```
 {
 	#format : #tonel
@@ -481,6 +481,6 @@ Before every commit, verify:
 - ✅ All packages imported with absolute paths
 - ✅ All tests passing
 - ✅ Baseline updated if dependencies changed
-- ✅ No direct edits in Pharo image
+- ✅ No direct edits in the Smalltalk image
 - ✅ Import order respects dependencies
 - ✅ Test packages imported and tested

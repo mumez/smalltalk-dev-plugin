@@ -49,7 +49,7 @@ obj instVarNames collect: [:varName |
 obj printString
 " => 'a Person(John Doe, age: 30)' "
 
-" Detailed inspection (in Pharo) "
+" Detailed inspection (opens an inspector window) "
 obj inspect
 
 " Check object identity "

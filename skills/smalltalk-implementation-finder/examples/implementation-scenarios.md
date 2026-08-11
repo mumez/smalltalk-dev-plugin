@@ -1,6 +1,6 @@
 # Implementation Scenarios
 
-Real-world examples and workflows for analyzing method implementations in Pharo Smalltalk.
+Real-world examples and workflows for analyzing method implementations in Smalltalk (Pharo/Squeak).
 
 ## Scenario 1: Implementing Abstract Method
 

@@ -1,6 +1,6 @@
 # Tonel File Format Reference
 
-Comprehensive guide to Tonel file format for Pharo Smalltalk development.
+Comprehensive guide to Tonel file format for Smalltalk (Pharo/Squeak) development.
 
 ## File Structure Overview
 

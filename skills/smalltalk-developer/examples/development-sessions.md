@@ -1,6 +1,6 @@
 # Typical Development Session Examples
 
-Real-world examples of Smalltalk development workflows using AI editors and Pharo.
+Real-world examples of Smalltalk development workflows using AI editors and a Smalltalk image (Pharo or Squeak).
 
 ## Example 1: Creating a New Class
 
@@ -407,7 +407,7 @@ Result: Test passes now.
 ### Key Points
 - Use `/st-eval` to execute code snippets
 - Test incrementally to isolate issues
-- Fix in Tonel file, not Pharo
+- Fix in Tonel file, not the Smalltalk image
 - Always re-import after fixes
 
 ---
@@ -572,7 +572,7 @@ baseline: spec
 
 **Step 3: Install External Dependency**
 ```smalltalk
-User must run in Pharo:
+User must run in the Smalltalk image:
 Metacello new
     baseline: 'NeoJSON';
     repository: 'github://svenvc/NeoJSON/repository';
@@ -587,7 +587,7 @@ import_package: 'RediStick-Json' path: '/home/user/git/RediStick/src'
 
 ### Key Points
 - Check Baseline for external dependencies
-- Install external packages in Pharo first
+- Install external packages in the Smalltalk image first
 - Import order matters for dependencies
 - Read error messages carefully
 
