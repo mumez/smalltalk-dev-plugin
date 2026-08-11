@@ -4,8 +4,8 @@
             "command": "uvx",
             "args": [
                 "--from",
-                "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git",
-                "pharo-smalltalk-interop-mcp-server"
+                "git+https://github.com/mumez/smalltalk-interop-mcp-server.git",
+                "smalltalk-interop-mcp-server"
             ],
             "env": {
                 "PHARO_SIS_PORT": "8086"

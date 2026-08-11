@@ -355,7 +355,7 @@ MIT License - see LICENSE file for details
 ## Links
 
 - **MCP Servers**:
-  - [pharo-smalltalk-interop-mcp-server](https://github.com/mumez/pharo-smalltalk-interop-mcp-server) by mumez
+  - [smalltalk-interop-mcp-server](https://github.com/mumez/smalltalk-interop-mcp-server) by mumez
   - [smalltalk-validator-mcp-server](https://github.com/mumez/smalltalk-validator-mcp-server) by mumez
 - **Claude Code**: [Anthropic](https://www.anthropic.com/)
 - **Pharo**: [Pharo Project](https://pharo.org/)

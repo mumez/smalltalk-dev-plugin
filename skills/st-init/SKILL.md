@@ -157,7 +157,7 @@ Pass? → Done  |  Fail? → Debug → Fix → Repeat
 | Connection timeout | Check if Pharo image is running |
 | Server not started | Run `SisServer current start` in Pharo |
 | Port mismatch | Check `PHARO_SIS_PORT` env var (default: 8086) |
-| MCP issues | Verify `pharo-smalltalk-interop-mcp-server` is installed |
+| MCP issues | Verify `smalltalk-interop-mcp-server` is installed |
 | Docker path issues | Check volume mounts in `compose.yml` |
 
 ## Related Skills
