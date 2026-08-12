@@ -241,7 +241,7 @@ Class {
 ```
 
 **Important notes**:
-- The `#comment : 'text'` syntax inside `Class { }` can be imported to Pharo but will be **completely ignored** and won't appear as a class comment
+- The `#comment : 'text'` syntax inside `Class { }` can be imported to Smalltalk but will be **completely ignored** and won't appear as a class comment
 - If you find existing files with the incorrect `#comment :` format, you must remove the entry and place the content before the `Class { }` definition.
 
 ## Safety Rules

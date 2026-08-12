@@ -193,9 +193,9 @@ Class {
 ```
 
 **Why this is wrong:**
-- The `#comment : 'text'` syntax inside `Class { }` CAN be imported to Pharo
+- The `#comment : 'text'` syntax inside `Class { }` CAN be imported to Pharo/Squeak
 - However, it will be **completely ignored** and won't appear as a class comment in the image
-- Pharo only recognizes comments in the `"comment text"` format at the top of the file
+- Tonel Smalltalk library only recognizes comments in the `"comment text"` format at the top of the file
 
 ### Class Comment Best Practices
 
