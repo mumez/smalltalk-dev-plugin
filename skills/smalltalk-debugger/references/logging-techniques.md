@@ -16,7 +16,7 @@ Transcript show: ('##DEBUG## var1:{1}' format: {var1})
 - The `##DEBUG##` prefix makes it easy to search for and remove logging code later
 - Format strings eliminate the need for explicit `printString` calls (more concise than `'var1:', var1 printString`)
 
-3. Read the Transcript output via `read_screen`:
+3. Read the Transcript output by capturing the Transcript window with `read_screen` (default `target_type='world'`), since there is no dedicated transcript-reading target.
 
 ## Tips
 
