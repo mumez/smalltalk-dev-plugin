@@ -241,7 +241,7 @@ Always capture errors with `on:do:`:
 
 ## Transcript Logging
 
-Use `Transcript crShow:` with `##DEBUG##`-prefixed format strings to log values. Read output via `read_screen target_type='transcript'`. For call-order tracing use `DateAndTime current`; for call-site tracing use `thisContext shortStack` or `printStackOfSize:`. Headless Pharo images: `NonInteractiveTranscript file install` (writes to `PharoTranscript.log`; Pharo-specific — check Squeak's headless Transcript equivalent separately).
+Use `Transcript show:` with `##DEBUG##`-prefixed format strings to log values. Read output via `read_screen` after evaluating `Transcript open`. For call-order tracing use `DateAndTime current`; for call-site tracing use `thisContext shortStack`.
 
 See [Logging Techniques Reference](references/logging-techniques.md) for full examples.
 
