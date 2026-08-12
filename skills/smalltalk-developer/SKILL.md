@@ -1,18 +1,18 @@
 ---
 name: smalltalk-developer
-description: Comprehensive Pharo Smalltalk development workflow guide with AI-driven Tonel editing. Provides expertise in Tonel file format syntax (class definitions with name, superclass, instVars, category, method categories, class comment placement), package structure (package.st placement, directory organization, BaselineOf dependencies), development workflow (Edit → Import → Test cycle with absolute paths, re-import timing, test execution), and Pharo best practices (CRC format documentation, method categorization conventions). Use when working with Pharo Smalltalk projects, creating or editing Tonel .st files, organizing packages and dependencies, resolving import order issues, writing class comments, implementing standard Pharo development patterns (Singleton, Settings, etc.), or troubleshooting Tonel syntax.
+description: Comprehensive Smalltalk (Pharo/Squeak) development workflow guide with AI-driven Tonel editing. Provides expertise in Tonel file format syntax (class definitions with name, superclass, instVars, category, method categories, class comment placement), package structure (package.st placement, directory organization, BaselineOf dependencies), development workflow (Edit → Import → Test cycle with absolute paths, re-import timing, test execution), and Smalltalk best practices (CRC format documentation, method categorization conventions). Use when working with Pharo or Squeak Smalltalk projects, creating or editing Tonel .st files, organizing packages and dependencies, resolving import order issues, writing class comments, implementing standard Smalltalk development patterns (Singleton, Settings, etc.), or troubleshooting Tonel syntax.
 ---
 
 # Smalltalk Developer Workflow
 
-Implement the standard workflow for Pharo Smalltalk development using AI editors and the Tonel file format.
+Implement the standard workflow for Smalltalk (Pharo or Squeak) development using AI editors and the Tonel file format.
 
 ## Prerequisites
 
 Before starting development, ensure the environment is ready:
 
 - **No project structure** (no `src/` or `.project`): Use `smalltalk-dev:st-setup-project` skill to create boilerplate
-- **Pharo not connected** or session not initialized: Use `smalltalk-dev:st-init` skill to verify connection and set up environment
+- **Smalltalk image not connected** or session not initialized: Use `smalltalk-dev:st-init` skill to verify connection and set up environment
 
 ## Core Development Cycle
 
@@ -22,7 +22,7 @@ The fundamental workflow for Smalltalk development consists of three steps that 
 
 Edit Tonel files directly in the AI editor. The AI editor is the **single source of truth** for code.
 
-**Key principle**: All code changes happen in `.st` files, not in the Pharo image.
+**Key principle**: All code changes happen in `.st` files, not in the Smalltalk image.
 
 **Tonel basics:**
 - One class per `.st` file
@@ -35,7 +35,7 @@ Follow the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
 
 Refer to [Implementation Patterns](references/patterns.md) for common patterns (Singleton, Settings, etc.).
 
-### 2. Import to Pharo
+### 2. Import to the Smalltalk Image
 
 **Before importing**, run lint to check code quality:
 
@@ -43,7 +43,7 @@ Refer to [Implementation Patterns](references/patterns.md) for common patterns (
 /st-lint src/MyPackage   # Check Smalltalk best practices
 ```
 
-Then import the package into the running Pharo image using absolute paths:
+Then import the package into the running Smalltalk image using absolute paths:
 
 ```
 mcp__smalltalk-interop__import_package: 'MyPackage' path: '/home/user/project/src'
@@ -107,7 +107,7 @@ See [Best Practices: Dependencies](references/best-practices.md#package-dependen
 
 ### Import Timing
 
-**Re-import after every change** - Pharo doesn't automatically reload files.
+**Re-import after every change** - the Smalltalk image doesn't automatically reload files.
 
 **Standard sequence:**
 1. Edit `MyPackage/MyClass.st`
@@ -120,8 +120,8 @@ See [Best Practices: Dependencies](references/best-practices.md#package-dependen
 
 The AI editor is the source of truth:
 
-- ✅ Edit `.st` files → Import to Pharo
-- ❌ Edit in Pharo → Export to `.st` files
+- ✅ Edit `.st` files → Import to the Smalltalk image
+- ❌ Edit in the Smalltalk image → Export to `.st` files
 
 Use `export_package` only for:
 - Initial project setup
@@ -161,10 +161,10 @@ See [Best Practices: File Editing](references/best-practices.md#file-editing-phi
 
 ### Pattern 5: Renaming a Class
 
-Renaming a class only in the Tonel file and importing leaves the old class in the Pharo image. Always rename in Pharo first, then import.
+Renaming a class only in the Tonel file and importing leaves the old class in the Smalltalk image. Always rename in the Smalltalk image first, then import.
 
 ```
-1. Rename the class in Pharo via eval:
+1. Rename the class in the Smalltalk image via eval:
    (OldClassName rename: 'NewClassName') printString
 
 2. Update the Tonel filename and class name in the .st file
@@ -270,7 +270,7 @@ mcp__smalltalk-validator__validate_tonel_smalltalk_from_file: '/path/to/file.st'
 
 1. Read error message carefully
 2. Use `/st-eval` to debug incrementally
-3. Fix in Tonel file (not Pharo)
+3. Fix in Tonel file (not the Smalltalk image)
 4. Re-import and re-test
 
 See [Best Practices: Error Handling](references/best-practices.md#error-handling-and-debugging) for complete guide.

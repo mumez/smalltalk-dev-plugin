@@ -476,7 +476,7 @@ import_package: 'MissingPackage' path: '/absolute/path/src'
 
 **Load external dependency:**
 ```smalltalk
-" In Pharo "
+" In the Smalltalk image "
 Metacello new
     baseline: 'NeoJSON';
     repository: 'github://svenvc/NeoJSON/repository';
@@ -564,5 +564,5 @@ When encountering an error:
 4. ✅ Use `/st-eval` to test hypotheses
 5. ✅ Verify package is imported
 6. ✅ Check for typos
-7. ✅ Fix in Tonel file, not Pharo
+7. ✅ Fix in Tonel file, not the Smalltalk image
 8. ✅ Re-import and re-test

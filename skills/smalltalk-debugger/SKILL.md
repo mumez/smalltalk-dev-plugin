@@ -1,11 +1,11 @@
 ---
 name: smalltalk-debugger
-description: Systematic debugging guide for Pharo Smalltalk development. Provides expertise in error diagnosis (MessageNotUnderstood, KeyNotFound, SubscriptOutOfBounds, AssertionFailure), incremental code execution with eval tool, intermediate value inspection, error handling patterns (`on:do:` blocks), stack trace analysis, UI debugger window detection (read_screen for hung operations), Transcript logging (crShow:, ##DEBUG## prefix, format strings, call-site tracing with thisContext, headless output via NonInteractiveTranscript), and debug-fix-reimport workflow. Use when encountering Pharo test failures, Smalltalk exceptions, unexpected behavior, timeout or non-responsive operations, need to verify intermediate values, execute code incrementally for diagnosis, troubleshoot Tonel import errors, add debug logging to trace variable values or call sites, or redirect Transcript output in headless/Docker images.
+description: Systematic debugging guide for Smalltalk (Pharo/Squeak) development. Provides expertise in error diagnosis (MessageNotUnderstood, KeyNotFound, SubscriptOutOfBounds, AssertionFailure), incremental code execution with eval tool, intermediate value inspection, error handling patterns (`on:do:` blocks), stack trace analysis, UI debugger window detection (read_screen for hung operations), Transcript logging (crShow:, ##DEBUG## prefix, format strings, call-site tracing with thisContext, headless output via NonInteractiveTranscript on Pharo), and debug-fix-reimport workflow. Use when encountering Smalltalk test failures, Smalltalk exceptions, unexpected behavior, timeout or non-responsive operations, need to verify intermediate values, execute code incrementally for diagnosis, troubleshoot Tonel import errors, add debug logging to trace variable values or call sites, or redirect Transcript output in headless/Docker images.
 ---
 
 # Smalltalk Debugger
 
-Systematic debugging techniques for Pharo Smalltalk development using AI editors.
+Systematic debugging techniques for Smalltalk (Pharo/Squeak) development using AI editors.
 
 ## Core Debugging Workflow
 
@@ -54,7 +54,7 @@ step2 := step1 select: [:each | each isValid].
 
 ### 4. Fix and Re-test
 
-1. **Fix in Tonel file** (never in Pharo)
+1. **Fix in Tonel file** (never in the Smalltalk image)
 2. **Re-import** with `import_package`
 3. **Re-test** with `run_class_test`
 
@@ -64,13 +64,13 @@ When an MCP call times out, follow this escalation sequence:
 
 ### Step 1: Health Check
 
-Run a quick eval to verify Pharo is still responsive:
+Run a quick eval to verify the Smalltalk image is still responsive:
 
 ```
 mcp__smalltalk-interop__eval: 'Smalltalk version'
 ```
 
-If this succeeds, Pharo is alive — a **debugger window may have opened** (see below).
+If this succeeds, the Smalltalk image is alive — a **debugger window may have opened** (see below).
 
 ### Step 2: Try `read_screen`
 
@@ -84,16 +84,16 @@ If `read_screen` responds, inspect the output for debugger windows (see "Detecti
 
 ### Step 3: Process Hang — Ask User to Restart
 
-If `read_screen` itself times out, **Pharo has hung at the process level**. MCP tools cannot recover from this state.
+If `read_screen` itself times out, **the Smalltalk image has hung at the process level**. MCP tools cannot recover from this state.
 
 Ask the user to:
-1. Kill the Pharo process (or Docker container) and restart it
+1. Kill the Pharo/Squeak process (or Docker container) and restart it
 2. After restart, re-import all packages before continuing
 3. Re-run tests to confirm state before making further claims
 
 ### Detecting Hidden Debuggers
 
-Use the `read_screen` tool to capture the Pharo UI state:
+Use the `read_screen` tool to capture the Smalltalk image's UI state:
 
 ```
 mcp__smalltalk-interop__read_screen: target_type='world'
@@ -106,15 +106,15 @@ This captures all morphs including debugger windows. Look for:
 
 ### Resolution Steps
 
-1. **Notify the user**: Inform them that a debugger window appears to be open in Pharo
+1. **Notify the user**: Inform them that a debugger window appears to be open in the Smalltalk image
 2. **Request manual intervention**: Ask the user to:
-   - Check their Pharo image for open debugger windows
+   - Check their Smalltalk image for open debugger windows
    - Close any debugger windows
    - Review the error shown in the debugger to understand the root cause
 3. **Address root cause**: Once the debugger is closed, investigate and fix the underlying error using standard debugging techniques
 4. **Retry operation**: Re-run the failed MCP operation
 
-**Note**: The Pharo debugger cannot be controlled remotely through MCP tools. User intervention in the Pharo image is required.
+**Note**: The Smalltalk debugger cannot be controlled remotely through MCP tools. User intervention in the Smalltalk image is required.
 
 For complete UI debugging guidance, see [UI Debugging Reference](references/ui-debugging.md).
 
@@ -235,13 +235,13 @@ Always capture errors with `on:do:`:
 ]
 ```
 
-### 5. Fix in Tonel, Not Pharo
+### 5. Fix in Tonel, Not the Smalltalk Image
 - ✅ Edit `.st` file → Import → Test
-- ❌ Edit in Pharo → Export → Commit
+- ❌ Edit in the Smalltalk image → Export → Commit
 
 ## Transcript Logging
 
-Use `Transcript crShow:` with `##DEBUG##`-prefixed format strings to log values. Read output via `read_screen target_type='transcript'`. For call-order tracing use `DateAndTime current`; for call-site tracing use `thisContext shortStack` or `printStackOfSize:`. Headless images: `NonInteractiveTranscript file install` (writes to `PharoTranscript.log`).
+Use `Transcript show:` with `##DEBUG##`-prefixed format strings to log values. Read output via `read_screen` after evaluating `Transcript open`. For call-order tracing use `DateAndTime current`; for call-site tracing use `thisContext shortStack`.
 
 See [Logging Techniques Reference](references/logging-techniques.md) for full examples.
 
@@ -285,7 +285,7 @@ When debugging, systematically check:
 - [ ] Inspect all intermediate values
 - [ ] Check method implementation
 - [ ] Verify package was imported
-- [ ] Edit Tonel file (not Pharo)
+- [ ] Edit Tonel file (not the Smalltalk image)
 - [ ] Re-import after fixing
 - [ ] Re-run tests
 

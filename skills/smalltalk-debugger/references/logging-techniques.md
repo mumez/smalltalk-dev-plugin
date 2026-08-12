@@ -7,19 +7,16 @@
 Transcript open
 ```
 
-2. Log values using `crShow:` with a format string:
+2. Log values using `show:` with a format string:
 ```smalltalk
-Transcript crShow: ('##DEBUG## var1:{1}' format: {var1})
+Transcript show: ('##DEBUG## var1:{1}' format: {var1})
 ```
 
-- `crShow:` prepends a newline, keeping output readable
+- To prepends a newline to each log entry, use `crShow:` (Pharo), `showln:` (Squeak) or `cr; show:` (both).
 - The `##DEBUG##` prefix makes it easy to search for and remove logging code later
 - Format strings eliminate the need for explicit `printString` calls (more concise than `'var1:', var1 printString`)
 
-3. Read the Transcript output via `read_screen`:
-```
-mcp__smalltalk-interop__read_screen: target_type='transcript'
-```
+3. Read the Transcript output by capturing the Transcript window with `read_screen` (default `target_type='world'`), since there is no dedicated transcript-reading target.
 
 ## Tips
 
@@ -27,20 +24,35 @@ mcp__smalltalk-interop__read_screen: target_type='transcript'
 
 Include `DateAndTime current` in the format string:
 ```smalltalk
-Transcript crShow: ('##DEBUG## @{1}' format: {DateAndTime current})
+Transcript cr; show: ('##DEBUG## @{1}' format: {DateAndTime current})
 ```
 
 ### Finding the call site (stack trace output)
 
-Use `thisContext shortStack` or `thisContext printStackOfSize:`:
+Use `thisContext shortStack`:
+
 ```smalltalk
-Transcript crShow: ('##DEBUG## stack:{1}' format: {thisContext shortStack})
-Transcript crShow: ('##DEBUG## stack:{1}' format: {thisContext printStackOfSize: 20})  "longer stack"
+Transcript cr; show: ('##DEBUG## stack:{1}' format: {thisContext shortStack})
 ```
 
-### Headless images
+For getting longer stack, use `thisContext printStackOfSize:` (Pharo), or `thisContext stackOfSize:` (Squeak).
+
+#### Pharo
+
+```smalltalk
+Transcript cr; show: ('##DEBUG## stack:{1}' format: {thisContext printStackOfSize: 20})  "longer stack"
+```
+
+#### Squeak
+
+```smalltalk
+Transcript cr; show: ('##DEBUG## stack:{1}' format: {thisContext stackOfSize: 20})  "longer stack"
+```
+
+### Headless images (Pharo only)
 
 Eval the following to redirect Transcript output to a file:
+
 ```smalltalk
 NonInteractiveTranscript file install
 ```

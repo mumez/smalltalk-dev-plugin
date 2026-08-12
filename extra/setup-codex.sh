@@ -148,10 +148,10 @@ with open('$CODEX_CONFIG', 'w') as f:
 append_mcp_entry "mcp_servers.smalltalk-interop" \
 '[mcp_servers.smalltalk-interop]
 command = "uvx"
-args = ["--from", "git+https://github.com/mumez/pharo-smalltalk-interop-mcp-server.git", "pharo-smalltalk-interop-mcp-server"]
+args = ["--from", "git+https://github.com/mumez/smalltalk-interop-mcp-server.git", "smalltalk-interop-mcp-server"]
 
 [mcp_servers.smalltalk-interop.env]
-PHARO_SIS_PORT = "8086"'
+SIS_PORT = "8086"'
 
 append_mcp_entry "mcp_servers.smalltalk-validator" \
 '[mcp_servers.smalltalk-validator]

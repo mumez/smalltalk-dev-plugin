@@ -1,12 +1,12 @@
 ---
 name: st-setup-project
-description: Pharo project boilerplate creator. Use when the user asks to create a new Pharo/Smalltalk project from scratch, when project structure is missing (no src/ directory or .project file), when the user wants to start a new Smalltalk development project, or when setting up BaselineOf, Core, and Tests package structure.
+description: Smalltalk (Pharo/Squeak) project boilerplate creator. Use when the user asks to create a new Pharo/Smalltalk project from scratch, when project structure is missing (no src/ directory or .project file), when the user wants to start a new Smalltalk development project, or when setting up BaselineOf, Core, and Tests package structure.
 allowed-tools: Bash AskUserQuestion Read
 ---
 
-# Set Up Pharo Project Boilerplate
+# Set Up Smalltalk Project Boilerplate
 
-Create a complete Pharo project structure with BaselineOf, Core package, and Tests package.
+Create a complete Smalltalk project structure with BaselineOf, Core package, and Tests package.
 
 ## When to Use This Skill
 
@@ -62,7 +62,7 @@ Run the setup script with the validated project name. See [Complete Setup Script
 
 **Key files created:**
 
-**.project** (Pharo STON format with single quotes):
+**.project** (STON format with single quotes):
 ```
 {
 	'srcDirectory' : 'src'
@@ -87,10 +87,10 @@ Run the setup script with the validated project name. See [Complete Setup Script
 Show the user what was created and next steps:
 
 ```
-✓ Pharo project 'ProjectName' created successfully!
+✓ Smalltalk project 'ProjectName' created successfully!
 
 Next steps:
-  1. Use /st-init to verify Pharo connection and start development
+  1. Use /st-init to verify the Smalltalk image connection and start development
   2. Start adding classes to ProjectName-Core
   3. Write tests in ProjectName-Tests
 ```

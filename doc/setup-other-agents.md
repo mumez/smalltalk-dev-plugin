@@ -35,7 +35,9 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 
 ## Prerequisites
 
-- [Pharo](https://pharo.org/) with [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) installed
+- A Smalltalk image with the matching Interop Server installed:
+  - [Pharo](https://pharo.org/) with [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer), or
+  - [Squeak](https://squeak.org/) with [SqueakSmalltalkInteropServer](https://github.com/mumez/SqueakSmalltalkInteropServer)
 - This plugin repository cloned locally
 
 ## Cursor

@@ -1,12 +1,12 @@
 ---
 name: st-eval
-description: Smalltalk code evaluator for Pharo via MCP. Use when executing Smalltalk expressions, verifying object state or intermediate values, debugging code incrementally, checking Pharo connection, or running quick experiments.
+description: Smalltalk code evaluator for Pharo or Squeak via MCP. Use when executing Smalltalk expressions, verifying object state or intermediate values, debugging code incrementally, checking the Smalltalk image connection, or running quick experiments.
 allowed-tools: mcp__smalltalk-interop__eval
 ---
 
 # Execute Smalltalk Code
 
-Evaluate arbitrary Smalltalk expressions in the running Pharo image via `mcp__smalltalk-interop__eval`.
+Evaluate arbitrary Smalltalk expressions in the running Smalltalk image via `mcp__smalltalk-interop__eval`.
 
 ## Essential Rules
 
@@ -84,10 +84,10 @@ result := Array new: 2.
 |---------|-------|-----|
 | MCP call hangs / no response | Blocking operation (dialog, modal, infinite loop) | Wrap in `fork` |
 | `Error: cannot serialize` | Returning raw object | Add `printString` |
-| Debugger window opened in Pharo | Uncaught error triggered Pharo debugger | Close debugger in Pharo, then re-eval with `on:do:` |
+| Debugger window opened in the Smalltalk image | Uncaught error triggered the debugger | Close debugger in the Smalltalk image, then re-eval with `on:do:` |
 | `MessageNotUnderstood` | Method doesn't exist or typo | Check with `mcp__smalltalk-interop__search_implementors` |
 
 ## Related Skills
 
 - `smalltalk-dev:smalltalk-debugger` — Systematic debugging workflow using eval
-- `smalltalk-dev:st-init` — Verify Pharo connection if eval fails unexpectedly
+- `smalltalk-dev:st-init` — Verify the Smalltalk image connection if eval fails unexpectedly

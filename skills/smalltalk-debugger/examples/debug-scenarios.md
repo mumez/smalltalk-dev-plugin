@@ -618,7 +618,7 @@ RsJsonSerializer >> toJson: anObject [
 
 **Step 6: Add NeoJSON Dependency to Baseline**
 
-If NeoJSON isn't in base Pharo, add to baseline:
+If NeoJSON isn't in the base image, add to baseline:
 
 ```smalltalk
 baseline: spec
@@ -635,9 +635,9 @@ baseline: spec
     ]
 ```
 
-**Step 7: Load NeoJSON in Pharo** (if not loaded)
+**Step 7: Load NeoJSON in the Smalltalk image** (if not loaded)
 
-User needs to run in Pharo:
+User needs to run in the Smalltalk image:
 ```smalltalk
 Metacello new
     baseline: 'NeoJSON';
@@ -656,7 +656,7 @@ import_package: 'RediStick-Json' path: '/home/user/git/RediStick/src'
 ### Key Takeaways
 - Check Baseline for external dependencies
 - Install external packages before importing
-- Use correct JSON library (NeoJSON in Pharo)
+- Use correct JSON library (NeoJSON)
 - Declare dependencies in Baseline
 
 ---
@@ -691,7 +691,7 @@ For any debugging scenario, follow this systematic approach:
 - Search for similar patterns with `search_implementors`
 
 ### 6. Fix in Tonel File
-- Never fix in Pharo directly
+- Never fix in the Smalltalk image directly
 - Edit the `.st` file
 - Ensure fix addresses root cause
 
@@ -716,7 +716,7 @@ When stuck debugging:
 - [ ] Have you inspected all intermediate values?
 - [ ] Have you checked the method implementation?
 - [ ] Have you verified the package was imported?
-- [ ] Are you editing the Tonel file (not Pharo)?
+- [ ] Are you editing the Tonel file (not the Smalltalk image)?
 - [ ] Have you re-imported after your fix?
 - [ ] Have you re-run the tests?
 - [ ] Have you checked for typos in names?
@@ -734,6 +734,6 @@ Key debugging principles demonstrated:
 2. **Incremental testing** - Test one thing at a time
 3. **Inspect everything** - Don't assume, verify
 4. **Use `/st-eval`** - Most powerful debugging tool
-5. **Fix in Tonel** - Never edit Pharo directly
+5. **Fix in Tonel** - Never edit the Smalltalk image directly
 6. **Re-import always** - Changes don't apply automatically
 7. **Test thoroughly** - Verify fix and check for regression

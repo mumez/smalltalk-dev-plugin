@@ -6,7 +6,7 @@ Comprehensive test scenarios for verifying the smalltalk-dev plugin functionalit
 
 Before running these tests:
 
-1. **Pharo image running** with PharoSmalltalkInteropServer started:
+1. **Smalltalk image running** (Pharo or Squeak) with the matching Interop Server (PharoSmalltalkInteropServer or SqueakSmalltalkInteropServer) started:
    ```smalltalk
    SisServer current start.
    ```
@@ -18,8 +18,8 @@ Before running these tests:
 
 3. **Test project prepared** (optional):
    ```bash
-   mkdir -p ~/pharo-test/src
-   cd ~/pharo-test
+   mkdir -p ~/st-test/src
+   cd ~/st-test
    ```
 
 ---
@@ -39,7 +39,7 @@ Before running these tests:
 - ✅ `smalltalk-developer` skill is mentioned as loaded
 - ✅ Development workflow explanation appears (Edit → Import → Test)
 - ✅ Available commands are listed
-- ✅ Pharo connection verification (version check or connection test)
+- ✅ Smalltalk image connection verification (version check or connection test)
 - ✅ Quick start examples are provided
 
 **Success Criteria**:
@@ -48,17 +48,17 @@ Before running these tests:
 - Provides concrete examples
 
 **Common Issues**:
-- If Pharo connection fails, verify SisServer is running
+- If the Smalltalk image connection fails, verify SisServer is running
 - If skill doesn't load, check plugin installation
 
 ---
 
-### Test 1.2: /st-init Without Pharo Running
+### Test 1.2: /st-init Without the Smalltalk Image Running
 
-**Goal**: Verify graceful handling when Pharo is not connected.
+**Goal**: Verify graceful handling when the Smalltalk image is not connected.
 
 **Steps**:
-1. Stop PharoSmalltalkInteropServer in Pharo
+1. Stop the Interop Server in the Smalltalk image
 2. Run `/st-init`
 
 **Expected Results**:
@@ -68,7 +68,7 @@ Before running these tests:
 - ✅ Workflow explanation still appears
 
 **Success Criteria**:
-- Clear error message about Pharo connection
+- Clear error message about the Smalltalk image connection
 - Provides steps to start SisServer
 - Remains helpful despite connection failure
 
@@ -88,8 +88,8 @@ Before running these tests:
 | "Add a method to the Person class" | smalltalk-developer |
 | "Write Smalltalk code for a counter" | smalltalk-developer |
 | "Edit Tonel files for my project" | smalltalk-developer |
-| "Import package to Pharo" | smalltalk-developer |
-| "Implement a Calculator in Pharo" | smalltalk-developer |
+| "Import package to the Smalltalk image" | smalltalk-developer |
+| "Implement a Calculator in Smalltalk" | smalltalk-developer |
 
 **Steps** (for each trigger phrase):
 1. Start fresh conversation
@@ -107,7 +107,7 @@ Before running these tests:
 Look for responses that:
 - Create or edit .st files in Tonel format
 - Suggest import commands
-- Reference Pharo-specific concepts
+- Reference Smalltalk-specific concepts
 ```
 
 ---
@@ -222,7 +222,7 @@ Look for:
 **Expected Results**:
 - ✅ Command executes
 - ✅ Uses only `mcp__smalltalk-interop__eval` tool
-- ✅ Returns result from Pharo
+- ✅ Returns result from the Smalltalk image
 - ✅ No other MCP tools used
 
 **Verification**:
@@ -270,7 +270,7 @@ EOF
 
 **Cleanup**:
 ```smalltalk
-"In Pharo:"
+"In the Smalltalk image:"
 TestPackage removeFromSystem
 ```
 
@@ -327,7 +327,7 @@ TestPackage removeFromSystem
 **Scenario**: Create a simple class, import, and test.
 
 **Steps**:
-1. "Create a Person class in Pharo Smalltalk with firstName and lastName instance variables"
+1. "Create a Person class in Smalltalk with firstName and lastName instance variables"
 2. Observe Tonel file creation
 3. Accept `/st-import` suggestion
 4. "Add a test for Person class"
@@ -343,7 +343,7 @@ TestPackage removeFromSystem
 
 **Success Criteria**:
 ```smalltalk
-"In Pharo after import:"
+"In the Smalltalk image after import:"
 Person new firstName: 'John'; lastName: 'Doe'; yourself
 → a Person
 ```
@@ -392,7 +392,7 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
 **Scenario**: Learn how to use existing class.
 
 **Steps**:
-1. "How do I use OrderedCollection in Pharo?"
+1. "How do I use OrderedCollection in Smalltalk?"
 2. Observe skill activation and MCP tool usage
 3. "Show me examples of adding items to OrderedCollection"
 
@@ -480,9 +480,9 @@ echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
 
 ## Test Suite 7: MCP Integration
 
-### Test 7.1: pharo-interop MCP Server
+### Test 7.1: smalltalk-interop MCP Server
 
-**Goal**: Verify all pharo-interop tools are accessible.
+**Goal**: Verify all smalltalk-interop tools are accessible.
 
 **Test Tools**:
 ```bash
@@ -544,19 +544,19 @@ claude plugin install smalltalk-dev
 **Symptoms**: Tools return connection errors.
 
 **Checks**:
-1. Verify Pharo is running
+1. Verify the Smalltalk image is running
 2. Check SisServer status:
    ```smalltalk
    SisServer current
    ```
 3. Verify port (default 8086):
    ```bash
-   echo $PHARO_SIS_PORT
+   echo $SIS_PORT
    ```
 
 **Fix**:
 ```smalltalk
-"In Pharo:"
+"In the Smalltalk image:"
 SisServer current start.
 SisServer current  "Should show running server"
 ```
@@ -602,7 +602,7 @@ Quick checklist for complete validation:
 - [ ] PostToolUse hook - Occasionally suggests /smalltalk-commenter on .st file edits
 
 ### MCP Servers (2)
-- [ ] pharo-interop - Connection working
+- [ ] smalltalk-interop - Connection working
 - [ ] smalltalk-validator - Validation working
 
 ### Workflows (4)

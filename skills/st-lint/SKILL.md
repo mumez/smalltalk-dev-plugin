@@ -1,12 +1,12 @@
 ---
 name: st-lint
-description: Smalltalk best-practices linter for Tonel files. Use when validating .st files before importing to Pharo, checking code quality after editing, or diagnosing style issues in a package.
+description: Smalltalk best-practices linter for Tonel files. Use when validating .st files before importing to the Smalltalk image (Pharo or Squeak), checking code quality after editing, or diagnosing style issues in a package.
 allowed-tools: mcp__smalltalk-validator__lint_tonel_smalltalk_from_file Glob Bash
 ---
 
 # Lint Tonel Files
 
-Validate Tonel `.st` files for Smalltalk best practices before importing to Pharo.
+Validate Tonel `.st` files for Smalltalk best practices before importing to the Smalltalk image.
 
 ## When to Use
 

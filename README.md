@@ -1,17 +1,17 @@
 # smalltalk-dev Plugin
 
-[Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo) development.
+[Claude Code](https://github.com/anthropics/claude-code) plugin for AI-driven Smalltalk (Pharo/Squeak) development.
 
 > Also available for [Cursor, Devin Desktop, Devin CLI, Antigravity, Antigravity CLI, GitHub Copilot CLI, OpenCode, Kilo Code, Codex CLI, and Gemini CLI](doc/setup-other-agents.md).
 
 ## Overview
 
-This plugin provides a comprehensive AI-powered toolkit for Pharo Smalltalk development. It covers the full development lifecycle — from project setup and Tonel file editing, to importing, testing, debugging, and documentation generation.
+This plugin provides a comprehensive AI-powered toolkit for Smalltalk development (Pharo or Squeak). It covers the full development lifecycle — from project setup and Tonel file editing, to importing, testing, debugging, and documentation generation.
 
 ## Features
 
 - **Skills**: All capabilities are implemented as skills — `st-*` skills are user-invoked commands; other skills provide AI-powered development workflow, debugging expertise, and documentation
-- **MCP Integration**: Seamless connection to Pharo and validation servers
+- **MCP Integration**: Seamless connection to a Smalltalk image (Pharo or Squeak) and validation servers
 - **Hooks**: Automatic suggestions after file changes
 
 ## Usage
@@ -55,11 +55,11 @@ For experienced users who prefer direct commands, see [Commands.md](doc/Commands
 
 ## Prerequisites
 
-### 1. Pharo with PharoSmalltalkInteropServer
+### 1. A Smalltalk Image with a Smalltalk Interop Server
 
-Choose one of the following options:
+Choose Pharo or Squeak, then one of the following options:
 
-#### Option A: Use Docker (Easy)
+#### Option A: Use Docker (Easy, Pharo only)
 
 Run a pre-configured Pharo image using [smalltalk-interop-docker](https://github.com/mumez/smalltalk-interop-docker):
 
@@ -67,9 +67,12 @@ Run a pre-configured Pharo image using [smalltalk-interop-docker](https://github
 docker compose up -d
 ```
 
-#### Option B: Local Pharo Setup
+#### Option B: Local Setup
 
-Install [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer) in your Pharo image.
+Install the Interop Server that matches your Smalltalk dialect:
+
+- Pharo: [PharoSmalltalkInteropServer](https://github.com/mumez/PharoSmalltalkInteropServer)
+- Squeak: [SqueakSmalltalkInteropServer](https://github.com/mumez/SqueakSmalltalkInteropServer)
 
 ### 2. Claude Code
 
@@ -129,11 +132,11 @@ All commands are implemented as `st-*` skills. **Most users should start with `/
 
 - `/st-buddy` - Friendly development assistant (recommended starting point)
 - `/st-init` - Load smalltalk-developer skill and explain workflow
-- `/st-setup-project` - Set up Pharo project structure
+- `/st-setup-project` - Set up Smalltalk project structure
 - `/st-eval` - Execute Smalltalk code snippets
 - `/st-lint` - Check code quality and best practices
-- `/st-import` - Import Tonel packages to Pharo
-- `/st-export` - Export packages from Pharo
+- `/st-import` - Import Tonel packages to the Smalltalk image
+- `/st-export` - Export packages from the Smalltalk image
 - `/st-test` - Run SUnit tests
 - `/st-validate` - Validate Tonel syntax
 
@@ -165,7 +168,7 @@ Automatically suggests class documentation improvements:
 
 The plugin exposes all tools from both MCP servers:
 
-**pharo-interop** (22 tools):
+**smalltalk-interop** (22 tools):
 - `eval`: Execute Smalltalk expressions
 - `import_package`, `export_package`: Package management
 - `run_class_test`, `run_package_test`: Test execution
@@ -184,13 +187,13 @@ The plugin exposes all tools from both MCP servers:
 
 The plugin uses two MCP servers:
 
-1. **pharo-interop**: Communication with Pharo image
+1. **smalltalk-interop**: Communication with Smalltalk image (Pharo or Squeak)
 2. **smalltalk-validator**: Tonel syntax validation
 
-These are configured automatically via `.mcp.json`. You can customize the Pharo port:
+These are configured automatically via `.mcp.json`. You can customize Smalltalk (SisServer is running) port:
 
 ```bash
-export PHARO_SIS_PORT=8086  # default
+export SIS_PORT=8086  # default
 ```
 
 ## Uninstallation
@@ -235,7 +238,7 @@ claude plugin install smalltalk-dev
 
 ### "Connection refused" error
 
-Make sure PharoSmalltalkInteropServer is running:
+Make sure the Smalltalk Interop Server (PharoSmalltalkInteropServer or SqueakSmalltalkInteropServer) is running:
 
 ```smalltalk
 SisServer current start.
@@ -258,7 +261,7 @@ SisServer current.  "Should show running server"
 
 ### Import seems to do nothing
 
-- Check Pharo Transcript for error messages
+- Check the Smalltalk image's Transcript for error messages
 - Verify server port matches configuration: `SisServer teapotConfig`
 - Try `/st-eval Smalltalk version` to test connection
 
@@ -334,6 +337,10 @@ Projects built with this plugin:
 - [smalltalk-dev-plugin-graph-example](https://github.com/mumez/smalltalk-dev-plugin-graph-example) - Directed weighted graph with Dijkstra's shortest-path algorithm
 - [smalltalk-dev-plugin-gui-example](https://github.com/mumez/smalltalk-dev-plugin-gui-example) - Interactive to-do list app built with the Spec2 framework
 
+## For GUI Users
+
+Prefer a GUI over the CLI? Check out [pharo-agentic-browser](https://github.com/mumez/pharo-agentic-browser) — it lets you use an agent with this plugin installed directly from Pharo's native UI.
+
 ## Contributing
 
 Contributions are welcome! Please:
@@ -351,7 +358,8 @@ MIT License - see LICENSE file for details
 ## Links
 
 - **MCP Servers**:
-  - [pharo-smalltalk-interop-mcp-server](https://github.com/mumez/pharo-smalltalk-interop-mcp-server) by mumez
+  - [smalltalk-interop-mcp-server](https://github.com/mumez/smalltalk-interop-mcp-server) by mumez
   - [smalltalk-validator-mcp-server](https://github.com/mumez/smalltalk-validator-mcp-server) by mumez
 - **Claude Code**: [Anthropic](https://www.anthropic.com/)
 - **Pharo**: [Pharo Project](https://pharo.org/)
+- **Squeak**: [Squeak Project](https://squeak.org/)

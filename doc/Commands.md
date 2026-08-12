@@ -49,19 +49,19 @@ Start a new Smalltalk development session. Loads the `smalltalk-developer` skill
 
 **Use for:**
 - Starting a new development session
-- Getting oriented with the Pharo development workflow
+- Getting oriented with the Smalltalk development workflow
 - Verifying your environment is ready
 - Learning the available commands
 
 **What it does:**
 - Loads smalltalk-developer skill
-- Verifies Pharo connection
+- Verifies Smalltalk image connection
 - Explains the standard development cycle
 - Lists available commands and tools
 
 ### `/st-setup-project [ProjectName]`
 
-Set up Pharo project boilerplate structure from scratch. Creates standard package layout with BaselineOf, Core, and Tests packages.
+Set up Smalltalk project boilerplate structure from scratch. Creates standard package layout with BaselineOf, Core, and Tests packages.
 
 ```bash
 /st-setup-project MyProject
@@ -69,7 +69,7 @@ Set up Pharo project boilerplate structure from scratch. Creates standard packag
 ```
 
 **Use for:**
-- Starting a new Pharo project from zero
+- Starting a new Smalltalk project from zero
 - Creating standard package structure
 - Generating baseline configuration automatically
 
@@ -121,7 +121,7 @@ Lint Tonel files for Smalltalk best practices before importing.
 
 ### `/st-import [PackageName] [path]`
 
-Import Tonel packages into running Pharo image.
+Import Tonel packages into the running Smalltalk image.
 
 ```bash
 /st-import MyPackage /home/user/project/src
@@ -135,12 +135,12 @@ Import Tonel packages into running Pharo image.
 **Recommended workflow:**
 1. Edit Tonel files
 2. Run `/st-lint` to check quality
-3. Run `/st-import` to load into Pharo
+3. Run `/st-import` to load into the Smalltalk image
 4. Run `/st-test` to verify
 
 ### `/st-export [PackageName] [path]`
 
-Export package from Pharo image back to Tonel files.
+Export package from the Smalltalk image back to Tonel files.
 
 ```bash
 /st-export MyPackage /home/user/project/src
@@ -149,8 +149,8 @@ Export package from Pharo image back to Tonel files.
 
 **Use for:**
 - Saving debugger fixes back to Tonel files
-- Exporting code generated in Pharo
-- Syncing after interactive development in Pharo
+- Exporting code generated in the Smalltalk image
+- Syncing after interactive development in the Smalltalk image
 
 ### `/st-test [TestClass|PackageName]`
 

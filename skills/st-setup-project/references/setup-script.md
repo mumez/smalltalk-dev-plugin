@@ -1,6 +1,6 @@
 # Complete Setup Script
 
-Full bash implementation for creating the Pharo project boilerplate.
+Full bash implementation for creating the Smalltalk project boilerplate.
 
 ```bash
 #!/bin/bash
@@ -92,13 +92,13 @@ else
 fi
 
 # Show success message
-echo "✓ Pharo project '${PROJECT_NAME}' created successfully!"
+echo "✓ Smalltalk project '${PROJECT_NAME}' created successfully!"
 echo ""
 echo "Project structure:"
 tree -L 2 src/ 2>/dev/null || find src -type f | sed 's|[^/]*/| |g'
 echo ""
 echo "Next steps:"
-echo "  1. Use /st-init to verify Pharo connection"
+echo "  1. Use /st-init to verify the Smalltalk image connection"
 echo "  2. Start adding classes to ${PROJECT_NAME}-Core"
 echo "  3. Write tests in ${PROJECT_NAME}-Tests"
 ```
@@ -114,4 +114,4 @@ The generated `BaselineOf${PROJECT_NAME}.class.st` defines three groups:
 | `all` | Core + Tests |
 | `default` | Core only |
 
-This follows the Pharo convention for organizing package dependencies.
+This follows the Metacello Baseline convention for organizing package dependencies.

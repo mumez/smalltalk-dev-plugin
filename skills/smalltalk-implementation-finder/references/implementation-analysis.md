@@ -1,6 +1,6 @@
 # Implementation Analysis Reference
 
-Comprehensive guide to analyzing method implementations across class hierarchies in Pharo Smalltalk.
+Comprehensive guide to analyzing method implementations across class hierarchies in Smalltalk (Pharo/Squeak).
 
 ## Core Analysis Techniques
 
