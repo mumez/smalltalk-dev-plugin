@@ -27,7 +27,7 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 - [Cursor](https://cursor.com/)
 - [Devin Desktop](https://devin.ai/desktop/) *(formerly Windsurf)*
 - [Devin CLI](https://devin.ai/cli)
-- [Antigravity](https://antigravity.google/)
+- [Antigravity　IDE](https://antigravity.google/)
 - [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
@@ -138,7 +138,7 @@ User scope (installs to `~/.agents/skills/` and `~/.config/devin/config.json`, i
 - Skills are invoked as slash commands directly (e.g. `/st-init`)
 - MCP config uses the same `mcpServers` JSON format as `.mcp.json`, merged alongside any other existing keys in `config.json`
 
-## Antigravity
+## Antigravity IDE
 
 ### Setup
 
