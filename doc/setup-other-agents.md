@@ -2,7 +2,7 @@
 
 This plugin is designed for Claude Code, but can also be used with other AI agents.
 
-## Quick Install with APM (Recommended)
+## Install with APM
 
 [APM](https://microsoft.github.io/apm/) provides a unified install across agents without running individual setup scripts:
 
@@ -17,6 +17,8 @@ apm targets
 ```
 
 See the [APM documentation](https://microsoft.github.io/apm/) for details.
+
+> **Note:** APM is updated frequently, but installation may still be incomplete for some targets. If that happens, use the manual setup scripts below instead.
 
 ## Manual Setup with Scripts
 
