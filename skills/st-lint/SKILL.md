@@ -68,12 +68,15 @@ src/MyPackage/BrokenClass.st — ❌ 1 error
 | 1 — warnings only | Style issues | Proceed to import, consider fixing |
 | 2 — errors found | Syntax/structural errors | Fix before importing |
 
+If any warning flags a class as missing or having a poor class comment, offer to invoke `smalltalk-dev:smalltalk-commenter` to generate a CRC-style comment for the affected class(es) rather than leaving the user to write it manually.
+
 ## Interpreting Common Issues
 
 | Issue | Likely Cause | Fix |
 |-------|-------------|-----|
 | `Syntax error near '...'` | Unclosed bracket/paren, missing period | Check the indicated line |
 | `Method has no comment` | Missing method comment | Add a brief comment |
+| `Class has no comment` / `Missing class comment` | Missing or inadequate class comment | Suggest running `smalltalk-dev:smalltalk-commenter` to generate a CRC-style comment |
 | `Temporary variable shadows outer scope` | Variable name collision | Rename the temp var |
 | `Missing package.st` | package.st not found | Create it: `Package { #name : 'PkgName' }` |
 
@@ -81,3 +84,4 @@ src/MyPackage/BrokenClass.st — ❌ 1 error
 
 - `smalltalk-dev:st-setup-project` — Create missing meta files
 - `smalltalk-dev:smalltalk-developer` — Full Edit → Lint → Import → Test workflow
+- `smalltalk-dev:smalltalk-commenter` — Generate CRC-style class comments when lint flags classes with missing/poor comments
