@@ -119,36 +119,6 @@ else
     cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
 fi
 
-# Create hooks.json for Cursor
-echo ""
-HOOKS_FILE="$CURSOR_DIR/hooks.json"
-if [ ! -f "$HOOKS_FILE" ] || confirm_overwrite "hooks.json"; then
-    echo "  Creating hooks.json..."
-    cat > "$HOOKS_FILE" <<'EOF'
-{
-  "version": 1,
-  "hooks": {
-    "afterFileEdit": [
-      {
-        "command": "./scripts/suggest-class-comment.sh"
-      }
-    ]
-  }
-}
-EOF
-fi
-
-# Copy Cursor-specific hook script
-echo ""
-CURSOR_HOOK_SCRIPT="$PROJECT_ROOT/extra/suggest-class-comment_cursor.sh"
-if [ -f "$CURSOR_HOOK_SCRIPT" ]; then
-    mkdir -p "$CURSOR_DIR/scripts"
-    copy_file "$CURSOR_HOOK_SCRIPT" "$CURSOR_DIR/scripts/suggest-class-comment.sh" "suggest-class-comment.sh"
-    chmod +x "$CURSOR_DIR/scripts/suggest-class-comment.sh"
-else
-    echo "⚠️  Warning: Cursor hook script not found at $CURSOR_HOOK_SCRIPT"
-fi
-
 echo ""
 echo "✅ Setup complete!"
 echo ""
@@ -156,7 +126,5 @@ echo "The following have been copied to .cursor/:"
 echo "  - commands/ (custom slash commands)"
 echo "  - skills/ (AI skills)"
 echo "  - mcp.json (MCP server configuration)"
-[ -f "$CURSOR_DIR/hooks.json" ] && echo "  - hooks.json (afterFileEdit hooks)"
-[ -d "$CURSOR_DIR/scripts" ] && echo "  - scripts/suggest-class-comment.sh (hook script)"
 echo ""
 echo "Cursor may require restart to recognize the new configuration."

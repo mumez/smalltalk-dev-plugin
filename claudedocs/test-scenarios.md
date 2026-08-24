@@ -426,37 +426,6 @@ Person new firstName: 'John'; lastName: 'Doe'; yourself
 
 ---
 
-## Test Suite 5: Hooks Verification
-
-### Test 5.1: PostToolUse Hook (suggest-class-comment.py)
-
-**Goal**: Verify hook occasionally suggests class documentation after editing .st files.
-
-**Steps**:
-1. Ensure hook is enabled (check `hooks/hooks.json`)
-2. Edit or create a `.st` file
-3. Repeat several times (hook triggers with ~10% probability)
-
-**Expected Results**:
-- ✅ Hook script executes on Write/Edit of `.st` files
-- ✅ Occasionally displays suggestion:
-   ```
-   💡 Tip: Modified Tonel file detected. Consider running /smalltalk-commenter
-      to add or improve class comments for better documentation.
-   ```
-- ✅ Non-.st files do NOT trigger the hook
-
-**Verification**:
-```bash
-# Manually test hook script
-echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
-  uv run python hooks/suggest-class-comment.py
-
-# May output documentation suggestion JSON (10% chance)
-```
-
----
-
 ## Test Suite 6: Progressive Disclosure
 
 ### Test 6.1: References Loading
@@ -563,23 +532,6 @@ SisServer current  "Should show running server"
 
 ---
 
-### Issue: Hooks Not Executing
-
-**Symptoms**: No suggestions after editing .st files.
-
-**Checks**:
-1. Verify hooks.json exists: `cat hooks/hooks.json`
-2. Verify `uv` is installed: `uv --version`
-3. Test hook script manually:
-   ```bash
-   echo '{"tool_name":"Edit","tool_input":{"file_path":"test.st"}}' | \
-     uv run python hooks/suggest-class-comment.py
-   ```
-
-**Note**: Hook triggers with ~10% probability by design. Try several times if no suggestion appears.
-
----
-
 ## Test Checklist
 
 Quick checklist for complete validation:
@@ -597,9 +549,6 @@ Quick checklist for complete validation:
 - [ ] `smalltalk-debugger` - Triggers on errors/debugging
 - [ ] `smalltalk-usage-finder` - Triggers on "how to use"
 - [ ] `smalltalk-implementation-finder` - Triggers on "who implements"
-
-### Hooks (1)
-- [ ] PostToolUse hook - Occasionally suggests /smalltalk-commenter on .st file edits
 
 ### MCP Servers (2)
 - [ ] smalltalk-interop - Connection working
@@ -620,7 +569,6 @@ The plugin is considered fully functional when:
 ✅ All 6 commands execute without errors
 ✅ All 4 skills activate on correct triggers
 ✅ allowed-tools restrictions work (commands only use permitted tools)
-✅ Hooks execute and provide helpful suggestions
 ✅ MCP servers connect and respond
 ✅ Complete workflows execute smoothly
 ✅ Progressive disclosure works (references accessible)
