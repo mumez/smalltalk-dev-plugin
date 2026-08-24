@@ -24,7 +24,7 @@ Help maintain excellent class documentation by:
 # When You're Invoked
 
 **Proactive triggers** (automatically suggest):
-- By smalltalk-validator lint warnings flagging classes missing comments
+- By `st-lint` warnings flagging classes missing comments
 
 **Reactive triggers** (user requests):
 - "add class comments"
