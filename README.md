@@ -12,7 +12,6 @@ This plugin provides a comprehensive AI-powered toolkit for Smalltalk developmen
 
 - **Skills**: All capabilities are implemented as skills — `st-*` skills are user-invoked commands; other skills provide AI-powered development workflow, debugging expertise, and documentation
 - **MCP Integration**: Seamless connection to a Smalltalk image (Pharo or Squeak) and validation servers
-- **Hooks**: Automatic suggestions after file changes
 
 ## Usage
 
@@ -301,9 +300,6 @@ smalltalk-dev-plugin/
 │       ├── SKILL.md         # Implementation analysis
 │       ├── examples/        # Implementation scenarios
 │       └── references/      # Implementation analysis
-├── hooks/
-│   ├── hooks.json                   # PostToolUse hook configuration
-│   └── suggest-class-comment.py    # Hook script for documentation suggestions
 ├── extra/
 │   ├── setup-cursor.sh              # Setup script for Cursor
 │   ├── setup-devin-desktop.sh       # Setup script for Devin Desktop
@@ -315,8 +311,7 @@ smalltalk-dev-plugin/
 │   ├── setup-codex.sh               # Setup script for Codex CLI
 │   ├── setup-antigravity-cli.sh     # Setup script for Antigravity CLI (successor to Gemini CLI)
 │   ├── setup-gemini.sh              # Setup script for Gemini CLI (obsolete)
-│   ├── opencode.json                # MCP config for OpenCode (also used to derive Kilo Code's config)
-│   └── suggest-class-comment_cursor.sh # Hook script for Cursor
+│   └── opencode.json                # MCP config for OpenCode (also used to derive Kilo Code's config)
 ├── doc/
 │   ├── Commands.md                  # Commands quick reference
 │   └── setup-other-agents.md       # Setup guide for other AI agents

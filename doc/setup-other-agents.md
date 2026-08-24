@@ -67,8 +67,6 @@ Non-interactive mode (overwrites without confirmation):
 - Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files
 - Copies skills and agents
 - Copies `.mcp.json` as `.cursor/mcp.json`
-- Creates `hooks.json` for `afterFileEdit` event
-- Installs hook script for class comment suggestions
 
 ### Notes
 
@@ -382,4 +380,3 @@ User scope (installs to `$HOME`, ignores target-directory):
 These setup scripts provide a simplified integration. Compared to the native Claude Code plugin experience, the following differences apply:
 
 - **No plugin lifecycle management** - Updates require re-running the setup script
-- **Hook support varies** - Each agent has its own hook mechanism; only Cursor has a hook script included
