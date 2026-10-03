@@ -213,3 +213,82 @@ RsSearchOptions class >> in: aBuilderBlock [
 ```
 
 The caller no longer needs to reference `RsSearchOptions` directly. The interface is more fluent and type-safe — passing an unrelated options object becomes impossible.
+
+## Immutable return object wrapper
+
+Use when an API returns a `Dictionary` with a well-defined structure (e.g., a parsed JSON response). Instead of handing the raw dictionary to clients, wrap it in a dedicated class.
+
+- Do **not** mechanically generate an accessor/mutator pair for every field. Design the wrapper with immutability in mind.
+- Accessors make the shape and types of the return value explicit.
+- Omitting public mutators signals that the return value is read-only.
+
+### Bad example
+
+```smalltalk
+Class {
+	#name : 'XxDescription',
+	#superclass : 'Object',
+	#instVars : [
+		'label',
+		'properties',
+		'types',
+		'options',
+		...
+	],
+	...
+}
+
+{ #category : 'instance creation' }
+XxDescription class >> fromDictionary: aDictionary [
+	^ self new
+		label: (aDictionary at: 'label' ifAbsent: []);
+		properties: (aDictionary at: 'properties' ifAbsent: []);
+		types: (aDictionary at: 'types' ifAbsent: []);
+		options: (aDictionary at: 'options' ifAbsent: []);
+		...
+		yourself
+]
+```
+
+Clients see both `label` and `label:` in the `accessing` category, so nothing stops them from overwriting values after the fact — even though `XxDescription` is meant to be a read-only return value.
+
+This design is also fragile when the API adds a new field: three places must change (`fromDictionary:`, the accessor, and the mutator).
+
+### Good example
+
+```smalltalk
+Class {
+	#name : 'XxDescription',
+	#superclass : 'Object',
+	#instVars : [
+		'rawDescription'
+	],
+	...
+}
+
+{ #category : 'instance creation' }
+XxDescription class >> fromDictionary: aDictionary [
+	^ self new
+		rawDescription: aDictionary;
+		yourself
+]
+
+{ #category : 'accessing' }
+XxDescription >> label [
+	^ self rawDescription at: 'label' ifAbsent: []
+]
+
+{ #category : 'private-accessing' }
+XxDescription >> rawDescription [
+	^ rawDescription
+]
+
+{ #category : 'private-accessing' }
+XxDescription >> rawDescription: aDictionary [
+	rawDescription := aDictionary
+]
+```
+
+Clients see only `label` in the `accessing` category. The only accessor/mutator pair is `rawDescription` / `rawDescription:`. Smalltalk cannot make `rawDescription:` truly private, but this design states immutability much more clearly. Placing the pair in a `private-accessing` category further signals that it must not be set from outside.
+
+Supporting a new field only requires adding one accessor.
