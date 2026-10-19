@@ -132,6 +132,13 @@ MyClass >> saveHash [
 
 **Why**: Once separated, callers can invoke the idempotent method with confidence, without worrying about unintended side effects. Each method also becomes easier to test and reuse.
 
+## Applying the Principles
+
+These rules apply to both classes and methods.
+
+- **User-specified design conflicts with a principle** (e.g., the user asks for one class that loads, saves, and checksums): implement it as requested, and propose the split or rename to the user rather than restructuring on your own. Write the proposal in your final report to the user, not in the class comment.
+- **Renaming or splitting existing methods**: report every changed selector so callers can be updated. If a split changes a return value (e.g., the old method returned the hash, but the new writer returns `self`), state the difference explicitly. Do not keep the old selector as a deprecated wrapper unless the user asks for it, but mention in the report that no wrapper was kept.
+
 ## Summary
 
 | Principle | Check |
