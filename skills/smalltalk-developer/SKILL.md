@@ -31,7 +31,7 @@ Edit Tonel files directly in the AI editor. The AI editor is the **single source
 
 For detailed Tonel syntax and examples, see [Tonel Format Reference](references/tonel-format.md).
 
-Follow the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
+Follow the [Coding Principles](references/coding-principles.md) (intent-revealing names, clear responsibilities) and the [Style Guide](references/style-guide.md) for idiomatic Smalltalk.
 
 Refer to [Implementation Patterns](references/patterns.md) for common patterns (Singleton, Settings, etc.).
 
@@ -280,6 +280,7 @@ See [Best Practices: Error Handling](references/best-practices.md#error-handling
 This skill provides focused guidance for the core workflow. For comprehensive information:
 
 - **[Tonel Format Reference](references/tonel-format.md)** - Complete Tonel syntax guide
+- **[Coding Principles](references/coding-principles.md)** - Naming and responsibility principles for classes and methods
 - **[Style Guide](references/style-guide.md)** - Idiomatic Smalltalk patterns and concise coding practices
 - **[Best Practices](references/best-practices.md)** - Detailed practices and patterns
 - **[Development Examples](examples/development-sessions.md)** - Real-world session workflows
