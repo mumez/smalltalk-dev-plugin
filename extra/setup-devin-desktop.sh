@@ -5,6 +5,7 @@
 # Usage:
 #   ./extra/setup-devin-desktop.sh [target-directory]
 #   ./extra/setup-devin-desktop.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-devin-desktop.sh --sis-port-env         # Reference $SIS_PORT at runtime via ${env:SIS_PORT}
 #
 # If target-directory is not specified, uses the repository root (project scope).
 # MCP config is copied to ~/.codeium/windsurf/mcp_config.json
@@ -16,11 +17,16 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+SIS_PORT_ENV=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --sis-port-env)
+            SIS_PORT_ENV=true
             shift
             ;;
         *)
@@ -131,14 +137,20 @@ description: Run /$skill_name skill
 EOL
 done
 
-# Devin Desktop does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value
+# Devin Desktop does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value,
+# or as ${env:SIS_PORT} (no default value) with --sis-port-env
 resolve_mcp_json() {
-    local port="${SIS_PORT:-8086}"
-    if ! [[ "$port" =~ ^[0-9]+$ ]]; then
-        echo "❌ Error: SIS_PORT must be a number (got: $port)" >&2
-        exit 1
+    local value
+    if [ "$SIS_PORT_ENV" = true ]; then
+        value='${env:SIS_PORT}'
+    else
+        value="${SIS_PORT:-8086}"
+        if ! [[ "$value" =~ ^[0-9]+$ ]]; then
+            echo "❌ Error: SIS_PORT must be a number (got: $value)" >&2
+            exit 1
+        fi
     fi
-    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$value"'/g' "$1" > "$2"
 }
 
 # Copy MCP config to user scope
