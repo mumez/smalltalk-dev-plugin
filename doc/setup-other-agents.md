@@ -42,6 +42,18 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
   - [Squeak](https://squeak.org/) with [SqueakSmalltalkInteropServer](https://github.com/mumez/SqueakSmalltalkInteropServer)
 - This plugin repository cloned locally
 
+## Smalltalk Interop Server Port
+
+`.mcp.json` sets the port as `${SIS_PORT:-8086}`. GitHub Copilot CLI and Gemini CLI expand this at runtime, so `SIS_PORT` can be changed later without re-running setup.
+
+The other agents do not support this syntax. For Cursor, Devin Desktop, Devin CLI, Antigravity IDE, and Antigravity CLI, the setup script writes the port as a literal value: the value of `SIS_PORT` at setup time, or `8086` if unset. To change the port later, re-run the setup script with `SIS_PORT` set (or edit the generated MCP config directly):
+
+```bash
+SIS_PORT=9090 ./extra/setup-cursor.sh -y
+```
+
+OpenCode, Kilo Code, and Codex CLI use their own MCP config with `8086` fixed; edit `SIS_PORT` in the generated config to change it.
+
 ## Cursor
 
 ### Setup

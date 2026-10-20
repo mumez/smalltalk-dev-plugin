@@ -108,6 +108,16 @@ for skill_dir in "$PROJECT_ROOT/skills"/*/; do
     fi
 done
 
+# Cursor does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value
+resolve_mcp_json() {
+    local port="${SIS_PORT:-8086}"
+    if ! [[ "$port" =~ ^[0-9]+$ ]]; then
+        echo "❌ Error: SIS_PORT must be a number (got: $port)" >&2
+        exit 1
+    fi
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
+}
+
 # Copy .mcp.json
 echo ""
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
@@ -116,7 +126,7 @@ elif [ -f "$CURSOR_DIR/mcp.json" ] && ! confirm_overwrite "mcp.json"; then
     echo "Note: You may need to manually merge MCP server configurations."
 else
     echo "  Copying mcp.json..."
-    cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
+    resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
 fi
 
 echo ""
