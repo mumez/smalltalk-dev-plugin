@@ -5,6 +5,7 @@
 # Usage:
 #   ./extra/setup-cursor.sh [target-directory]
 #   ./extra/setup-cursor.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-cursor.sh --sis-port-env         # Reference $SIS_PORT at runtime via ${env:SIS_PORT}
 #   ./extra/setup-cursor.sh --user                 # Install to $HOME (user scope)
 #
 # If target-directory is not specified, uses the repository root.
@@ -14,12 +15,17 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+SIS_PORT_ENV=false
 USER_SCOPE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --sis-port-env)
+            SIS_PORT_ENV=true
             shift
             ;;
         --user)
@@ -108,6 +114,22 @@ for skill_dir in "$PROJECT_ROOT/skills"/*/; do
     fi
 done
 
+# Cursor does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value,
+# or as ${env:SIS_PORT} (no default value) with --sis-port-env
+resolve_mcp_json() {
+    local value
+    if [ "$SIS_PORT_ENV" = true ]; then
+        value='${env:SIS_PORT}'
+    else
+        value="${SIS_PORT:-8086}"
+        if ! [[ "$value" =~ ^[0-9]+$ ]]; then
+            echo "❌ Error: SIS_PORT must be a number (got: $value)" >&2
+            exit 1
+        fi
+    fi
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$value"'/g' "$1" > "$2"
+}
+
 # Copy .mcp.json
 echo ""
 if [ ! -f "$PROJECT_ROOT/.mcp.json" ]; then
@@ -116,7 +138,7 @@ elif [ -f "$CURSOR_DIR/mcp.json" ] && ! confirm_overwrite "mcp.json"; then
     echo "Note: You may need to manually merge MCP server configurations."
 else
     echo "  Copying mcp.json..."
-    cp "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
+    resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$CURSOR_DIR/mcp.json"
 fi
 
 echo ""

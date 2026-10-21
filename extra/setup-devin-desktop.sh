@@ -5,6 +5,7 @@
 # Usage:
 #   ./extra/setup-devin-desktop.sh [target-directory]
 #   ./extra/setup-devin-desktop.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-devin-desktop.sh --sis-port-env         # Reference $SIS_PORT at runtime via ${env:SIS_PORT}
 #
 # If target-directory is not specified, uses the repository root (project scope).
 # MCP config is copied to ~/.codeium/windsurf/mcp_config.json
@@ -16,11 +17,16 @@ set -e
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+SIS_PORT_ENV=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --sis-port-env)
+            SIS_PORT_ENV=true
             shift
             ;;
         *)
@@ -131,6 +137,22 @@ description: Run /$skill_name skill
 EOL
 done
 
+# Devin Desktop does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value,
+# or as ${env:SIS_PORT} (no default value) with --sis-port-env
+resolve_mcp_json() {
+    local value
+    if [ "$SIS_PORT_ENV" = true ]; then
+        value='${env:SIS_PORT}'
+    else
+        value="${SIS_PORT:-8086}"
+        if ! [[ "$value" =~ ^[0-9]+$ ]]; then
+            echo "❌ Error: SIS_PORT must be a number (got: $value)" >&2
+            exit 1
+        fi
+    fi
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$value"'/g' "$1" > "$2"
+}
+
 # Copy MCP config to user scope
 # Devin Desktop still uses the legacy Windsurf path ~/.codeium/windsurf/mcp_config.json
 # (not yet officially migrated); on WSL2, use Windows side %USERPROFILE%\.codeium\windsurf
@@ -147,7 +169,7 @@ if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
     target_mcp="$MCP_TARGET_DIR/mcp_config.json"
     if [ ! -f "$target_mcp" ] || confirm_overwrite "mcp_config.json"; then
         echo "  Copying .mcp.json to $target_mcp..."
-        cp "$PROJECT_ROOT/.mcp.json" "$target_mcp"
+        resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
     fi
 fi
 

@@ -42,6 +42,27 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
   - [Squeak](https://squeak.org/) with [SqueakSmalltalkInteropServer](https://github.com/mumez/SqueakSmalltalkInteropServer)
 - This plugin repository cloned locally
 
+## Smalltalk Interop Server Port
+
+`.mcp.json` sets the port as `${SIS_PORT:-8086}`. GitHub Copilot CLI and Gemini CLI expand this at runtime, so `SIS_PORT` can be changed later without re-running setup.
+
+The other agents do not support this syntax. For Cursor, Devin Desktop, Devin CLI, Antigravity IDE, and Antigravity CLI, the setup script writes the port as a literal value: the value of `SIS_PORT` at setup time, or `8086` if unset. To change the port later, re-run the setup script with `SIS_PORT` set (or edit the generated MCP config directly):
+
+```bash
+SIS_PORT=9090 ./extra/setup-cursor.sh -y
+```
+
+Cursor and Devin Desktop support `${env:VAR}` interpolation. With `--sis-port-env`, their setup scripts write `${env:SIS_PORT}` instead, so the port follows `SIS_PORT` at runtime:
+
+```bash
+./extra/setup-cursor.sh --sis-port-env
+./extra/setup-devin-desktop.sh --sis-port-env
+```
+
+> **Note:** `${env:VAR}` has no default value, so `SIS_PORT` must be set in the environment the IDE runs in. IDEs launched from a desktop launcher often do not inherit shell variables (e.g. from `~/.bashrc`), and on WSL2 Devin Desktop runs on the Windows side, so Linux-side variables are not visible. Use this option only if `SIS_PORT` is always set for the IDE.
+
+OpenCode, Kilo Code, and Codex CLI use their own MCP config with `8086` fixed; edit `SIS_PORT` in the generated config to change it.
+
 ## Cursor
 
 ### Setup
@@ -60,13 +81,19 @@ Non-interactive mode (overwrites without confirmation):
 ./extra/setup-cursor.sh -y [target-directory]
 ```
 
+Reference `SIS_PORT` at runtime via `${env:SIS_PORT}` (see [Smalltalk Interop Server Port](#smalltalk-interop-server-port)):
+
+```bash
+./extra/setup-cursor.sh --sis-port-env [target-directory]
+```
+
 ### What the script does
 
 - Creates `.cursor/` directory structure
 - Copies commands (filenames already have `st-` prefix)
 - Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional command files
 - Copies skills and agents
-- Copies `.mcp.json` as `.cursor/mcp.json`
+- Copies `.mcp.json` as `.cursor/mcp.json` (with `SIS_PORT` resolved to a literal port, or `${env:SIS_PORT}` with `--sis-port-env`)
 
 ### Notes
 
@@ -85,6 +112,12 @@ Non-interactive mode:
 
 ```bash
 ./extra/setup-devin-desktop.sh -y [target-directory]
+```
+
+Reference `SIS_PORT` at runtime via `${env:SIS_PORT}` (see [Smalltalk Interop Server Port](#smalltalk-interop-server-port)):
+
+```bash
+./extra/setup-devin-desktop.sh --sis-port-env [target-directory]
 ```
 
 ### What the script does

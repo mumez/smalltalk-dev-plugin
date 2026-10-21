@@ -105,6 +105,16 @@ else
     done
 fi
 
+# Antigravity CLI does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value
+resolve_mcp_json() {
+    local port="${SIS_PORT:-8086}"
+    if ! [[ "$port" =~ ^[0-9]+$ ]]; then
+        echo "❌ Error: SIS_PORT must be a number (got: $port)" >&2
+        exit 1
+    fi
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
+}
+
 # Copy MCP config as a standalone mcp_config.json
 echo ""
 MCP_JSON="$PROJECT_ROOT/.mcp.json"
@@ -112,6 +122,10 @@ MCP_JSON="$PROJECT_ROOT/.mcp.json"
 if [ ! -f "$MCP_JSON" ]; then
     echo "⚠️  Warning: .mcp.json not found in plugin repository, skipping MCP config..."
 else
+    RESOLVED_MCP_JSON="$(mktemp)"
+    trap 'rm -f "$RESOLVED_MCP_JSON"' EXIT
+    resolve_mcp_json "$MCP_JSON" "$RESOLVED_MCP_JSON"
+    MCP_JSON="$RESOLVED_MCP_JSON"
     mkdir -p "$(dirname "$MCP_TARGET")"
     if [ -f "$MCP_TARGET" ] && ! confirm_overwrite "$(basename "$MCP_TARGET")"; then
         echo "Skipping MCP config..."

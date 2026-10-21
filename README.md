@@ -189,11 +189,20 @@ The plugin uses two MCP servers:
 1. **smalltalk-interop**: Communication with Smalltalk image (Pharo or Squeak)
 2. **smalltalk-validator**: Tonel syntax validation
 
-These are configured automatically via `.mcp.json`. You can customize Smalltalk (SisServer is running) port:
+These are configured automatically via `.mcp.json`.
+
+### Smalltalk Interop Server Port
+
+The port used to connect to the SisServer is read from the `SIS_PORT` environment variable (`.mcp.json` uses `${SIS_PORT:-8086}`). If `SIS_PORT` is not set, the default `8086` is used.
+
+To use a different port, set `SIS_PORT` before launching Claude Code:
 
 ```bash
-export SIS_PORT=8086  # default
+export SIS_PORT=9090
+claude
 ```
+
+**Note**: The value is read when the MCP server starts. After changing `SIS_PORT`, restart Claude Code (or reconnect the server via `/mcp`).
 
 ## Uninstallation
 
@@ -261,7 +270,7 @@ SisServer current.  "Should show running server"
 ### Import seems to do nothing
 
 - Check the Smalltalk image's Transcript for error messages
-- Verify server port matches configuration: `SisServer teapotConfig`
+- Verify server port matches configuration (`SIS_PORT`, default `8086`): `SisServer teapotConfig`
 - Try `/st-eval Smalltalk version` to test connection
 
 ## Project Structure

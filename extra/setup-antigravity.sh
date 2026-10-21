@@ -130,6 +130,16 @@ description: Run /$skill_name skill
 EOL
 done
 
+# Antigravity does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value
+resolve_mcp_json() {
+    local port="${SIS_PORT:-8086}"
+    if ! [[ "$port" =~ ^[0-9]+$ ]]; then
+        echo "❌ Error: SIS_PORT must be a number (got: $port)" >&2
+        exit 1
+    fi
+    sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
+}
+
 # Copy .mcp.json to user scope
 # On WSL2, Antigravity looks at Windows side %USERPROFILE%\.gemini
 echo ""
@@ -145,7 +155,7 @@ if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
     target_mcp="$MCP_TARGET_DIR/mcp_config.json"
     if [ ! -f "$target_mcp" ] || confirm_overwrite "mcp_config.json"; then
         echo "  Copying .mcp.json to $target_mcp..."
-        cp "$PROJECT_ROOT/.mcp.json" "$target_mcp"
+        resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
     fi
 fi
 
