@@ -193,7 +193,7 @@ User scope (installs skills to `~/.gemini/config/skills/`, ignores target-direct
 
 - Copies all skills, including the `st-*` skills, to `<target-directory>/.agents/skills/` (project scope) or `~/.gemini/config/skills/` (user scope)
 - Copies MCP config to `~/.gemini/antigravity/mcp_config.json`
-  - On WSL2, uses the Windows-side path (`%USERPROFILE%\.gemini\antigravity\`)
+- On WSL2, user-scope files (the MCP config, and skills with `--user`) are written to both `$HOME/.gemini/` and `%USERPROFILE%\.gemini\`. Antigravity IDE launched from Windows reads `%USERPROFILE%\.gemini\`, while a window connected to WSL2 reads `$HOME/.gemini/`
 
 ### Notes
 

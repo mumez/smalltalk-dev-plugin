@@ -7,12 +7,15 @@
 # and no longer generated
 # (see https://antigravity.google/docs/migration/workflows-to-skills/).
 # MCP config is always copied to ~/.gemini/antigravity/mcp_config.json
-# (On WSL2, uses Windows side %USERPROFILE%\.gemini\antigravity instead)
+#
+# On WSL2, Antigravity IDE launched from Windows reads %USERPROFILE%\.gemini,
+# while a window connected to WSL2 reads $HOME/.gemini. User-scope files
+# (MCP config, and skills with --user) are therefore written to both.
 #
 # Usage:
 #   ./extra/setup-antigravity.sh [target-directory]
 #   ./extra/setup-antigravity.sh -y [target-directory]  # Non-interactive mode
-#   ./extra/setup-antigravity.sh --user                 # Install skills to user scope ($HOME)
+#   ./extra/setup-antigravity.sh --user                 # Install skills to user scope
 #
 # If target-directory is not specified, uses the repository root (project scope).
 
@@ -44,25 +47,41 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Determine skills directory
+# User-scope .gemini directories ($HOME, plus Windows side on WSL2)
+GEMINI_HOMES=("$HOME/.gemini")
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
+    if [ -n "$WIN_USERPROFILE" ]; then
+        WIN_GEMINI="$(wslpath "$WIN_USERPROFILE")/.gemini"
+        GEMINI_HOMES+=("$WIN_GEMINI")
+        echo "WSL2 detected: user-scope files go to both $HOME/.gemini and $WIN_GEMINI"
+    else
+        echo "⚠️  Warning: WSL2 detected but %USERPROFILE% could not be resolved; using $HOME/.gemini only"
+    fi
+fi
+
+# Determine skills directories
+SKILLS_DIRS=()
 if [ "$USER_SCOPE" = true ]; then
-    SKILLS_DIR="$HOME/.gemini/config/skills"
+    for gemini_home in "${GEMINI_HOMES[@]}"; do
+        SKILLS_DIRS+=("$gemini_home/config/skills")
+    done
     echo "Setting up Smalltalk development plugin for Antigravity IDE (user scope)..."
 else
     if [ -z "$TARGET_DIR" ]; then
         TARGET_DIR="$PROJECT_ROOT"
     fi
     TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
-    SKILLS_DIR="$TARGET_DIR/.agents/skills"
+    SKILLS_DIRS+=("$TARGET_DIR/.agents/skills")
     echo "Setting up Smalltalk development plugin for Antigravity IDE..."
     echo "Target directory: $TARGET_DIR"
 fi
 
 echo "Plugin repository: $PROJECT_ROOT"
-echo "Skills directory: $SKILLS_DIR"
+for skills_dir in "${SKILLS_DIRS[@]}"; do
+    echo "Skills directory: $skills_dir"
+done
 echo ""
-
-mkdir -p "$SKILLS_DIR"
 
 # Returns 0 (proceed) or 1 (skip) based on FORCE_YES or user input
 confirm_overwrite() {
@@ -78,24 +97,26 @@ confirm_overwrite() {
 }
 
 copy_skill() {
-    local src="$1" dst="$2" name="$3"
+    local src="$1" dst="$2"
     if [ -d "$dst" ]; then
-        confirm_overwrite "$name" || return
+        confirm_overwrite "$dst" || return
         rm -rf "$dst"
     fi
-    echo "  Copying skill $name..."
+    echo "  Copying skill $(basename "$dst")..."
     cp -r "$src" "$dst"
 }
 
-# Copy each skill directory (including st-* skills) to skills/
-echo "Copying skills..."
+# Copy each skill directory (including st-* skills) to each skills directory
 if [ ! -d "$PROJECT_ROOT/skills" ]; then
     echo "⚠️  Warning: skills/ directory not found in plugin repository, skipping..."
 else
-    for skill_dir in "$PROJECT_ROOT/skills"/*/; do
-        [ -d "$skill_dir" ] || continue
-        skill_name=$(basename "$skill_dir")
-        copy_skill "$skill_dir" "$SKILLS_DIR/$skill_name" "$skill_name"
+    for skills_dir in "${SKILLS_DIRS[@]}"; do
+        echo "Copying skills to $skills_dir..."
+        mkdir -p "$skills_dir"
+        for skill_dir in "$PROJECT_ROOT/skills"/*/; do
+            [ -d "$skill_dir" ] || continue
+            copy_skill "$skill_dir" "$skills_dir/$(basename "$skill_dir")"
+        done
     done
 fi
 
@@ -109,23 +130,19 @@ resolve_mcp_json() {
     sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
 }
 
-# Copy .mcp.json to user scope
-# On WSL2, Antigravity looks at Windows side %USERPROFILE%\.gemini
+# Copy .mcp.json to each user-scope .gemini/antigravity directory
 echo ""
+MCP_TARGETS=()
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
-    if grep -qi microsoft /proc/version 2>/dev/null; then
-        WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
-        MCP_TARGET_DIR="$(wslpath "$WIN_USERPROFILE")/.gemini/antigravity"
-        echo "WSL2 detected: using Windows path for MCP config"
-    else
-        MCP_TARGET_DIR="$HOME/.gemini/antigravity"
-    fi
-    mkdir -p "$MCP_TARGET_DIR"
-    target_mcp="$MCP_TARGET_DIR/mcp_config.json"
-    if [ ! -f "$target_mcp" ] || confirm_overwrite "mcp_config.json"; then
-        echo "  Copying .mcp.json to $target_mcp..."
-        resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
-    fi
+    for gemini_home in "${GEMINI_HOMES[@]}"; do
+        target_mcp="$gemini_home/antigravity/mcp_config.json"
+        mkdir -p "$(dirname "$target_mcp")"
+        if [ ! -e "$target_mcp" ] || confirm_overwrite "$target_mcp"; then
+            echo "  Copying .mcp.json to $target_mcp..."
+            resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
+            MCP_TARGETS+=("$target_mcp")
+        fi
+    done
 fi
 
 # Warn about legacy .agent/ files generated by older versions of this script
@@ -140,6 +157,9 @@ echo ""
 echo "✅ Antigravity IDE setup complete!"
 echo ""
 echo "The following have been set up:"
-echo "  - $SKILLS_DIR (AI skills, invocable as slash commands, e.g. /st-init)"
-[ -n "${target_mcp:-}" ] && echo "  - MCP config: $target_mcp"
-exit 0
+for skills_dir in "${SKILLS_DIRS[@]}"; do
+    echo "  - $skills_dir (AI skills, invocable as slash commands, e.g. /st-init)"
+done
+for target_mcp in "${MCP_TARGETS[@]}"; do
+    echo "  - MCP config: $target_mcp"
+done
