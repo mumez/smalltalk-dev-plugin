@@ -183,7 +183,7 @@ Non-interactive mode:
 ./extra/setup-antigravity.sh -y [target-directory]
 ```
 
-User scope (installs skills to `~/.gemini/config/skills/`, ignores target-directory):
+User scope (installs to `~/.gemini/`, ignores target-directory):
 
 ```bash
 ./extra/setup-antigravity.sh --user
@@ -192,8 +192,8 @@ User scope (installs skills to `~/.gemini/config/skills/`, ignores target-direct
 ### What the script does
 
 - Copies all skills, including the `st-*` skills, to `<target-directory>/.agents/skills/` (project scope) or `~/.gemini/config/skills/` (user scope)
-- Copies MCP config to `~/.gemini/antigravity/mcp_config.json`
-- On WSL2, user-scope files (the MCP config, and skills with `--user`) are written to both `$HOME/.gemini/` and `%USERPROFILE%\.gemini\`. Antigravity IDE launched from Windows reads `%USERPROFILE%\.gemini\`, while a window connected to WSL2 reads `$HOME/.gemini/`
+- Writes MCP config to `<target-directory>/.agents/mcp_config.json` (project scope) or `~/.gemini/antigravity/mcp_config.json` (user scope)
+- On WSL2 with `--user`, skills and MCP config are written to both `$HOME/.gemini/` and `%USERPROFILE%\.gemini\`. Antigravity IDE launched from Windows reads `%USERPROFILE%\.gemini\`, while a window connected to WSL2 reads `$HOME/.gemini/`
 
 ### Notes
 

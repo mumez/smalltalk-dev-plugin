@@ -6,16 +6,17 @@
 # Skills double as slash commands (e.g. /st-init); workflows are deprecated
 # and no longer generated
 # (see https://antigravity.google/docs/migration/workflows-to-skills/).
-# MCP config is always copied to ~/.gemini/antigravity/mcp_config.json
+# MCP config is copied to .agents/mcp_config.json (project scope) or
+# ~/.gemini/antigravity/mcp_config.json (user scope).
 #
 # On WSL2, Antigravity IDE launched from Windows reads %USERPROFILE%\.gemini,
-# while a window connected to WSL2 reads $HOME/.gemini. User-scope files
-# (MCP config, and skills with --user) are therefore written to both.
+# while a window connected to WSL2 reads $HOME/.gemini. With --user, skills
+# and MCP config are therefore written to both.
 #
 # Usage:
 #   ./extra/setup-antigravity.sh [target-directory]
 #   ./extra/setup-antigravity.sh -y [target-directory]  # Non-interactive mode
-#   ./extra/setup-antigravity.sh --user                 # Install skills to user scope
+#   ./extra/setup-antigravity.sh --user                 # Install to user scope
 #
 # If target-directory is not specified, uses the repository root (project scope).
 
@@ -47,32 +48,34 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# User-scope .gemini directories ($HOME, plus Windows side on WSL2)
-GEMINI_HOMES=("$HOME/.gemini")
-if grep -qi microsoft /proc/version 2>/dev/null; then
-    WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
-    if [ -n "$WIN_USERPROFILE" ]; then
-        WIN_GEMINI="$(wslpath "$WIN_USERPROFILE")/.gemini"
-        GEMINI_HOMES+=("$WIN_GEMINI")
-        echo "WSL2 detected: user-scope files go to both $HOME/.gemini and $WIN_GEMINI"
-    else
-        echo "⚠️  Warning: WSL2 detected but %USERPROFILE% could not be resolved; using $HOME/.gemini only"
-    fi
-fi
-
-# Determine skills directories
+# Determine skills directories and MCP config targets
 SKILLS_DIRS=()
+MCP_PATHS=()
 if [ "$USER_SCOPE" = true ]; then
+    echo "Setting up Smalltalk development plugin for Antigravity IDE (user scope)..."
+    # User-scope .gemini directories ($HOME, plus Windows side on WSL2)
+    GEMINI_HOMES=("$HOME/.gemini")
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
+        if [ -n "$WIN_USERPROFILE" ]; then
+            WIN_GEMINI="$(wslpath "$WIN_USERPROFILE")/.gemini"
+            GEMINI_HOMES+=("$WIN_GEMINI")
+            echo "WSL2 detected: user-scope files go to both $HOME/.gemini and $WIN_GEMINI"
+        else
+            echo "⚠️  Warning: WSL2 detected but %USERPROFILE% could not be resolved; using $HOME/.gemini only"
+        fi
+    fi
     for gemini_home in "${GEMINI_HOMES[@]}"; do
         SKILLS_DIRS+=("$gemini_home/config/skills")
+        MCP_PATHS+=("$gemini_home/antigravity/mcp_config.json")
     done
-    echo "Setting up Smalltalk development plugin for Antigravity IDE (user scope)..."
 else
     if [ -z "$TARGET_DIR" ]; then
         TARGET_DIR="$PROJECT_ROOT"
     fi
     TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
     SKILLS_DIRS+=("$TARGET_DIR/.agents/skills")
+    MCP_PATHS+=("$TARGET_DIR/.agents/mcp_config.json")
     echo "Setting up Smalltalk development plugin for Antigravity IDE..."
     echo "Target directory: $TARGET_DIR"
 fi
@@ -130,12 +133,11 @@ resolve_mcp_json() {
     sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
 }
 
-# Copy .mcp.json to each user-scope .gemini/antigravity directory
+# Copy .mcp.json to each MCP config target
 echo ""
 MCP_TARGETS=()
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
-    for gemini_home in "${GEMINI_HOMES[@]}"; do
-        target_mcp="$gemini_home/antigravity/mcp_config.json"
+    for target_mcp in "${MCP_PATHS[@]}"; do
         mkdir -p "$(dirname "$target_mcp")"
         if [ ! -e "$target_mcp" ] || confirm_overwrite "$target_mcp"; then
             echo "  Copying .mcp.json to $target_mcp..."
