@@ -27,8 +27,8 @@ Alternatively, setup scripts are provided in the `extra/` directory. Currently s
 - [Cursor](https://cursor.com/)
 - [Devin Desktop](https://devin.ai/desktop/) *(formerly Windsurf)*
 - [Devin CLI](https://devin.ai/cli)
-- [Antigravity　IDE](https://antigravity.google/)
-- [Antigravity CLI](https://antigravity.google/) *(successor to Gemini CLI)*
+- [Antigravity IDE](https://antigravity.google/product/antigravity-ide)
+- [Antigravity CLI](https://antigravity.google/product/antigravity-cli) *(successor to Gemini CLI)*
 - [GitHub Copilot CLI](https://github.com/features/copilot/cli)
 - [OpenCode](https://opencode.ai/)
 - [Kilo Code](https://kilo.ai/)
@@ -183,18 +183,23 @@ Non-interactive mode:
 ./extra/setup-antigravity.sh -y [target-directory]
 ```
 
+User scope (installs to `~/.gemini/`, ignores target-directory):
+
+```bash
+./extra/setup-antigravity.sh --user
+```
+
 ### What the script does
 
-- Creates `.agent/` directory structure (skills, workflows, prompts, agents)
-- Copies skills and agents
-- Copies commands as prompt files and generates workflow files for each
-- Copies `st-*` skills (e.g. `st-init`, `st-setup-project`) as additional prompt files and generates workflow files for each
-- Copies MCP config to `~/.gemini/antigravity/mcp_config.json`
-  - On WSL2, uses the Windows-side path (`%USERPROFILE%\.gemini\antigravity\`)
+- Copies all skills, including the `st-*` skills, to `<target-directory>/.agents/skills/` (project scope) or `~/.gemini/config/skills/` (user scope)
+- Writes MCP config to `<target-directory>/.agents/mcp_config.json` (project scope) or `~/.gemini/antigravity/mcp_config.json` (user scope)
+- On WSL2 with `--user`, skills and MCP config are written to both `$HOME/.gemini/` and `%USERPROFILE%\.gemini\`. Antigravity IDE launched from Windows reads `%USERPROFILE%\.gemini\`, while a window connected to WSL2 reads `$HOME/.gemini/`
 
 ### Notes
 
-- Workflows are generated as entry points that reference the prompt/agent files
+- Skills are invoked as slash commands directly (e.g. `/st-init`)
+- Workflows are deprecated in Antigravity IDE, so the script no longer generates them. See the [workflows-to-skills migration guide](https://antigravity.google/docs/migration/workflows-to-skills/#manual-migration-guide)
+- If you used an older version of this script, you can delete the old `.agent/` directory (`workflows/`, `prompts/`, `skills/`). When a skill and a workflow have the same name, the skill wins
 
 ## Antigravity CLI
 

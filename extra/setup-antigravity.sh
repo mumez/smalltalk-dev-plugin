@@ -1,25 +1,40 @@
 #!/bin/bash
-# Setup script to copy Smalltalk development plugin files to .agent/ directory
-# This makes the plugin available in Antigravity
+# Setup script to copy Smalltalk development plugin files for Antigravity IDE
+#
+# Skills are copied to .agents/skills/ (project scope) or
+# ~/.gemini/config/skills/ (user scope).
+# Skills double as slash commands (e.g. /st-init); workflows are deprecated
+# and no longer generated
+# (see https://antigravity.google/docs/migration/workflows-to-skills/).
+# MCP config is copied to .agents/mcp_config.json (project scope) or
+# ~/.gemini/antigravity/mcp_config.json (user scope).
+#
+# On WSL2, Antigravity IDE launched from Windows reads %USERPROFILE%\.gemini,
+# while a window connected to WSL2 reads $HOME/.gemini. With --user, skills
+# and MCP config are therefore written to both.
 #
 # Usage:
 #   ./extra/setup-antigravity.sh [target-directory]
 #   ./extra/setup-antigravity.sh -y [target-directory]  # Non-interactive mode
+#   ./extra/setup-antigravity.sh --user                 # Install to user scope
 #
 # If target-directory is not specified, uses the repository root (project scope).
-# MCP config is always copied to ~/.gemini/antigravity/mcp_config.json
-# (On WSL2, uses Windows side %USERPROFILE%\.gemini\antigravity instead)
 
 set -e
 
 # Parse arguments
 FORCE_YES=false
 TARGET_DIR=""
+USER_SCOPE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -y|--yes)
             FORCE_YES=true
+            shift
+            ;;
+        --user)
+            USER_SCOPE=true
             shift
             ;;
         *)
@@ -33,25 +48,43 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Determine target directory for project scope
-if [ -z "$TARGET_DIR" ]; then
-    TARGET_DIR="$PROJECT_ROOT"
+# Determine skills directories and MCP config targets
+SKILLS_DIRS=()
+MCP_PATHS=()
+if [ "$USER_SCOPE" = true ]; then
+    echo "Setting up Smalltalk development plugin for Antigravity IDE (user scope)..."
+    # User-scope .gemini directories ($HOME, plus Windows side on WSL2)
+    GEMINI_HOMES=("$HOME/.gemini")
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
+        if [ -n "$WIN_USERPROFILE" ]; then
+            WIN_GEMINI="$(wslpath "$WIN_USERPROFILE")/.gemini"
+            GEMINI_HOMES+=("$WIN_GEMINI")
+            echo "WSL2 detected: user-scope files go to both $HOME/.gemini and $WIN_GEMINI"
+        else
+            echo "⚠️  Warning: WSL2 detected but %USERPROFILE% could not be resolved; using $HOME/.gemini only"
+        fi
+    fi
+    for gemini_home in "${GEMINI_HOMES[@]}"; do
+        SKILLS_DIRS+=("$gemini_home/config/skills")
+        MCP_PATHS+=("$gemini_home/antigravity/mcp_config.json")
+    done
+else
+    if [ -z "$TARGET_DIR" ]; then
+        TARGET_DIR="$PROJECT_ROOT"
+    fi
+    TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
+    SKILLS_DIRS+=("$TARGET_DIR/.agents/skills")
+    MCP_PATHS+=("$TARGET_DIR/.agents/mcp_config.json")
+    echo "Setting up Smalltalk development plugin for Antigravity IDE..."
+    echo "Target directory: $TARGET_DIR"
 fi
-# Convert to absolute path
-TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
-ANTIGRAVITY_DIR="$TARGET_DIR/.agent"
-ANTIGRAVITY_DIR_NAME=$(basename "$ANTIGRAVITY_DIR")
 
-SKILLS_DIR_NAME="skills"
-WORKFLOWS_DIR_NAME="workflows"
-
-echo "Setting up Smalltalk development plugin for Antigravity..."
 echo "Plugin repository: $PROJECT_ROOT"
-echo "Target directory: $TARGET_DIR"
-echo "Antigravity directory: $ANTIGRAVITY_DIR ($ANTIGRAVITY_DIR_NAME)"
+for skills_dir in "${SKILLS_DIRS[@]}"; do
+    echo "Skills directory: $skills_dir"
+done
 echo ""
-
-mkdir -p "$ANTIGRAVITY_DIR/$SKILLS_DIR_NAME" "$ANTIGRAVITY_DIR/$WORKFLOWS_DIR_NAME" "$ANTIGRAVITY_DIR/prompts"
 
 # Returns 0 (proceed) or 1 (skip) based on FORCE_YES or user input
 confirm_overwrite() {
@@ -66,69 +99,29 @@ confirm_overwrite() {
     [[ $REPLY =~ ^[Yy]$ ]] || { echo "Skipping $name..."; return 1; }
 }
 
-copy_file() {
-    local src="$1" dst="$2" name="$3"
-    if [ ! -f "$src" ]; then
-        echo "⚠️  Warning: $src not found, skipping $name..."
-        return
-    fi
-    if [ -f "$dst" ]; then
-        confirm_overwrite "$name" || return
-    fi
-    echo "  Copying $name..."
-    cp "$src" "$dst"
-}
-
-copy_directory() {
-    local src="$1" dst="$2" name="$3"
-    if [ ! -d "$src" ]; then
-        echo "⚠️  Warning: Source directory $src does not exist, skipping $name..."
-        return
-    fi
+copy_skill() {
+    local src="$1" dst="$2"
     if [ -d "$dst" ]; then
-        confirm_overwrite "$name" || return
+        confirm_overwrite "$dst" || return
         rm -rf "$dst"
     fi
-    echo "  Copying $name..."
+    echo "  Copying skill $(basename "$dst")..."
     cp -r "$src" "$dst"
 }
 
-# Copy non-st-* skills to skills/ (st-* go to workflows/ and prompts/ below)
-echo "Copying skills..."
-for skill_dir in "$PROJECT_ROOT/skills"/*/; do
-    [ -d "$skill_dir" ] || continue
-    skill_name=$(basename "$skill_dir")
-    [[ "$skill_name" == st-* ]] && continue
-    copy_directory "$skill_dir" "$ANTIGRAVITY_DIR/$SKILLS_DIR_NAME/$skill_name" "$skill_name"
-done
-
-# Generate workflows and prompts for st-* skills
-echo ""
-echo "Generating workflows for st-* skills..."
-for skill_dir in "$PROJECT_ROOT/skills"/st-*/; do
-    [ -d "$skill_dir" ] || continue
-    skill_name=$(basename "$skill_dir")
-    skill_file="$skill_dir/SKILL.md"
-    [ -f "$skill_file" ] || continue
-
-    prompt_target="$ANTIGRAVITY_DIR/prompts/$skill_name.md"
-    workflow_target="$ANTIGRAVITY_DIR/$WORKFLOWS_DIR_NAME/$skill_name.md"
-
-    if { [ -f "$prompt_target" ] || [ -f "$workflow_target" ]; }; then
-        confirm_overwrite "$skill_name" || continue
-    fi
-
-    echo "  Generating $skill_name prompt and workflow..."
-    cp "$skill_file" "$prompt_target"
-    cat > "$workflow_target" <<EOL
----
-description: Run /$skill_name skill
----
-
-1. Read the skill instructions at \`$ANTIGRAVITY_DIR_NAME/prompts/$skill_name.md\`
-2. Execute the user's request following those instructions.
-EOL
-done
+# Copy each skill directory (including st-* skills) to each skills directory
+if [ ! -d "$PROJECT_ROOT/skills" ]; then
+    echo "⚠️  Warning: skills/ directory not found in plugin repository, skipping..."
+else
+    for skills_dir in "${SKILLS_DIRS[@]}"; do
+        echo "Copying skills to $skills_dir..."
+        mkdir -p "$skills_dir"
+        for skill_dir in "$PROJECT_ROOT/skills"/*/; do
+            [ -d "$skill_dir" ] || continue
+            copy_skill "$skill_dir" "$skills_dir/$(basename "$skill_dir")"
+        done
+    done
+fi
 
 # Antigravity does not expand ${SIS_PORT:-8086} in MCP config; write the port as a literal value
 resolve_mcp_json() {
@@ -140,25 +133,35 @@ resolve_mcp_json() {
     sed -E 's/\$\{SIS_PORT(:-[^}]*)?\}/'"$port"'/g' "$1" > "$2"
 }
 
-# Copy .mcp.json to user scope
-# On WSL2, Antigravity looks at Windows side %USERPROFILE%\.gemini
+# Copy .mcp.json to each MCP config target
 echo ""
+MCP_TARGETS=()
 if [ -f "$PROJECT_ROOT/.mcp.json" ]; then
-    if grep -qi microsoft /proc/version 2>/dev/null; then
-        WIN_USERPROFILE=$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')
-        MCP_TARGET_DIR="$(wslpath "$WIN_USERPROFILE")/.gemini/antigravity"
-        echo "WSL2 detected: using Windows path for MCP config"
-    else
-        MCP_TARGET_DIR="$HOME/.gemini/antigravity"
-    fi
-    mkdir -p "$MCP_TARGET_DIR"
-    target_mcp="$MCP_TARGET_DIR/mcp_config.json"
-    if [ ! -f "$target_mcp" ] || confirm_overwrite "mcp_config.json"; then
-        echo "  Copying .mcp.json to $target_mcp..."
-        resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
-    fi
+    for target_mcp in "${MCP_PATHS[@]}"; do
+        mkdir -p "$(dirname "$target_mcp")"
+        if [ ! -e "$target_mcp" ] || confirm_overwrite "$target_mcp"; then
+            echo "  Copying .mcp.json to $target_mcp..."
+            resolve_mcp_json "$PROJECT_ROOT/.mcp.json" "$target_mcp"
+            MCP_TARGETS+=("$target_mcp")
+        fi
+    done
+fi
+
+# Warn about legacy .agent/ files generated by older versions of this script
+if [ "$USER_SCOPE" = false ] && [ -d "$TARGET_DIR/.agent/workflows" ]; then
+    echo ""
+    echo "ℹ️  Legacy $TARGET_DIR/.agent/ (workflows/prompts/skills) from an older setup was found."
+    echo "   Workflows are deprecated; skills in .agents/skills/ take precedence."
+    echo "   You can remove the old st-* files under .agent/ if no longer needed."
 fi
 
 echo ""
-echo "✅ Antigravity setup complete!"
+echo "✅ Antigravity IDE setup complete!"
 echo ""
+echo "The following have been set up:"
+for skills_dir in "${SKILLS_DIRS[@]}"; do
+    echo "  - $skills_dir (AI skills, invocable as slash commands, e.g. /st-init)"
+done
+for target_mcp in "${MCP_TARGETS[@]}"; do
+    echo "  - MCP config: $target_mcp"
+done

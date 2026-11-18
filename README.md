@@ -313,7 +313,7 @@ smalltalk-dev-plugin/
 │   ├── setup-cursor.sh              # Setup script for Cursor
 │   ├── setup-devin-desktop.sh       # Setup script for Devin Desktop
 │   ├── setup-devin-cli.sh           # Setup script for Devin CLI
-│   ├── setup-antigravity.sh         # Setup script for Antigravity
+│   ├── setup-antigravity.sh         # Setup script for Antigravity IDE
 │   ├── setup-copilot.sh             # Setup script for GitHub Copilot CLI
 │   ├── setup-opencode.sh            # Setup script for OpenCode
 │   ├── setup-kilocode.sh            # Setup script for Kilo Code
